@@ -43,6 +43,8 @@ import com.example.watchfinder.ui.theme.WatchFinderTheme
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
@@ -50,6 +52,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -130,7 +133,45 @@ fun BottomBar(current: String, click: (String) -> Unit) {
 
 @Composable
 fun Search() {
-    Text("Estás en la pantalla HOME - ¡Aquí irán las tarjetas de pelis!")
+    //Lo que escribe el usuario lo guardamos aquí, es un estado que debemos conservar, por eso lo ponemos
+    //con mutableStateOf
+    var userInput by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+        //El título en la pantalla
+    ) {
+        Text("Busqueda", style = MaterialTheme.typography.headlineLarge)
+        //El campo de búsqueda, tenemos que pasarle un value, que es lo que introduce el user
+        //empieza en "" y cuando ese valor cambia, se asigna a userInput
+        TextField(
+            value = userInput,
+            onValueChange = { newText -> userInput = newText },
+            label = { Text("Introduce el nombre de la peli o serie") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+        )
+        //El row donde van los botones, ojito, Alignment = alineación respecto al contenedor padre.
+        //Arrangement = Alineación de los hijos.
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            Arrangement.Center
+        ) {
+            Button(
+                onClick = {}) { Text("Buscar")  }
+
+            Spacer(
+                modifier = Modifier.width(15.dp)
+            )
+
+            Button(onClick = {}) { Text("Reset") }
+        }
+    }
 }
 
 @Composable
@@ -219,8 +260,8 @@ fun Discover() {
                             scaleX = 1f - (abs(offSetX.value) / (screenWidth.value * 6))
                             scaleY = 1f - (abs(offSetX.value) / (screenWidth.value * 6))
 
-                        // Podríamos hasta hacer que rote sobre sí misma, pero creo que quedaba mal. Puedes descomentar, correr la app y probar, a ver qué opinas.
-                        // rotationY = (offSetX.value / screenWidth.value) * 10f
+                            // Podríamos hasta hacer que rote sobre sí misma, pero creo que quedaba mal. Puedes descomentar, correr la app y probar, a ver qué opinas.
+                            // rotationY = (offSetX.value / screenWidth.value) * 10f
                         }
                         //esto permite escuchar el comportamiento del pointer, que en este caso son los gestos del usuario, y dentro definimos cómo actuará en consecuencia
                         .pointerInput(Unit) {
@@ -456,6 +497,6 @@ fun MovieCard(movieTitle: String) {
 @Composable
 fun GreetingPreview() {
     WatchFinderTheme {
-        MainScreen()
+        Search()
     }
 }
