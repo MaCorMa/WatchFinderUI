@@ -165,11 +165,11 @@ fun MovieCard() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Red) // Placeholder ROJO (simulando tu boceto)
+                    .background(Color.Red)
             ) {
                 // Aquí podríamos poner el icono de Plataformas (11) más tarde
             }
-            // --- Capa 2: Contenido con Degradado (Delante) ---
+            // Esta es la caja donde va los datos.
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -182,54 +182,102 @@ fun MovieCard() {
                             0.3f to Color.Black.copy(alpha = 0.75f),
                             1f to Color.Black
                         )
-                    ).padding(10.dp)
+                    )
+                    .padding(10.dp)
             ) {
-            // --- Aquí irá toda la información (Elementos 1 a 10) ---
 
-            Text(
-                "Placeholder para Título (1)",
-                style = MaterialTheme.typography.headlineMedium,
-                color = Color.White
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
                 Text(
-                    "Placeholder para Runtime",
+                    "Placeholder para bandera de país",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.DarkGray
                 )
-                Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    "Placeholder para Idiomas (3)",
+                    "Placeholder para Título (1)",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = Color.White
+                )
+
+                //Aquí he metido un Row para poder separar Runtime de Idiomas
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "Placeholder para Runtime",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+                    )
+                    //Este espaciador es lo que hace que Idiomas vaya a la derecha, es un espaciador horizontal.
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        "Placeholder para Idiomas (3)",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+
+                    )
+                }
+
+                //Espaciador antes de la sinopsis
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(
+                    "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\" ...",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White
+                )
+
+                //Otro más antes del resto de datos
+                Spacer(modifier = Modifier.height(25.dp))
+
+                //ROW de director y Ratings.
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "Placeholder para Director",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        "Placeholder Ratings",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+                    )
+                }
+
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
+                    "Placeholder Cast",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.DarkGray
-
                 )
+
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row(modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "Placeholder Géneros",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        "Placeholder Awards",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+                    )
+
+                }
             }
-
-
-            Spacer(modifier = Modifier.height(30.dp)) // Pequeño espacio
-            Text(
-                "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\" ...",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.height(25.dp))
-            Text(
-                "Placeholder para Director (5), Cast (6), Géneros (7)...",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.DarkGray
-            )
-            Text(
-                "Placeholder para Ratings (8), Awards (9), Rated (10)...",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.DarkGray
-            )
-
-        } // Fin Column Información
 
             // --- Elemento 11: Plataformas (podría ir aquí o en el Box del vídeo) ---
             Box(
