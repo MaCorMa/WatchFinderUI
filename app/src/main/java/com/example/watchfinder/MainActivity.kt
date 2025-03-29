@@ -1,10 +1,10 @@
 package com.example.watchfinder
 
-import android.graphics.drawable.Icon
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.*
@@ -40,6 +40,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.watchfinder.ui.theme.WatchFinderTheme
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.IntOffset
+import kotlinx.coroutines.launch
+import kotlin.math.abs
+import kotlin.math.roundToInt
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,13 +139,113 @@ fun MyContent() {
 @Composable
 fun Discover() {
 
+    //Aquí usamos remember porque al cambair entre tarjetas, esta función (Discover) se vuelve a ejecutar (se recompone),
+    //remember es una forma de mantener valores entre esas ejecuciones (así index no empieza siempre de 0)
+    //Y mutableStateOf, si el índice cambia, avisa a Compose de que el contenido ha cambiado (para recomponerse).
+    val movies = remember {
+        mutableStateOf(
+            listOf(
+                "Peli 1",
+                "Peli 2",
+                "Peli 3",
+                "Peli 4",
+                "Peli 5"
+            )
+        )
+    }
+    //el by es para simplificar la lectura y cambio de valor de index
+    var index by remember { mutableStateOf(0) }
+
+    //Cogemos el ancho de la pantalla (en dp)
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    //Decidimos hasta dónde hay que deslizar para ejecutar la acción
+    val limit = screenWidth / 4
+    //Destino de la tarjeta
+    val exit = (screenWidth.value * 1.5f)
+    //Esto será lo que dirige la animación, X es el eje, hablamos de movimiento horizontal, empieza en 0.
+    val offSetX = remember { Animatable(0f) }
+    //Una corrutina para lanzar la animación
+    val scope = rememberCoroutineScope()
+    //Peli actual
+    val currentMovie = movies.value.getOrNull(index)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     )
-    { MovieCard() }
+    {
+        //Ahora toca envolver la tarjeta en una Box, y poder aplicarle los movimientos,
+        //el Column es  un contenedor con su modificador (sus caracteristicas), aquí  ahora iría movieCard, pero necesitamos la lógica para que se mueva
+        // la tareta, así que la vamos a envolver en una Box con un montón de modificaciones.
+        if (currentMovie != null) {
+
+            Box(
+                //Aquí se modifica el movimiento, se redondea nuestra variable del eje X (offsetX), y también podemos definir el eje Y.
+                modifier = Modifier
+                    .offset { IntOffset(offSetX.value.roundToInt(), 0) }
+                    //Con esto rotamos el eje Z, para que se gire un poco y no sea tan estático
+                    .graphicsLayer { rotationZ = offSetX.value / 50f }
+                    //esto permite escuchar el comportamiento del pointer, que en este caso son los gestos del usuario, y dentro definimos cómo actuará en consecuencia
+                    .pointerInput(Unit) {
+                        //Esto detecta movimientos horizontales
+                        detectHorizontalDragGestures(
+                            //Accion al empezar
+                            onDragStart = {},
+                            //Accion al terminar, aquí va la lógica si la carta se va o se queda
+                            onDragEnd = {
+                                val final = offSetX.value
+                                //Comprobar si hemos pasado el límite
+                                if (abs(final) > limit.value) {
+                                    //Si es que sí, aquí ajustamos la dirección, si es positivo a un lado, y si es negativo, al otro lado. Pero en esta variable sólo
+                                    //se almacena el valor.
+                                    val target = if (final > 0) exit else -exit
+
+
+                                    scope.launch {
+                                        //Lo animamos HACIA el parámetro objetivo
+                                        offSetX.animateTo(
+                                            targetValue = target,
+                                            //el tiempo que tarda
+                                            animationSpec = tween(durationMillis = 400)
+                                        )
+                                        /////////////////////////////////////////////////////////////////////
+                                        //Subimos el index,IMPORTANTE: el posible que aquí tengamos que meter lógica luego y no sea tan sencillo como cambiar un index
+                                        /////////////////////////////////////////////////////////////////////
+                                        index++
+                                        //Poner el offSet a 0 para la siguiente tarjeta
+                                        offSetX.snapTo(0f)
+                                    }
+                                } else {
+                                    //Si no pasamos el límite vuelve al centro, usamos la variable de antes, la de la corrutina
+                                    scope.launch {
+                                        offSetX.animateTo(0f
+                                        )
+                                    }
+                                }
+                            }
+                        ) { change, dragAmount ->
+                            //Esto es para que no reaccione a otros gestos
+                            change.consume()
+                            //Esto hace que siga al dedo
+                            scope.launch {
+                                offSetX.snapTo(offSetX.value + dragAmount)
+                            }
+                        }
+                    }
+                    .fillMaxHeight(0.85f)
+                    .fillMaxWidth()
+            ) {
+                //Todo eso eran los modificadores de la caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
+                MovieCard(movieTitle = currentMovie)
+            }
+
+        } else {
+            Text("C'est fini!")
+        }
+    }
 
 }
 
@@ -148,13 +260,11 @@ fun Profile() {
 }
 
 @Composable
-fun MovieCard() {
+fun MovieCard(movieTitle: String) {
 
-    Card( // Da forma, elevación y recorta el contenido
+    Card(
         modifier = Modifier
-            .fillMaxWidth() // Que la tarjeta ocupe el ancho disponible
-        //.height(700.dp) // Puedes darle una altura fija o dinámica más adelante
-        ,
+            .fillMaxSize(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp) // Sombra suave
     ) {
         Box( // Box para apilar el "vídeo" y la información
@@ -180,7 +290,8 @@ fun MovieCard() {
                         Brush.verticalGradient(
                             0.0f to Color.Black.copy(alpha = 0.0f),
                             0.3f to Color.Black.copy(alpha = 0.75f),
-                            1f to Color.Black
+                            0.6f to Color.Black.copy(alpha = 0.99f),
+                            0.95f to Color.Black
                         )
                     )
                     .padding(10.dp)
@@ -192,7 +303,7 @@ fun MovieCard() {
                     color = Color.DarkGray
                 )
                 Text(
-                    "Placeholder para Título (1)",
+                    movieTitle,
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.White
                 )
@@ -260,8 +371,10 @@ fun MovieCard() {
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Row(modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
                         "Placeholder Géneros",
                         style = MaterialTheme.typography.bodySmall,
@@ -307,6 +420,6 @@ fun MovieCard() {
 @Composable
 fun GreetingPreview() {
     WatchFinderTheme {
-        Discover()
+        MainScreen()
     }
 }
