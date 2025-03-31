@@ -444,6 +444,47 @@ fun Profile() {
 }
 
 @Composable
+fun Login(){
+
+    var userInput by remember { mutableStateOf("") }
+    var passInput by remember { mutableStateOf("") }
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
+        Text("Bienvenido", style = MaterialTheme.typography.headlineLarge)
+        TextField(
+            value = userInput,
+            onValueChange = { newText -> userInput = newText },
+            label = { Text("Usuario") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+        )
+        TextField(
+            value = passInput,
+            onValueChange = { newText -> passInput = newText },
+            label = { Text("Contraseña") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+        )
+        Text("Olvidé mi contraseña", style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.align(Alignment.Start)
+                .padding(5.dp))
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), onClick = {}) { Text("Acceder") }
+
+    }
+}
+
+@Composable
 fun MovieCard(movieTitle: String) {
 
     Card(
@@ -604,6 +645,6 @@ fun MovieCard(movieTitle: String) {
 @Composable
 fun GreetingPreview() {
     WatchFinderTheme {
-        Profile()
+        Login()
     }
 }
