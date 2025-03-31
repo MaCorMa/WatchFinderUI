@@ -43,6 +43,9 @@ import com.example.watchfinder.ui.theme.WatchFinderTheme
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,7 +55,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.launch
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -163,7 +165,7 @@ fun Search() {
             Arrangement.Center
         ) {
             Button(
-                onClick = {}) { Text("Buscar")  }
+                onClick = {}) { Text("Buscar") }
 
             Spacer(
                 modifier = Modifier.width(15.dp)
@@ -176,7 +178,24 @@ fun Search() {
 
 @Composable
 fun MyContent() {
-    Text("Estás en la pantalla FAVORITOS")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("My content", style = MaterialTheme.typography.headlineMedium)
+
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), onClick = {}) { Text("pelisfavs") }
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), onClick = {}) { Text("seriesfavs") }
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), onClick = {}) { Text("Mis colecciones") }
+    }
 }
 
 @Composable
@@ -327,13 +346,101 @@ fun Discover() {
 }
 
 @Composable
-fun Achievements() {
-    Text("Tus muertos")
+fun AchievementItem(title: String) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("Icon")
+
+        Spacer(modifier = Modifier.width(10.dp))
+
+        Column(
+        ) {
+            Text(title)
+            Text("descripcion")
+        }
+    }
+
 }
 
 @Composable
+fun Achievements() {
+
+    val achievs =
+        listOf("logro0", "logro1", "logro2", "logro3", "logro4", "logro5", "logro6", "logro7")
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("LOGROS", style = MaterialTheme.typography.headlineLarge)
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(achievs) { achiev ->
+                AchievementItem(achiev)
+
+            }
+
+        }
+    }
+}
+
+
+@Composable
 fun Profile() {
-    Text("Estás en la pantalla PERFIL")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("imgprofile")
+            Spacer(modifier = Modifier.width(15.dp))
+            Column {
+                Text("Nick")
+                Text("Nombre")
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Email")
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(Icons.Filled.Edit, contentDescription = "Edit")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Pass")
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(Icons.Filled.Edit, contentDescription = "Edit")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("2FA?")
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(Icons.Filled.Edit, contentDescription = "Edit")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("Dark mode?")
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), onClick = {}) { Text("Guardar") }
+    }
 }
 
 @Composable
@@ -497,6 +604,6 @@ fun MovieCard(movieTitle: String) {
 @Composable
 fun GreetingPreview() {
     WatchFinderTheme {
-        Search()
+        Profile()
     }
 }
