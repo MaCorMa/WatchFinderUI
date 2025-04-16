@@ -18,10 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.watchfinder.data.dto.MovieCard
+import com.example.watchfinder.ui.theme.WatchFinderTheme
 
 @Composable
-fun MovieCard(movieTitle: String) {
+fun MovieCard(movie: MovieCard) {
 
     Card(
         modifier = Modifier
@@ -64,7 +67,7 @@ fun MovieCard(movieTitle: String) {
                     color = Color.DarkGray
                 )
                 Text(
-                    movieTitle,
+                    movie.Title,
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.White
                 )
@@ -75,14 +78,21 @@ fun MovieCard(movieTitle: String) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "Placeholder para Runtime",
+                        text = movie.Runtime ?: "Duración no disponible",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.DarkGray
                     )
                     //Este espaciador es lo que hace que Idiomas vaya a la derecha, es un espaciador horizontal.
                     Spacer(modifier = Modifier.weight(1f))
+                    val languages = movie.Languages
+                    val languagesToShow = languages?.takeIf { it.isNotEmpty() }?.let { langs ->
+                        val maxToShow = 2
+                        langs.take(maxToShow).joinToString(", ") +
+                                if (langs.size > maxToShow) ", ..." else ""
+                    } ?: "Idiomas no disp."
                     Text(
-                        "Placeholder para Idiomas (3)",
+
+                        languagesToShow,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.DarkGray
 
@@ -92,7 +102,7 @@ fun MovieCard(movieTitle: String) {
                 //Espaciador antes de la sinopsis
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(
-                    "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\" ...",
+                    movie.Plot ?: "No disponible",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White
                 )
@@ -100,31 +110,36 @@ fun MovieCard(movieTitle: String) {
                 //Otro más antes del resto de datos
                 Spacer(modifier = Modifier.height(25.dp))
 
-                //ROW de director y Ratings.
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        "Placeholder para Director",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.DarkGray
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Text(
-                        "Placeholder Ratings",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.DarkGray
-                    )
-                }
-
+                Text(
+                    movie.Director ?: "No disponible",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.DarkGray
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
+                val ratings = movie.Ratings
+                val ratingsToShow = ratings?.takeIf { it.isNotEmpty() }?.let { rtngs ->
+                    val maxToShow = 3
+                    rtngs.take(maxToShow).joinToString(", ") +
+                            if (rtngs.size > maxToShow) ", ..." else ""
+                } ?: "Ratings no disp."
                 Text(
-                    "Placeholder Cast",
+                    ratingsToShow,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.DarkGray
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                val cast = movie.Cast
+                val castToShow = cast?.takeIf { it.isNotEmpty() }?.let { cst ->
+                    val maxToShow = 3
+                    cst.take(maxToShow).joinToString(", ") +
+                            if (cast.size > maxToShow) ", ..." else ""
+                } ?: "Reparto no disp."
+                Text(
+                    castToShow,
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.DarkGray
                 )
@@ -132,25 +147,27 @@ fun MovieCard(movieTitle: String) {
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        "Placeholder Géneros",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.DarkGray
-                    )
+                val genres = movie.Genres
+                val genresToShow = genres?.takeIf { it.isNotEmpty() }?.let { gnrs ->
+                    val maxToShow = 3
+                    gnrs.take(maxToShow).joinToString(", ") +
+                            if (genres.size > maxToShow) ", ..." else ""
+                } ?: "Géneros no disp."
+                Text(
+                    genresToShow,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.DarkGray
+                )
 
-                    Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(10.dp))
 
-                    Text(
-                        "Placeholder Awards",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.DarkGray
-                    )
+                Text(
+                    movie.Awards ?: "No disponible",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.DarkGray
+                )
 
-                }
+
             }
 
             // --- Elemento 11: Plataformas (podría ir aquí o en el Box del vídeo) ---
@@ -173,5 +190,33 @@ fun MovieCard(movieTitle: String) {
 
         } // Fin Box principal (apilador)
     } // Fin Card
+}
 
+@Preview(showBackground = true)
+@Composable
+fun MovieCardPreview() {
+    // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
+    val dummyMovie = MovieCard(
+        _id = "preview123",
+        Title = "Película de Prueba Muy Larga Para Ver Cómo Queda",
+        Plot = "Esta es una descripción de ejemplo bastante larga para ver cómo se ajusta el texto en varias líneas dentro de la tarjeta de la película.",
+        Url = "https://via.placeholder.com/600x900.png?text=Movie+Poster", // Usa una URL de placeholder
+        Genres = listOf("Acción", "Aventura", "Ciencia Ficción"),
+        Runtime = "125 min",
+        Director = "Director Famoso",
+        Cast = listOf("Actor Principal", "Actriz Secundaria", "Otro Actor"),
+        Ratings = listOf("IMDb: 7.5/10"),
+        Languages = listOf("Español", "Inglés"),
+        Country = "País Ejemplo",
+        Awards = "Algún premio",
+        Year = 2024,
+        ReleaseDate = "2024-01-15",
+        Rated = "PG-13"
+        // Asegúrate de llenar todos los campos NO NULOS de tu DTO
+    )
+
+    // 2. Llama a tu MovieCard real pasándole los datos falsos
+    WatchFinderTheme { // Envuelve en tu tema si es necesario
+        MovieCard(dummyMovie)
+    }
 }

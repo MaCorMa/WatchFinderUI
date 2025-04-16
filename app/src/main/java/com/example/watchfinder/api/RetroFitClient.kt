@@ -1,4 +1,4 @@
-package com.example.watchfinder.api
+/*package com.example.watchfinder.api
 
 import android.content.Context
 import retrofit2.Retrofit
@@ -42,4 +42,4 @@ object RetroFitClient {
             apiService = retrofit.create(ApiService::class.java)
         }
     }
-}
+}*/

@@ -2,17 +2,11 @@ package com.example.watchfinder
 
 
 import android.os.Bundle
-import android.widget.DatePicker
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -20,126 +14,161 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.example.watchfinder.data.UserManager
+import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.*
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.IntOffset
-import com.example.watchfinder.api.RetroFitClient
-import com.example.watchfinder.data.dto.LoginRequest
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
 import com.example.watchfinder.screens.Achievements
-import com.example.watchfinder.screens.Discover
+import com.example.watchfinder.screens.DiscoverMovies
+import com.example.watchfinder.screens.DiscoverSeries
+import com.example.watchfinder.screens.Login
+import com.example.watchfinder.screens.MovieCard
+import com.example.watchfinder.screens.MovieOrSeries
 import com.example.watchfinder.screens.MyContent
 import com.example.watchfinder.screens.Profile
+import com.example.watchfinder.screens.Progress
 import com.example.watchfinder.screens.Register
 import com.example.watchfinder.screens.Search
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Calendar
-import kotlin.math.abs
-import kotlin.math.roundToInt
 
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var tokenManager: TokenManager
+    @Inject
+    lateinit var userManager: UserManager
+    @Inject
+    lateinit var authRepository: AuthRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("Iniciando...")
-        RetroFitClient.initialize(this)
 
-        val apiService = RetroFitClient.instance
-        val tokenManager = TokenManager(this)
-        val authRepository = AuthRepository(apiService, tokenManager)
-        testApiLogin(authRepository)
+        //testApiRegister(authRepository)
+        //testApiLogin(authRepository)
 
-
-        /*setContent {
+        setContent {
             WatchFinderTheme {
-                MainScreen()
-            }
-        }*/
-    }
-}
-
-private fun testApiLogin(authRepo: AuthRepository) {
-
-    CoroutineScope(Dispatchers.IO).launch {
-        val result = authRepo.login("testii", "asdf")
-        withContext(Dispatchers.Main) {
-            when {
-                result.isSuccess -> {
-                    val loginResponse = result.getOrNull()
-                    println("Exito: ${loginResponse?.token}")
-                }
-                result.isFailure -> {
-                    println("Fallo en el login")
-                }
+                AppNavigation(tokenManager = tokenManager, userManager = userManager, authRepository = authRepository)
             }
         }
     }
 }
 
-private fun testApiRegister(authRepo: AuthRepository) {
-
-    CoroutineScope(Dispatchers.IO).launch {
-        val result = authRepo.register("taaas", "testii", "asdf", "aaa@")
-        withContext(Dispatchers.Main) {
-            when {
-                result.isSuccess -> {
-                    val response = result.getOrNull() // Obtiene el String si es exitoso
-                    println("Éxito: $response")
-                }
-                result.isFailure -> {
-                    val exception = result.exceptionOrNull() // Obtiene la excepción si falla
-                    println("Fallo en el registro: ${exception?.message}")
-                }
-            }
-        }
-    }
+enum class AuthState {
+    LOADING, // Comprobando el token
+    AUTHENTICATED,
+    UNAUTHENTICATED
 }
-
-private const val nextCard = 0.9f
 
 @Composable
-fun MainScreen() {
+fun AppNavigation(
+    tokenManager: TokenManager,
+    userManager: UserManager,
+    authRepository: AuthRepository // Necesitas pasar el repositorio
+) {
+
+    var authState by remember { mutableStateOf(AuthState.LOADING) } // Empieza cargando
+
+    // Efecto que se ejecuta una vez al inicio para validar el token
+    LaunchedEffect(Unit) {
+        val token = tokenManager.getToken()
+        if (token == null) {
+            println("--> No token found. Unauthenticated.")
+            authState = AuthState.UNAUTHENTICATED
+        } else {
+            println("--> Token found. Validating...")
+            // Intenta validar el token con el backend
+            val validationResult = authRepository.validate() // Llama al repo
+            if (validationResult.isSuccess) {
+                println("--> Token validation SUCCESS. Authenticated.")
+                // Opcional: Podrías querer recargar datos del usuario aquí si es necesario
+                authState = AuthState.AUTHENTICATED
+            } else {
+                println("--> Token validation FAILED. Unauthenticated. Error: ${validationResult.exceptionOrNull()?.message}")
+                // El repo ya debería haber limpiado el token inválido si falló por 401/403
+                authState = AuthState.UNAUTHENTICATED
+            }
+        }
+    }
+
+    // Muestra la UI según el estado de autenticación
+    when (authState) {
+        AuthState.LOADING -> {
+            // Muestra un indicador de carga mientras se valida
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        AuthState.AUTHENTICATED -> {
+            MainScreen(
+                onLogout = {
+                    println("--> Logging out...")
+                    tokenManager.clearToken()
+                    userManager.clearCurrentUser()
+                    authState = AuthState.UNAUTHENTICATED // Cambia el estado
+                }
+            )
+        }
+        AuthState.UNAUTHENTICATED -> {
+            Login(
+                onLoginSuccess = {
+                    println("--> Login Success! Setting state to Authenticated.")
+                    // Tras login exitoso, asumimos que el token es válido
+                    authState = AuthState.AUTHENTICATED
+                }
+            )
+        }
+    }
+}
+
+
+
+enum class DiscoverState {
+    SELECTION,
+    MOVIES,
+    SERIES
+}
+
+@Composable
+fun MainScreen(onLogout: () -> Unit) {
     var current by remember { mutableStateOf("Discover") }
+    var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
+
     Scaffold(
         bottomBar = {
             BottomBar(
                 current = current,
-                click = { newSection -> current = newSection }
+                click = { newSection ->
+                    current = newSection
+                    if (newSection == "Discover") {
+                        discoverScreenState = DiscoverState.SELECTION
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -148,14 +177,23 @@ fun MainScreen() {
             when (current) {
                 "Search" -> Search()
                 "My Content" -> MyContent()
-                "Discover" -> Discover()
+                "Discover" -> {
+                    // Decide qué mostrar DENTRO de Discover
+                    when (discoverScreenState) {
+                        DiscoverState.SELECTION -> MovieOrSeries(
+                            onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
+                            onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
+                        )
+                        DiscoverState.MOVIES -> DiscoverMovies()
+                        DiscoverState.SERIES -> DiscoverSeries()
+                    }
+                }
                 "Achievements" -> Achievements()
-                "Profile" -> Profile()
+                "Profile" -> Profile(onLogoutClick = onLogout)
             }
         }
     }
 }
-
 
 @Composable
 fun BottomBar(current: String, click: (String) -> Unit) {
@@ -185,15 +223,5 @@ fun BottomBar(current: String, click: (String) -> Unit) {
                 }, label = { Text(sectionName) }
             )
         }
-    }
-
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WatchFinderTheme {
-        Register()
     }
 }

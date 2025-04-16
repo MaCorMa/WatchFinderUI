@@ -15,11 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.watchfinder.ui.theme.WatchFinderTheme
 
 
 @Composable
-fun Profile() {
+fun Profile(//onLogoutClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,9 +64,26 @@ fun Profile() {
             Icon(Icons.Filled.Edit, contentDescription = "Edit")
         }
         Spacer(modifier = Modifier.height(10.dp))
+
         Text("Dark mode?")
         Button(modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp), onClick = {}) { Text("Guardar") }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), onClick = {} ) { Text("CerrarSesion") }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfilePreview() {
+
+    // 2. Llama a tu MovieCard real pasándole los datos falsos
+    WatchFinderTheme { // Envuelve en tu tema si es necesario
+        Profile()
     }
 }
