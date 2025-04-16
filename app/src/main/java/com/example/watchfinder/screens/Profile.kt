@@ -21,7 +21,8 @@ import com.example.watchfinder.ui.theme.WatchFinderTheme
 
 
 @Composable
-fun Profile(//onLogoutClick: () -> Unit
+fun Profile(
+    onLogoutClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -72,18 +73,10 @@ fun Profile(//onLogoutClick: () -> Unit
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp), onClick = {} ) { Text("CerrarSesion") }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfilePreview() {
-
-    // 2. Llama a tu MovieCard real pasándole los datos falsos
-    WatchFinderTheme { // Envuelve en tu tema si es necesario
-        Profile()
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp), onClick = onLogoutClick
+        ) { Text("CerrarSesion") }
     }
 }
