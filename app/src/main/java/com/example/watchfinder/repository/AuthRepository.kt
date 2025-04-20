@@ -101,5 +101,16 @@ class AuthRepository @Inject constructor(
         userManager.clearCurrentUser()
         println("Usuario deslogueado.")
     }
+
+    //Para reset password por mail
+    suspend fun sendPasswordResetEmail(email: String) {
+        try {
+            apiService.sendPasswordResetEmail(email)
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+
 }
 

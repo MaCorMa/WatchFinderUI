@@ -32,4 +32,7 @@ interface ApiService {
     @POST("/users/addtolist")
     suspend fun addToList(@Body item: Item): Response<String>
 
+    @POST("auth/reset-password")
+    suspend fun sendPasswordResetEmail(@Body email: String): Response<Unit>
+
 }

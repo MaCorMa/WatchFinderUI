@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,7 +29,8 @@ import com.example.watchfinder.viewmodels.LoginViewModel
 @Composable
 fun Login(
     viewModel: LoginViewModel = hiltViewModel(),
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    onForgotPasswordClick: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -70,12 +72,19 @@ fun Login(
             isError = uiState.loginError != null, // Marcar si hay error
             singleLine = true
         )
-        Text(
-            "Olvidé mi contraseña", style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(5.dp)
+        TextButton(
+            onClick = onForgotPasswordClick,
+            modifier = Modifier.align(Alignment.End)
         )
+        {
+            Text(
+                "Olvidé mi contraseña", style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    //.align(Alignment.Start)
+                    .padding(5.dp)
+            )
+        }
+
         Button(
             modifier = Modifier
                 .fillMaxWidth()

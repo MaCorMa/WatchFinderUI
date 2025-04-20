@@ -1,15 +1,15 @@
-#Wed Apr 16 18:24:51 CEST 2025
-base.0=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.10=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
-base.2=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
-base.3=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
-base.4=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\13\\classes.dex
-base.5=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
-base.6=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.7=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\4\\classes.dex
-base.8=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-base.9=F\:\\UNIR\\2CURSO\\AndStudio\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
+#Sun Apr 20 12:58:06 CEST 2025
+base.0=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.10=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+base.2=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
+base.3=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
+base.4=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\13\\classes.dex
+base.5=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
+base.6=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.7=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\4\\classes.dex
+base.8=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
+base.9=D\:\\GitHubRepos\\WatchFinderUI\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.10=classes2.dex

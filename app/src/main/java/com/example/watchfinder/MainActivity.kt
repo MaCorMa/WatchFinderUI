@@ -30,28 +30,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.watchfinder.data.UserManager
-import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
 import com.example.watchfinder.screens.Achievements
 import com.example.watchfinder.screens.DiscoverMovies
 import com.example.watchfinder.screens.DiscoverSeries
+import com.example.watchfinder.screens.ForgotPassword
 import com.example.watchfinder.screens.Login
-import com.example.watchfinder.screens.MovieCard
 import com.example.watchfinder.screens.MovieOrSeries
 import com.example.watchfinder.screens.MyContent
 import com.example.watchfinder.screens.Profile
-import com.example.watchfinder.screens.Progress
-import com.example.watchfinder.screens.Register
 import com.example.watchfinder.screens.Search
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import jakarta.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
@@ -82,8 +74,10 @@ class MainActivity : ComponentActivity() {
 enum class AuthState {
     LOADING, // Comprobando el token
     AUTHENTICATED,
-    UNAUTHENTICATED
+    UNAUTHENTICATED,
+    PASSWORD_RESET
 }
+
 
 @Composable
 fun AppNavigation(
@@ -140,6 +134,18 @@ fun AppNavigation(
                     println("--> Login Success! Setting state to Authenticated.")
                     // Tras login exitoso, asumimos que el token es válido
                     authState = AuthState.AUTHENTICATED
+                },
+                onForgotPasswordClick = {
+                    println("--> Redirecting to pass reset screen.")
+                    // Pasa a la pantalla para indicar correo y resetear pass
+                    authState = AuthState.PASSWORD_RESET
+                }
+            )
+        }
+        AuthState.PASSWORD_RESET -> {
+            ForgotPassword(
+                onNavigateBack = {
+                    authState = AuthState.UNAUTHENTICATED
                 }
             )
         }
@@ -223,5 +229,46 @@ fun BottomBar(current: String, click: (String) -> Unit) {
                 }, label = { Text(sectionName) }
             )
         }
+    }
+}
+
+//Para el preview
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    WatchFinderTheme {
+        MainScreen(onLogout = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomBarPreview() {
+    WatchFinderTheme {
+        BottomBar(
+            current = "Discover",
+            click = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Loading State")
+@Composable
+fun AppNavigationLoadingPreview() {
+    WatchFinderTheme {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Discover Selection")
+@Composable
+fun DiscoverSelectionPreview() {
+    WatchFinderTheme {
+        MovieOrSeries(
+            onMoviesClicked = {},
+            onSeriesClicked = {}
+        )
     }
 }
