@@ -3,9 +3,11 @@ package com.example.watchfinder.api
 import com.example.watchfinder.data.dto.Item
 import com.example.watchfinder.data.dto.LoginRequest
 import com.example.watchfinder.data.dto.LoginResponse
+import com.example.watchfinder.data.dto.ForgotPasswordRequest
 import com.example.watchfinder.data.model.Movie
 import com.example.watchfinder.data.model.Series
 import com.example.watchfinder.data.dto.RegisterRequest
+import com.example.watchfinder.data.dto.ResetPasswordRequest
 import com.example.watchfinder.data.model.User
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -32,7 +34,9 @@ interface ApiService {
     @POST("/users/addtolist")
     suspend fun addToList(@Body item: Item): Response<String>
 
-    @POST("auth/reset-password")
-    suspend fun sendPasswordResetEmail(@Body email: String): Response<Unit>
+    @POST("auth/forgot-password")
+    suspend fun sendPasswordResetEmail(@Body request: ForgotPasswordRequest): Response<Unit>
 
+    @POST("auth/reset-password")
+    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<Unit>
 }

@@ -419,16 +419,16 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_example_watchfinder_viewmodels_ForgotPasswordVM = "com.example.watchfinder.viewmodels.ForgotPasswordVM";
+      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
 
       static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
 
       static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
 
-      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
+      static String com_example_watchfinder_viewmodels_ForgotPasswordVM = "com.example.watchfinder.viewmodels.ForgotPasswordVM";
 
       @KeepFieldType
-      ForgotPasswordVM com_example_watchfinder_viewmodels_ForgotPasswordVM2;
+      LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
 
       @KeepFieldType
       DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
@@ -437,7 +437,7 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
       DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
 
       @KeepFieldType
-      LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
+      ForgotPasswordVM com_example_watchfinder_viewmodels_ForgotPasswordVM2;
     }
   }
 
@@ -487,25 +487,25 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
-
       static String com_example_watchfinder_viewmodels_ForgotPasswordVM = "com.example.watchfinder.viewmodels.ForgotPasswordVM";
-
-      static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
 
       static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
 
-      @KeepFieldType
-      LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
+      static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
+
+      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
 
       @KeepFieldType
       ForgotPasswordVM com_example_watchfinder_viewmodels_ForgotPasswordVM2;
 
       @KeepFieldType
+      DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
+
+      @KeepFieldType
       DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
 
       @KeepFieldType
-      DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
+      LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {

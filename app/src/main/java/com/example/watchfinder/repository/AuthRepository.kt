@@ -4,7 +4,9 @@ import com.example.watchfinder.api.ApiService
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.data.dto.LoginRequest
 import com.example.watchfinder.data.dto.LoginResponse
+import com.example.watchfinder.data.dto.ForgotPasswordRequest
 import com.example.watchfinder.data.dto.RegisterRequest
+import com.example.watchfinder.data.dto.ResetPasswordRequest
 import com.example.watchfinder.data.prefs.TokenManager
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -103,14 +105,30 @@ class AuthRepository @Inject constructor(
     }
 
     //Para reset password por mail
-    suspend fun sendPasswordResetEmail(email: String) {
-        try {
-            apiService.sendPasswordResetEmail(email)
+    suspend fun sendPasswordResetEmail(email: String): Result<Unit> {
+        return try {
+            val response = apiService.sendPasswordResetEmail(ForgotPasswordRequest(email))
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Fallo al enviar e-mail: ${response.code()}"))
+            }
         } catch (e: Exception) {
-            throw e
+            Result.failure(e)
         }
     }
 
-
+    suspend fun resetPassword(token: String, newPassword: String): Result<Unit> {
+        return try {
+            val response = apiService.resetPassword(ResetPasswordRequest(token, newPassword))
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Error reseteando contraseña: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
 
