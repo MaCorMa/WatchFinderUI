@@ -40,14 +40,11 @@ import com.example.watchfinder.screens.Login
 import com.example.watchfinder.screens.MovieOrSeries
 import com.example.watchfinder.screens.MyContent
 import com.example.watchfinder.screens.Profile
-import com.example.watchfinder.screens.Search
+//import com.example.watchfinder.screens.Search
 import dagger.hilt.android.AndroidEntryPoint
-import jakarta.inject.Inject
 import com.example.watchfinder.screens.Register
-import com.example.watchfinder.screens.Search
-import dagger.hilt.android.AndroidEntryPoint
-
 import javax.inject.Inject
+import androidx.compose.ui.tooling.preview.Preview
 
 
 
@@ -92,6 +89,12 @@ enum class AuthState {
 enum class ShowScreen {
     LOGIN,
     REGISTER
+}
+
+enum class DiscoverState {
+    SELECTION,
+    MOVIES,
+    SERIES
 }
 
 @Composable
@@ -150,23 +153,6 @@ fun AppNavigation(
         }
 
         AuthState.UNAUTHENTICATED -> {
-            Login(
-                onLoginSuccess = {
-                    println("--> Login Success! Setting state to Authenticated.")
-                    // Tras login exitoso, asumimos que el token es válido
-                    authState = AuthState.AUTHENTICATED
-                },
-                onForgotPasswordClick = {
-                    println("--> Redirecting to pass reset screen.")
-                    // Pasa a la pantalla para indicar correo y resetear pass
-                    authState = AuthState.PASSWORD_RESET
-                }
-            )
-        }
-        AuthState.PASSWORD_RESET -> {
-            ForgotPassword(
-                onNavigateBack = {
-                    authState = AuthState.UNAUTHENTICATED
             when (loginOrRegister) {
                 ShowScreen.LOGIN -> {
                     Login(
@@ -174,6 +160,11 @@ fun AppNavigation(
                             println("--> Login Success! Setting state to Authenticated.")
                             // Tras login exitoso, asumimos que el token es válido
                             authState = AuthState.AUTHENTICATED
+                        },
+                        onForgotPasswordClick = {
+                            println("--> Redirecting to pass reset screen.")
+                            // Pasa a la pantalla para indicar correo y resetear pass
+                            authState = AuthState.PASSWORD_RESET
                         },
                         onNavigateToRegister = {
                             loginOrRegister = ShowScreen.REGISTER
@@ -183,21 +174,25 @@ fun AppNavigation(
 
                 ShowScreen.REGISTER -> {
                     Register(
-                        onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
-                        onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
+                        onRegisterSuccess = {
+                            loginOrRegister = ShowScreen.LOGIN
+                        },
+                        onNavigateToLogin = {
+                            loginOrRegister = ShowScreen.LOGIN
+                        }
                     )
                 }
             }
+        }
 
+        AuthState.PASSWORD_RESET -> {
+            ForgotPassword(
+                onNavigateBack = {
+                    authState = AuthState.UNAUTHENTICATED
+                }
+            )
         }
     }
-}
-
-
-enum class DiscoverState {
-    SELECTION,
-    MOVIES,
-    SERIES
 }
 
 @Composable
@@ -221,7 +216,7 @@ fun MainScreen(onLogout: () -> Unit) {
         Column(modifier = Modifier.padding(paddingValues))
         {
             when (current) {
-                "Search" -> Search()
+                //"Search" -> Search()
                 "My Content" -> MyContent()
                 "Discover" -> {
                     // Decide qué mostrar DENTRO de Discover

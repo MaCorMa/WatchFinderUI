@@ -30,7 +30,7 @@ import com.example.watchfinder.viewmodels.LoginViewModel
 fun Login(
     viewModel: LoginViewModel = hiltViewModel(),
     onLoginSuccess: () -> Unit,
-    onForgotPasswordClick: () -> Unit
+    onForgotPasswordClick: () -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
 

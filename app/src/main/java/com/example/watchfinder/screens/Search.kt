@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import kotlinx.coroutines.selects.select
-
+/*
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Search() {
@@ -141,4 +141,4 @@ fun SearchPreview() {
     WatchFinderTheme { // Envuelve en tu tema si es necesario
         Search()
     }
-}
+}*/

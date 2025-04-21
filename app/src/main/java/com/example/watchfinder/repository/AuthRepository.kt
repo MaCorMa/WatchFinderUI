@@ -57,7 +57,6 @@ class AuthRepository @Inject constructor(
         }
     }
 
-
     suspend fun register(
         name: String,
         username: String,
