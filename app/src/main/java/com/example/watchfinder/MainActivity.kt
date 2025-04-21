@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
@@ -44,6 +43,12 @@ import com.example.watchfinder.screens.Profile
 import com.example.watchfinder.screens.Search
 import dagger.hilt.android.AndroidEntryPoint
 import jakarta.inject.Inject
+import com.example.watchfinder.screens.Register
+import com.example.watchfinder.screens.Search
+import dagger.hilt.android.AndroidEntryPoint
+
+import javax.inject.Inject
+
 
 
 @AndroidEntryPoint
@@ -51,8 +56,10 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var tokenManager: TokenManager
+
     @Inject
     lateinit var userManager: UserManager
+
     @Inject
     lateinit var authRepository: AuthRepository
 
@@ -65,7 +72,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WatchFinderTheme {
-                AppNavigation(tokenManager = tokenManager, userManager = userManager, authRepository = authRepository)
+                AppNavigation(
+                    tokenManager = tokenManager,
+                    userManager = userManager,
+                    authRepository = authRepository
+                )
             }
         }
     }
@@ -78,6 +89,10 @@ enum class AuthState {
     PASSWORD_RESET
 }
 
+enum class ShowScreen {
+    LOGIN,
+    REGISTER
+}
 
 @Composable
 fun AppNavigation(
@@ -86,6 +101,7 @@ fun AppNavigation(
     authRepository: AuthRepository // Necesitas pasar el repositorio
 ) {
 
+    var loginOrRegister by remember { mutableStateOf(ShowScreen.LOGIN) }
     var authState by remember { mutableStateOf(AuthState.LOADING) } // Empieza cargando
 
     // Efecto que se ejecuta una vez al inicio para validar el token
@@ -94,6 +110,7 @@ fun AppNavigation(
         if (token == null) {
             println("--> No token found. Unauthenticated.")
             authState = AuthState.UNAUTHENTICATED
+            loginOrRegister = ShowScreen.LOGIN
         } else {
             println("--> Token found. Validating...")
             // Intenta validar el token con el backend
@@ -106,6 +123,7 @@ fun AppNavigation(
                 println("--> Token validation FAILED. Unauthenticated. Error: ${validationResult.exceptionOrNull()?.message}")
                 // El repo ya debería haber limpiado el token inválido si falló por 401/403
                 authState = AuthState.UNAUTHENTICATED
+                loginOrRegister = ShowScreen.LOGIN
             }
         }
     }
@@ -118,16 +136,19 @@ fun AppNavigation(
                 CircularProgressIndicator()
             }
         }
+
         AuthState.AUTHENTICATED -> {
             MainScreen(
                 onLogout = {
                     println("--> Logging out...")
                     tokenManager.clearToken()
                     userManager.clearCurrentUser()
-                    authState = AuthState.UNAUTHENTICATED // Cambia el estado
+                    authState = AuthState.UNAUTHENTICATED
+                    loginOrRegister = ShowScreen.LOGIN
                 }
             )
         }
+
         AuthState.UNAUTHENTICATED -> {
             Login(
                 onLoginSuccess = {
@@ -146,12 +167,31 @@ fun AppNavigation(
             ForgotPassword(
                 onNavigateBack = {
                     authState = AuthState.UNAUTHENTICATED
+            when (loginOrRegister) {
+                ShowScreen.LOGIN -> {
+                    Login(
+                        onLoginSuccess = {
+                            println("--> Login Success! Setting state to Authenticated.")
+                            // Tras login exitoso, asumimos que el token es válido
+                            authState = AuthState.AUTHENTICATED
+                        },
+                        onNavigateToRegister = {
+                            loginOrRegister = ShowScreen.REGISTER
+                        }
+                    )
                 }
-            )
+
+                ShowScreen.REGISTER -> {
+                    Register(
+                        onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
+                        onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
+                    )
+                }
+            }
+
         }
     }
 }
-
 
 
 enum class DiscoverState {
@@ -190,10 +230,12 @@ fun MainScreen(onLogout: () -> Unit) {
                             onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
                             onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
                         )
+
                         DiscoverState.MOVIES -> DiscoverMovies()
                         DiscoverState.SERIES -> DiscoverSeries()
                     }
                 }
+
                 "Achievements" -> Achievements()
                 "Profile" -> Profile(onLogoutClick = onLogout)
             }

@@ -25,12 +25,10 @@ import com.example.watchfinder.viewmodels.DiscoverMoviesVM;
 import com.example.watchfinder.viewmodels.DiscoverMoviesVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM;
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM_HiltModules;
-import com.example.watchfinder.viewmodels.ForgotPasswordVM;
-import com.example.watchfinder.viewmodels.ForgotPasswordVM_HiltModules;
 import com.example.watchfinder.viewmodels.LoginViewModel;
 import com.example.watchfinder.viewmodels.LoginViewModel_HiltModules;
-import com.example.watchfinder.viewmodels.ResetPasswordVM;
-import com.example.watchfinder.viewmodels.ResetPasswordVM_HiltModules;
+import com.example.watchfinder.viewmodels.RegisterVM;
+import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
 import dagger.hilt.android.internal.builders.ActivityComponentBuilder;
@@ -394,7 +392,7 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, Boolean> getViewModelKeys() {
-      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(5).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, DiscoverMoviesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, DiscoverSeriesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_ForgotPasswordVM, ForgotPasswordVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginViewModel, LoginViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_ResetPasswordVM, ResetPasswordVM_HiltModules.KeyModule.provide()).build());
+      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(4).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, DiscoverMoviesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, DiscoverSeriesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginViewModel, LoginViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_RegisterVM, RegisterVM_HiltModules.KeyModule.provide()).build());
     }
 
     @Override
@@ -421,30 +419,25 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_example_watchfinder_viewmodels_ResetPasswordVM = "com.example.watchfinder.viewmodels.ResetPasswordVM";
-
       static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
 
-      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
+      static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
 
       static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
 
-      static String com_example_watchfinder_viewmodels_ForgotPasswordVM = "com.example.watchfinder.viewmodels.ForgotPasswordVM";
-
-      @KeepFieldType
-      ResetPasswordVM com_example_watchfinder_viewmodels_ResetPasswordVM2;
+      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
 
       @KeepFieldType
       DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
 
       @KeepFieldType
-      LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
+      RegisterVM com_example_watchfinder_viewmodels_RegisterVM2;
 
       @KeepFieldType
       DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
 
       @KeepFieldType
-      ForgotPasswordVM com_example_watchfinder_viewmodels_ForgotPasswordVM2;
+      LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
     }
   }
 
@@ -459,11 +452,9 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     private Provider<DiscoverSeriesVM> discoverSeriesVMProvider;
 
-    private Provider<ForgotPasswordVM> forgotPasswordVMProvider;
-
     private Provider<LoginViewModel> loginViewModelProvider;
 
-    private Provider<ResetPasswordVM> resetPasswordVMProvider;
+    private Provider<RegisterVM> registerVMProvider;
 
     private ViewModelCImpl(SingletonCImpl singletonCImpl,
         ActivityRetainedCImpl activityRetainedCImpl, SavedStateHandle savedStateHandleParam,
@@ -480,14 +471,13 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
         final ViewModelLifecycle viewModelLifecycleParam) {
       this.discoverMoviesVMProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
       this.discoverSeriesVMProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.forgotPasswordVMProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
-      this.loginViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
-      this.resetPasswordVMProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 4);
+      this.loginViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.registerVMProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
     }
 
     @Override
     public Map<Class<?>, javax.inject.Provider<ViewModel>> getHiltViewModelMap() {
-      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(5).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, ((Provider) discoverMoviesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, ((Provider) discoverSeriesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_ForgotPasswordVM, ((Provider) forgotPasswordVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginViewModel, ((Provider) loginViewModelProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_ResetPasswordVM, ((Provider) resetPasswordVMProvider)).build());
+      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(4).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, ((Provider) discoverMoviesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, ((Provider) discoverSeriesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginViewModel, ((Provider) loginViewModelProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_RegisterVM, ((Provider) registerVMProvider)).build());
     }
 
     @Override
@@ -497,30 +487,25 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_example_watchfinder_viewmodels_ForgotPasswordVM = "com.example.watchfinder.viewmodels.ForgotPasswordVM";
+      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
+
+      static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
 
       static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
 
-      static String com_example_watchfinder_viewmodels_LoginViewModel = "com.example.watchfinder.viewmodels.LoginViewModel";
-
       static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
-
-      static String com_example_watchfinder_viewmodels_ResetPasswordVM = "com.example.watchfinder.viewmodels.ResetPasswordVM";
-
-      @KeepFieldType
-      ForgotPasswordVM com_example_watchfinder_viewmodels_ForgotPasswordVM2;
-
-      @KeepFieldType
-      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
 
       @KeepFieldType
       LoginViewModel com_example_watchfinder_viewmodels_LoginViewModel2;
 
       @KeepFieldType
-      DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
+      RegisterVM com_example_watchfinder_viewmodels_RegisterVM2;
 
       @KeepFieldType
-      ResetPasswordVM com_example_watchfinder_viewmodels_ResetPasswordVM2;
+      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
+
+      @KeepFieldType
+      DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -550,14 +535,11 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
           case 1: // com.example.watchfinder.viewmodels.DiscoverSeriesVM 
           return (T) new DiscoverSeriesVM(singletonCImpl.userRepositoryProvider.get(), singletonCImpl.seriesRepositoryProvider.get(), singletonCImpl.provideUserManagerProvider.get());
 
-          case 2: // com.example.watchfinder.viewmodels.ForgotPasswordVM 
-          return (T) new ForgotPasswordVM(singletonCImpl.authRepositoryProvider.get());
-
-          case 3: // com.example.watchfinder.viewmodels.LoginViewModel 
+          case 2: // com.example.watchfinder.viewmodels.LoginViewModel 
           return (T) new LoginViewModel(singletonCImpl.authRepositoryProvider.get(), singletonCImpl.provideTokenManagerProvider.get(), singletonCImpl.provideUserManagerProvider.get());
 
-          case 4: // com.example.watchfinder.viewmodels.ResetPasswordVM 
-          return (T) new ResetPasswordVM(singletonCImpl.authRepositoryProvider.get());
+          case 3: // com.example.watchfinder.viewmodels.RegisterVM 
+          return (T) new RegisterVM(singletonCImpl.authRepositoryProvider.get());
 
           default: throw new AssertionError(id);
         }
