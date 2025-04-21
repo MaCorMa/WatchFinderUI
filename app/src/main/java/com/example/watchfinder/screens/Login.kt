@@ -28,7 +28,8 @@ import com.example.watchfinder.viewmodels.LoginViewModel
 @Composable
 fun Login(
     viewModel: LoginViewModel = hiltViewModel(),
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    onNavigateToRegister: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -90,6 +91,22 @@ fun Login(
                 )
             } else {
                 Text("Acceder")
+            }
+        }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp), onClick = onNavigateToRegister,
+            enabled = !uiState.isLoading
+        ) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Text("¿No tienes cuenta? Regístrate")
             }
         }
 

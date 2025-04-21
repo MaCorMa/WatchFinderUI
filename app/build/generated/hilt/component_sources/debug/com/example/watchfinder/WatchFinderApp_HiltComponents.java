@@ -5,6 +5,7 @@ import com.example.watchfinder.di.NetworkModule;
 import com.example.watchfinder.viewmodels.DiscoverMoviesVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM_HiltModules;
 import com.example.watchfinder.viewmodels.LoginViewModel_HiltModules;
+import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
 import dagger.Binds;
 import dagger.Component;
 import dagger.Module;
@@ -163,6 +164,7 @@ public final class WatchFinderApp_HiltComponents {
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
           LoginViewModel_HiltModules.KeyModule.class,
+          RegisterVM_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class
       }
@@ -203,7 +205,8 @@ public final class WatchFinderApp_HiltComponents {
           DiscoverMoviesVM_HiltModules.BindsModule.class,
           DiscoverSeriesVM_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
-          LoginViewModel_HiltModules.BindsModule.class
+          LoginViewModel_HiltModules.BindsModule.class,
+          RegisterVM_HiltModules.BindsModule.class
       }
   )
   @ViewModelScoped
