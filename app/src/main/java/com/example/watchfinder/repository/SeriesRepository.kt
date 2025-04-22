@@ -28,4 +28,8 @@ class SeriesRepository@Inject constructor(
     fun searchSeriesByTitle(userInput: String): Collection<SeriesCard> {
 
     }
+
+    fun getSeriesDetailsById(itemId: String): SeriesCard? {
+
+    }
 }

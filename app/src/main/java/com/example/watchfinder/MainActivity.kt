@@ -33,6 +33,7 @@ import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
 import com.example.watchfinder.screens.Achievements
+import com.example.watchfinder.screens.DetailScreen
 import com.example.watchfinder.screens.DiscoverMovies
 import com.example.watchfinder.screens.DiscoverSeries
 import com.example.watchfinder.screens.Login
@@ -44,7 +45,6 @@ import com.example.watchfinder.screens.Search
 import dagger.hilt.android.AndroidEntryPoint
 
 import javax.inject.Inject
-
 
 
 @AndroidEntryPoint
@@ -98,6 +98,7 @@ fun AppNavigation(
 
     var loginOrRegister by remember { mutableStateOf(ShowScreen.LOGIN) }
     var authState by remember { mutableStateOf(AuthState.LOADING) } // Empieza cargando
+    var detailScreenInfo by remember { mutableStateOf<Pair<String, String>?>(null) }
 
     // Efecto que se ejecuta una vez al inicio para validar el token
     LaunchedEffect(Unit) {
@@ -123,50 +124,58 @@ fun AppNavigation(
         }
     }
 
-    // Muestra la UI según el estado de autenticación
-    when (authState) {
-        AuthState.LOADING -> {
-            // Muestra un indicador de carga mientras se valida
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
-        }
-
-        AuthState.AUTHENTICATED -> {
-            MainScreen(
-                onLogout = {
-                    println("--> Logging out...")
-                    tokenManager.clearToken()
-                    userManager.clearCurrentUser()
-                    authState = AuthState.UNAUTHENTICATED
-                    loginOrRegister = ShowScreen.LOGIN
-                }
-            )
-        }
-
-        AuthState.UNAUTHENTICATED -> {
-            when (loginOrRegister) {
-                ShowScreen.LOGIN -> {
-                    Login(
-                        onLoginSuccess = {
-                            println("--> Login Success! Setting state to Authenticated.")
-                            // Tras login exitoso, asumimos que el token es válido
-                            authState = AuthState.AUTHENTICATED
-                        },
-                        onNavigateToRegister = {
-                            loginOrRegister = ShowScreen.REGISTER
-                        }
-                    )
-                }
-
-                ShowScreen.REGISTER -> {
-                    Register(
-                        onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
-                        onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
-                    )
+    if (detailScreenInfo != null) {
+        val (itemType, itemId) = detailScreenInfo!! // Desempaqueta la info
+        DetailScreen( // Muestra la pantalla de detalles
+            itemType = itemType,
+            itemId = itemId,
+            onNavigateBack = { detailScreenInfo = null } // Lambda para volver (limpia el estado)
+        )
+    } else {
+        // Muestra la UI según el estado de autenticación
+        when (authState) {
+            AuthState.LOADING -> {
+                // Muestra un indicador de carga mientras se valida
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
                 }
             }
 
+            AuthState.AUTHENTICATED -> {
+                MainScreen(
+                    onLogout = {
+                        println("--> Logging out...")
+                        tokenManager.clearToken()
+                        userManager.clearCurrentUser()
+                        authState = AuthState.UNAUTHENTICATED
+                        loginOrRegister = ShowScreen.LOGIN
+                    }
+                )
+            }
+
+            AuthState.UNAUTHENTICATED -> {
+                when (loginOrRegister) {
+                    ShowScreen.LOGIN -> {
+                        Login(
+                            onLoginSuccess = {
+                                println("--> Login Success! Setting state to Authenticated.")
+                                // Tras login exitoso, asumimos que el token es válido
+                                authState = AuthState.AUTHENTICATED
+                            },
+                            onNavigateToRegister = {
+                                loginOrRegister = ShowScreen.REGISTER
+                            }
+                        )
+                    }
+
+                    ShowScreen.REGISTER -> {
+                        Register(
+                            onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
+                            onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -179,7 +188,8 @@ enum class DiscoverState {
 }
 
 @Composable
-fun MainScreen(onLogout: () -> Unit) {
+fun MainScreen(onLogout: () -> Unit,
+               onNavigateToDetail: (itemType: String, itemId: String) -> Unit) {
     var current by remember { mutableStateOf("Discover") }
     var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
 
@@ -199,8 +209,8 @@ fun MainScreen(onLogout: () -> Unit) {
         Column(modifier = Modifier.padding(paddingValues))
         {
             when (current) {
-                "Search" -> Search()
-                "My Content" -> MyContent()
+                "Search" -> Search(onNavigateToDetail = onNavigateToDetail)
+                "My Content" -> MyContent(onNavigateToDetail = onNavigateToDetail)
                 "Discover" -> {
                     // Decide qué mostrar DENTRO de Discover
                     when (discoverScreenState) {

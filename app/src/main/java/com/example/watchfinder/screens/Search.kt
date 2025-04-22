@@ -36,12 +36,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
-import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.viewmodels.SearchVM
 import androidx.compose.foundation.lazy.grid.items
 import coil3.compose.AsyncImage

@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MyContent() {
+fun MyContent(
+    onNavigateToDetail: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()

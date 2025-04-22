@@ -33,4 +33,8 @@ class MovieRepository @Inject constructor(
     fun searchMoviesByTitle(userInput: String): Collection<MovieCard> {
 
     }
+
+    fun getMovieDetailsById(itemId: String): MovieCard? {
+
+    }
 }

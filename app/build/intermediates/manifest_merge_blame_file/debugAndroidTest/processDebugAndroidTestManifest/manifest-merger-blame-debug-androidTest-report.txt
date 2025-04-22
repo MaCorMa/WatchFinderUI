@@ -3,24 +3,24 @@
 3    package="com.example.watchfinder.test" >
 4
 5    <uses-sdk
-5-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:5:5-74
+5-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:5:5-74
 6        android:minSdkVersion="29"
-6-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:5:15-41
+6-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:5:15-41
 7        android:targetSdkVersion="35" />
-7-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:5:42-71
+7-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:5:42-71
 8
 9    <instrumentation
-9-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:11:5-15:73
+9-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:11:5-15:73
 10        android:name="androidx.test.runner.AndroidJUnitRunner"
-10-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:11:22-76
+10-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:11:22-76
 11        android:functionalTest="false"
-11-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:14:22-52
+11-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:14:22-52
 12        android:handleProfiling="false"
-12-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:13:22-53
+12-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:13:22-53
 13        android:label="Tests for com.example.watchfinder"
-13-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:15:22-71
+13-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:15:22-71
 14        android:targetPackage="com.example.watchfinder" />
-14-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:12:22-69
+14-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:12:22-69
 15
 16    <uses-permission android:name="android.permission.REORDER_TASKS" />
 16-->[androidx.test:core:1.6.1] C:\Users\Wired\.gradle\caches\8.10.2\transforms\9b70cff9b108c71d9190b9b2740f4f3f\transformed\core-1.6.1\AndroidManifest.xml:24:5-72
@@ -40,12 +40,12 @@
 22    </queries>
 23
 24    <application
-24-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:7:5-9:19
+24-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:7:5-9:19
 25        android:debuggable="true"
 26        android:extractNativeLibs="false" >
 27        <uses-library android:name="android.test.runner" />
-27-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:8:9-60
-27-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest1320885298670670782.xml:8:23-57
+27-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:8:9-60
+27-->F:\UNIR\2CURSO\AndStudio\WatchFinderUI\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest3056340086557247842.xml:8:23-57
 28
 29        <activity
 29-->[androidx.test:core:1.6.1] C:\Users\Wired\.gradle\caches\8.10.2\transforms\9b70cff9b108c71d9190b9b2740f4f3f\transformed\core-1.6.1\AndroidManifest.xml:27:9-34:20
