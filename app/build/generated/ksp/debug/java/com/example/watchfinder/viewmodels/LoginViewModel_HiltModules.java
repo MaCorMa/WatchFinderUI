@@ -15,7 +15,7 @@ import javax.annotation.processing.Generated;
 
 @Generated("dagger.hilt.android.processor.internal.viewmodel.ViewModelProcessor")
 @OriginatingElement(
-    topLevelClass = LoginViewModel.class
+    topLevelClass = LoginVM.class
 )
 public final class LoginViewModel_HiltModules {
   private LoginViewModel_HiltModules() {
@@ -29,9 +29,9 @@ public final class LoginViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @LazyClassKey(LoginViewModel.class)
+    @LazyClassKey(LoginVM.class)
     @HiltViewModelMap
-    public abstract ViewModel binds(LoginViewModel vm);
+    public abstract ViewModel binds(LoginVM vm);
   }
 
   @Module
@@ -42,7 +42,7 @@ public final class LoginViewModel_HiltModules {
 
     @Provides
     @IntoMap
-    @LazyClassKey(LoginViewModel.class)
+    @LazyClassKey(LoginVM.class)
     @HiltViewModelMap.KeySet
     public static boolean provide() {
       return true;

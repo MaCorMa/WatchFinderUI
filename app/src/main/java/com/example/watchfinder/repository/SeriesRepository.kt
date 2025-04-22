@@ -20,4 +20,12 @@ class SeriesRepository@Inject constructor(
             series -> utils.seriesToCard(series)
         }
     }
+
+    fun searchSeriesByGenre(selectedGenre: String): Collection<SeriesCard> {
+
+    }
+
+    fun searchSeriesByTitle(userInput: String): Collection<SeriesCard> {
+
+    }
 }

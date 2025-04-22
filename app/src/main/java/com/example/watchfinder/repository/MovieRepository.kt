@@ -25,4 +25,12 @@ class MovieRepository @Inject constructor(
             movie -> utils.movieToCard(movie)
         }
     }
+
+    fun searchMoviesByGenre(selectedGenre: String): Collection<MovieCard> {
+
+    }
+
+    fun searchMoviesByTitle(userInput: String): Collection<MovieCard> {
+
+    }
 }

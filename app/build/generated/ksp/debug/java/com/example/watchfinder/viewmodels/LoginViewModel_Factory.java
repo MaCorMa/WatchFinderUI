@@ -24,7 +24,7 @@ import javax.inject.Provider;
     "KotlinInternalInJava",
     "cast"
 })
-public final class LoginViewModel_Factory implements Factory<LoginViewModel> {
+public final class LoginViewModel_Factory implements Factory<LoginVM> {
   private final Provider<AuthRepository> authRepositoryProvider;
 
   private final Provider<TokenManager> tokenManagerProvider;
@@ -39,7 +39,7 @@ public final class LoginViewModel_Factory implements Factory<LoginViewModel> {
   }
 
   @Override
-  public LoginViewModel get() {
+  public LoginVM get() {
     return newInstance(authRepositoryProvider.get(), tokenManagerProvider.get(), userManagerProvider.get());
   }
 
@@ -48,8 +48,8 @@ public final class LoginViewModel_Factory implements Factory<LoginViewModel> {
     return new LoginViewModel_Factory(authRepositoryProvider, tokenManagerProvider, userManagerProvider);
   }
 
-  public static LoginViewModel newInstance(AuthRepository authRepository, TokenManager tokenManager,
-      UserManager userManager) {
-    return new LoginViewModel(authRepository, tokenManager, userManager);
+  public static LoginVM newInstance(AuthRepository authRepository, TokenManager tokenManager,
+                                    UserManager userManager) {
+    return new LoginVM(authRepository, tokenManager, userManager);
   }
 }

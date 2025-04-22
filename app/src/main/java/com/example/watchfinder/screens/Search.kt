@@ -1,22 +1,28 @@
 package com.example.watchfinder.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -25,78 +31,78 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.watchfinder.data.dto.MovieCard
+import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
-import kotlinx.coroutines.selects.select
+import com.example.watchfinder.viewmodels.SearchVM
+import androidx.compose.foundation.lazy.grid.items
+import coil3.compose.AsyncImage
+
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun Search() {
+fun Search(
+    viewModel: SearchVM = hiltViewModel(),
+    onNavigateToDetail: (itemType: String, itemId: String) -> Unit
+) {
 
-
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-        //El título en la pantalla
     ) {
-        Text("Busqueda", style = MaterialTheme.typography.headlineLarge)
-        //El campo de búsqueda, tenemos que pasarle un value, que es lo que introduce el user
-        //empieza en "" y cuando ese valor cambia, se asigna a userInput
+        Text("Búsqueda", style = MaterialTheme.typography.headlineLarge)
+        Spacer(Modifier.height(16.dp))
+
+        // --- Campo de Texto ---
         TextField(
-            value = userInput,
-            onValueChange = { newText -> userInput = newText },
-            label = { Text("Introduce el nombre de la peli o serie") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-        )
-        Spacer(
-            modifier = Modifier.height(15.dp)
-        )
-
-        Row(
+            value = uiState.userInput,
+            onValueChange = viewModel::onUserInputChange, // Llama al VM
+            label = { Text("Introduce título...") },
             modifier = Modifier.fillMaxWidth(),
-            Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(selected = false, onClick = null)
-            Text("Pelis", style = MaterialTheme.typography.bodyMedium)
-            Spacer(
-                modifier = Modifier.width(15.dp)
-            )
-            RadioButton(selected = false, onClick = null)
-            Text("Series", style = MaterialTheme.typography.bodyMedium)
-            Spacer(
-                modifier = Modifier.width(15.dp)
-            )
-            RadioButton(selected = false, onClick = null)
-            Text("Ambos", style = MaterialTheme.typography.bodyMedium)
-        }
+            singleLine = true,
+            enabled = uiState.selectedGenre == "Todos" // Habilita/deshabilita según el VM
+        )
+        Spacer(Modifier.height(16.dp))
 
+        // --- Selector de Tipo (Radio Buttons) ---
+        SearchTypeSelectorComponent(
+            selectedOption = uiState.selectedSearchType, // Usa el estado del VM
+            onOptionSelected = viewModel::onSearchTypeChange // Llama al VM
+        )
+        Spacer(Modifier.height(16.dp))
+
+        // --- FilterChips de Géneros ---
+        Text(
+            "Seleccionar Género:",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(8.dp))
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            options.forEach { genre ->
+            // Usa la lista de géneros del VM
+            uiState.availableGenres.forEach { genre ->
                 FilterChip(
-                    selected = (selectedOption == genre),
-                    onClick = {
-                        selectedOption = genre
-                    },
+                    selected = (uiState.selectedGenre == genre), // Compara con el estado del VM
+                    onClick = { viewModel.onGenreChange(genre) }, // Llama al VM
                     label = { Text(genre) },
-                    leadingIcon = if (selectedOption == genre) { // Muestra icono si está seleccionado
-                        { // Necesita ser un @Composable lambda
+                    leadingIcon = if (uiState.selectedGenre == genre) {
+                        {
                             Icon(
                                 imageVector = Icons.Filled.Done,
                                 contentDescription = "Seleccionado",
@@ -104,41 +110,169 @@ fun Search() {
                             )
                         }
                     } else {
-                        null // Sin icono si no está seleccionado
+                        null
                     }
                 )
             }
         }
+        Spacer(Modifier.height(24.dp))
 
-        //El row donde van los botones, ojito, Alignment = alineación respecto al contenedor padre.
-        //Arrangement = Alineación de los hijos.
-        Spacer(
-            modifier = Modifier.height(15.dp)
-        )
-
+        // --- Botones Buscar y Reset ---
         Row(
             modifier = Modifier.fillMaxWidth(),
-            Arrangement.Center
+            horizontalArrangement = Arrangement.Center
         ) {
             Button(
-                modifier = Modifier.width(180.dp),
-                onClick = {}) { Text("Buscar") }
+                onClick = viewModel::performSearch, // Llama al VM
+                enabled = !uiState.isLoading // Deshabilita si está cargando
+            ) {
+                if (uiState.isLoading) {
+                    Progress()
+                } else {
+                    Text("Buscar")
+                }
+            }
+            Spacer(Modifier.width(16.dp))
+            Button(onClick = viewModel::resetSearch) { // Llama al VM
+                Text("Reset")
+            }
+        }
+        Spacer(Modifier.height(16.dp))
 
-            Spacer(
-                modifier = Modifier.width(15.dp)
+        // --- Mostrar Errores o Indicador de "No Resultados" ---
+        if (uiState.searchError != null) {
+            Text(
+                text = uiState.searchError!!,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        } else if (uiState.noResultsFound) {
+            Text(
+                text = "No se encontraron resultados.",
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
+
+        // --- Cuadrícula de Resultados ---
+        // Combina las listas de películas y series en una sola para el grid
+        // Necesitarás una forma de distinguir o un tipo común si la Card es diferente
+        val combinedResults = uiState.searchResultsMovies + uiState.searchResultsSeries
+
+        if (combinedResults.isNotEmpty() && !uiState.isLoading) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 120.dp), // Ajusta el tamaño mínimo de celda
+                modifier = Modifier.fillMaxSize(), // Ocupa el espacio restante
+                contentPadding = PaddingValues(vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(combinedResults) { item ->
+                    when (item) {
+                        is MovieCard -> SearchResultItem(
+                            title = item.Title,
+                            posterPath = item.Poster,
+                            onClick = {
+                                val itemId = item._id // Asume que _id es el identificador único
+                                val itemType = "movie"
+                                println("Clicked Movie ID: $itemId")
+                                onNavigateToDetail(
+                                    itemType,
+                                    itemId
+                                ) // Mejor pasar una lambda desde AppNavigation
+                            })
+
+                        is SeriesCard -> SearchResultItem(
+                            title = item.Title,
+                            posterPath = item.Poster,
+                            onClick = {
+                                val itemId = item._id // Asume que _id es el identificador único
+                                val itemType = "series"
+                                println("Clicked Series ID: $itemId")
+                                // Llama a tu función de navegación
+                                // navController.navigate("detail/$itemType/$itemId")
+                                onNavigateToDetail(itemType, itemId) // Mejor pasar una lambda
+                            }) // Asume que SeriesCard tiene name
+                        // Añade más tipos si es necesario
+                    }
+                }
+            }
+        } else if (uiState.isLoading) {
+            // Puedes mostrar un indicador de carga aquí también si la búsqueda es larga
+            // CircularProgressIndicator(modifier = Modifier.padding(top = 20.dp))
+        }
+    }
+}
+
+@Composable
+fun SearchResultItem(
+    title: String,
+    posterPath: String?,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .clickable(onClick = onClick),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            AsyncImage(
+                model = "https://image.tmdb.org/t/p/w342$posterPath", // Construye la URL completa
+                contentDescription = title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(2f / 3f), // Relación de aspecto típica de póster
+                // placeholder = painterResource(id = R.drawable.placeholder_image), // Opcional
+                // error = painterResource(id = R.drawable.error_image), // Opcional
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
+                maxLines = 2, // Limita el título a 2 líneas
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis // Añade puntos suspensivos
             )
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun SearchPreview() {
-    // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
+fun SearchTypeSelectorComponent(
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit
+) {
+    val options = listOf("Movies", "Series", "Both") // O los textos que prefieras
 
-
-    // 2. Llama a tu MovieCard real pasándole los datos falsos
-    WatchFinderTheme { // Envuelve en tu tema si es necesario
-        Search()
+    Column(modifier = Modifier.fillMaxWidth()) {
+        // Puedes descomentar el Text si quieres un título explícito aquí
+        // Text("Buscar por tipo:", style = MaterialTheme.typography.titleMedium)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            // Centra los items en la fila si quieres
+            // horizontalArrangement = Arrangement.Center
+        ) {
+            options.forEach { optionText ->
+                Row(
+                    Modifier
+                        .selectable(
+                            selected = (selectedOption == optionText),
+                            onClick = { onOptionSelected(optionText) },
+                            role = Role.RadioButton
+                        )
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 4.dp
+                        ), // Padding alrededor de cada opción
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = (selectedOption == optionText),
+                        onClick = null // El click se maneja en la Row
+                    )
+                    Spacer(Modifier.width(4.dp)) // Espacio pequeño entre botón y texto
+                    Text(text = optionText)
+                }
+            }
+        }
     }
 }

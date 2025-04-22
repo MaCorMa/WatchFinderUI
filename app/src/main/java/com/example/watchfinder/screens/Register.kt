@@ -19,10 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.viewmodels.RegisterVM
-// Importa tu RegisterUiState
-// import com.example.watchfinder.data.UiState.RegisterUiState
 import java.util.Calendar
-import java.util.Locale // Para formatear la fecha
+import java.util.Locale
 
 @Composable
 fun Register(
@@ -169,11 +167,7 @@ fun Register(
             enabled = !uiState.isLoading
         ) {
             if (uiState.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    strokeWidth = 2.dp
-                )
+                Progress()
             } else {
                 Text("Registrar usuario")
             }

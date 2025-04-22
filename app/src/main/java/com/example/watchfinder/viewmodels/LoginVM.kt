@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.data.dto.LoginResponse
-import com.example.watchfinder.data.model.User
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,11 +13,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.Thread.State
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class LoginVM @Inject constructor(
     private val authRepository: AuthRepository, // Inyecta tu repositorio de autenticación
     private val tokenManager: TokenManager,
     private val userManager: UserManager
