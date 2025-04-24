@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.watchfinder.app-mergeDebugResources-59:/values-zh-rTW/values-zh-rTW.xml",
+            "outputFile": "com.example.watchfinder.app-mergeDebugResources-60:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Wired\\.gradle\\caches\\8.10.2\\transforms\\9f200b2c5eda2a12a5ed61b9fffb4fe0\\transformed\\foundation-release\\res\\values-zh-rTW\\values-zh-rTW.xml",

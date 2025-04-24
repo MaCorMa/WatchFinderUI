@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.watchfinder.data.UiState.DetailsUiState
 import com.example.watchfinder.repository.MovieRepository
 import com.example.watchfinder.repository.SeriesRepository
+import com.example.watchfinder.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class DetailsVM @Inject constructor(
     // 2. Inyecta los repositorios necesarios
     private val movieRepository: MovieRepository,
-    private val seriesRepository: SeriesRepository
+    private val seriesRepository: SeriesRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     // 3. Crea el StateFlow para la UI
@@ -64,6 +66,33 @@ class DetailsVM @Inject constructor(
                     it.copy(isLoading = false, error = "Error al cargar detalles: ${e.message}")
                 }
                 e.printStackTrace() // Útil para depurar
+            }
+        }
+    }
+
+    fun addToFavorites(itemId: String, itemType: String) {
+        viewModelScope.launch {
+            try {
+                // Llama a la función del repo que actualiza la lista en el backend
+                userRepository.addToList(itemId, "fav", itemType) // Usa "fav" como tipo de lista
+                println("Añadido a Favoritos: $itemId ($itemType)")
+                // Opcional: Mostrar un Snackbar/Toast de confirmación
+            } catch (e: Exception) {
+                println("Error al añadir a Favoritos: ${e.message}")
+                // Opcional: Mostrar error
+            }
+        }
+    }
+
+    fun addToSeen(itemId: String, itemType: String) {
+        viewModelScope.launch {
+            try {
+                userRepository.addToList(itemId, "seen", itemType) // Usa "seen" como tipo de lista
+                println("Añadido a Vistos: $itemId ($itemType)")
+                // Opcional: Mostrar un Snackbar/Toast de confirmación
+            } catch (e: Exception) {
+                println("Error al añadir a Vistos: ${e.message}")
+                // Opcional: Mostrar error
             }
         }
     }

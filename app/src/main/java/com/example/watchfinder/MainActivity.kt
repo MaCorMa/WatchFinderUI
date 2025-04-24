@@ -225,7 +225,7 @@ fun MainScreen(
             when (currentScreen) {
                 "Search" -> Search(onNavigateToDetail = onNavigateToDetail)
                 // Asegúrate que MyContent recibe onNavigateToDetail si lo necesita
-                "My Content" -> MyContent()
+                "My Content" -> MyContent(onNavigateToDetail = onNavigateToDetail)
                 "Discover" -> {
                     // ... (lógica interna de Discover sin cambios, usa discoverScreenState) ...
                     when (discoverScreenState) {

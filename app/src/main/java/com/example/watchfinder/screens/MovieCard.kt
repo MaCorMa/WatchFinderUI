@@ -9,8 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +29,12 @@ import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 
 @Composable
-fun MovieCard(movie: MovieCard) {
+fun MovieCard(
+    movie: MovieCard,
+    showActions: Boolean = true,
+    onFavoriteClick: () -> Unit = {},
+    onSeenClick: () -> Unit = {}
+) {
 
     Card(
         modifier = Modifier
@@ -176,23 +186,52 @@ fun MovieCard(movie: MovieCard) {
                     .align(Alignment.TopEnd) // Alineado arriba a la derecha
                     .padding(8.dp)
                     .background(
-                        Color.Black.copy(alpha = 0.5f),
+                        Color.Black.copy(alpha = 0.3f),
                         shape = MaterialTheme.shapes.small
                     ) // Fondo semitransparente
                     .padding(4.dp)
             ) {
-                Text(
-                    "Plataf (11)",
-                    color = Color.White,
-                    style = MaterialTheme.typography.labelSmall
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    if (showActions) {
+                        // Icono Favorito (Corazón) - Arriba Izquierda
+                        IconButton(
+                            onClick = onFavoriteClick,
+                            modifier = Modifier
+                                .padding(1.dp) // Espaciado
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite, // Cambia a FavoriteBorder si gestionas estado
+                                contentDescription = "Añadir a Favoritos",
+                                tint = Color.White // O un color que contraste
+                            )
+                        }
+
+                        // Icono Visto (Ojo) - Arriba Derecha (junto a Plataformas?)
+                        IconButton(
+                            onClick = onSeenClick,
+                            modifier = Modifier
+                                .padding(1.dp)) {
+                            Icon(
+                                imageVector = Icons.Filled.FavoriteBorder, // Cambia si gestionas estado
+                                contentDescription = "Marcar como Visto",
+                                tint = Color.White // O un color que contraste
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        "Plataf (11)",
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
             }
 
         } // Fin Box principal (apilador)
     } // Fin Card
 }
 
-/*@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun MovieCardPreview() {
     // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
@@ -211,7 +250,8 @@ fun MovieCardPreview() {
         Awards = "Algún premio",
         Year = 2024,
         ReleaseDate = "2024-01-15",
-        Rated = "PG-13"
+        Rated = "PG-13",
+        Poster = "A"
         // Asegúrate de llenar todos los campos NO NULOS de tu DTO
     )
 
@@ -219,4 +259,4 @@ fun MovieCardPreview() {
     WatchFinderTheme { // Envuelve en tu tema si es necesario
         MovieCard(dummyMovie)
     }
-}*/
+}

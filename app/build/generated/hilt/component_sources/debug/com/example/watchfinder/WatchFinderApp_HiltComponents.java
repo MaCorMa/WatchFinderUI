@@ -6,6 +6,7 @@ import com.example.watchfinder.viewmodels.DetailsVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverMoviesVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM_HiltModules;
 import com.example.watchfinder.viewmodels.LoginVM_HiltModules;
+import com.example.watchfinder.viewmodels.MyContentVM_HiltModules;
 import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
 import com.example.watchfinder.viewmodels.SearchVM_HiltModules;
 import dagger.Binds;
@@ -167,6 +168,7 @@ public final class WatchFinderApp_HiltComponents {
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
           LoginVM_HiltModules.KeyModule.class,
+          MyContentVM_HiltModules.KeyModule.class,
           RegisterVM_HiltModules.KeyModule.class,
           SearchVM_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
@@ -211,6 +213,7 @@ public final class WatchFinderApp_HiltComponents {
           DiscoverSeriesVM_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           LoginVM_HiltModules.BindsModule.class,
+          MyContentVM_HiltModules.BindsModule.class,
           RegisterVM_HiltModules.BindsModule.class,
           SearchVM_HiltModules.BindsModule.class
       }
