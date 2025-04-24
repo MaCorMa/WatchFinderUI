@@ -47,7 +47,7 @@ class SearchVM @Inject constructor(
                     val allGenres = listOf("Todos") + genres // Ya son Strings, no necesitas .map
                     it.copy(
                         availableGenres = allGenres,
-                        selectedGenre = allGenres.firstOrNull() ?: "Todos" // Selecciona "Todos" o el primero si existe
+                        selectedGenre = setOf(allGenres.firstOrNull() ?: "Todos")
                     )
                 }
             } catch (e: Exception) {
@@ -61,21 +61,56 @@ class SearchVM @Inject constructor(
     // --- Funciones para actualizar el estado desde la UI ---
 
     fun onUserInputChange(query: String) {
-        _uiState.update { it.copy(userInput = query, searchError = null, noResultsFound = false) }
+        _uiState.update {
+            it.copy(
+                userInput = query,
+                searchError = null,
+                noResultsFound = false,
+                selectedGenre = setOf("Todos")
+            )
+        }
         // Opcional: añadir debounce si quieres buscar mientras escribe
     }
 
     fun onSearchTypeChange(type: String) {
         // 'type' debería ser "Movies", "Series", o "Both"
-        _uiState.update { it.copy(selectedSearchType = type, searchError = null, noResultsFound = false) }
-    }
-
-    fun onGenreChange(genre: String) {
         _uiState.update {
             it.copy(
-                selectedGenre = genre,
-                // Limpia el input de texto si se selecciona un género específico
-                userInput = if (genre != "Todos") "" else it.userInput,
+                selectedSearchType = type,
+                searchError = null,
+                noResultsFound = false
+            )
+        }
+    }
+
+    fun onGenreChipClicked(genre: String) {
+        _uiState.update { currentState ->
+            val currentSelection = currentState.selectedGenre.toMutableSet()
+            val isTodosSelected = currentSelection.contains("Todos")
+
+            if (genre == "Todos") {
+                // Si se pulsa "Todos", seleccionar solo "Todos"
+                currentSelection.clear()
+                currentSelection.add("Todos")
+            } else {
+                // Si se pulsa otro género
+                currentSelection.remove("Todos") // Quitar "Todos" si estaba
+                if (currentSelection.contains(genre)) {
+                    // Si ya estaba seleccionado, quitarlo
+                    currentSelection.remove(genre)
+                } else {
+                    // Si no estaba seleccionado, añadirlo
+                    currentSelection.add(genre)
+                }
+                // Si después de quitar/añadir nos quedamos sin selección, volver a "Todos"
+                if (currentSelection.isEmpty()) {
+                    currentSelection.add("Todos")
+                }
+            }
+
+            currentState.copy(
+                selectedGenre = currentSelection,
+                userInput = "", // Limpiar input de texto al tocar un género
                 searchError = null,
                 noResultsFound = false
             )
@@ -85,53 +120,78 @@ class SearchVM @Inject constructor(
     // --- Función para ejecutar la búsqueda ---
 
     fun performSearch() {
-        searchJob?.cancel() // Cancela la búsqueda anterior si existe
-
-        _uiState.update { it.copy(isLoading = true, searchError = null, noResultsFound = false, searchResultsMovies = emptyList(), searchResultsSeries = emptyList()) }
-
-        val currentState = _uiState.value // Captura el estado actual para la coroutine
+        searchJob?.cancel()
+        _uiState.update {
+            it.copy(
+                isLoading = true,
+                searchError = null,
+                noResultsFound = false,
+                searchResultsMovies = emptyList(),
+                searchResultsSeries = emptyList()
+            )
+        }
+        val currentState = _uiState.value
 
         searchJob = viewModelScope.launch {
             try {
-                val moviesResult = mutableListOf<MovieCard>()
-                val seriesResult = mutableListOf<SeriesCard>()
+                val moviesResult = mutableListOf<Any>() // Usa tus DTOs
+                val seriesResult = mutableListOf<Any>() // Usa tus DTOs
 
-                if (currentState.selectedGenre != "Todos") {
-                    // --- Búsqueda por Género ---
-                    // Necesitarás endpoints/funciones de repo que busquen por género
-                    // y opcionalmente filtren por tipo (Movies/Series/Both)
-                    println("Searching by Genre: ${currentState.selectedGenre}, Type: ${currentState.selectedSearchType}")
-                    // Ejemplo (tendrás que adaptar a tus repositorios):
+                // Comprueba si hay géneros seleccionados (y no es solo "Todos")
+                val genresToSearch = currentState.selectedGenre.filter { it != "Todos" }.toList()
+
+                if (genresToSearch.isNotEmpty()) {
+                    // --- Búsqueda por Géneros (Lista) ---
+                    println("Searching by Genres: ${genresToSearch}, Type: ${currentState.selectedSearchType}")
                     when (currentState.selectedSearchType) {
-                        "Movies" -> moviesResult.addAll(movieRepository.searchMoviesByGenre(currentState.selectedGenre))
-                        "Series" -> seriesResult.addAll(seriesRepository.searchSeriesByGenre(currentState.selectedGenre))
+                        // Asegúrate que tus métodos de repo aceptan List<String>
+                        "Movies" -> moviesResult.addAll(
+                            movieRepository.searchMoviesByGenre(
+                                genresToSearch
+                            )
+                        )
+
+                        "Series" -> seriesResult.addAll(
+                            seriesRepository.searchSeriesByGenre(
+                                genresToSearch
+                            )
+                        )
+
                         "Both" -> {
-                            moviesResult.addAll(movieRepository.searchMoviesByGenre(currentState.selectedGenre))
-                            seriesResult.addAll(seriesRepository.searchSeriesByGenre(currentState.selectedGenre))
-                            // O una llamada combinada si tu API lo permite:
-                            // val combinedResults = searchRepository.searchByGenre(currentState.selectedGenre)
-                            // // ... luego separar movies y series ...
+                            moviesResult.addAll(movieRepository.searchMoviesByGenre(genresToSearch))
+                            seriesResult.addAll(seriesRepository.searchSeriesByGenre(genresToSearch))
                         }
                     }
                 } else if (currentState.userInput.isNotBlank()) {
-                    // --- Búsqueda por Título ---
+                    // --- Búsqueda por Título (solo si no hay géneros específicos seleccionados) ---
                     println("Searching by Title: ${currentState.userInput}, Type: ${currentState.selectedSearchType}")
                     when (currentState.selectedSearchType) {
-                        "Movies" -> moviesResult.addAll(movieRepository.searchMoviesByTitle(currentState.userInput))
-                        "Series" -> seriesResult.addAll(seriesRepository.searchSeriesByTitle(currentState.userInput))
+                        "Movies" -> moviesResult.addAll(
+                            movieRepository.searchMoviesByTitle(
+                                currentState.userInput
+                            )
+                        )
+
+                        "Series" -> seriesResult.addAll(
+                            seriesRepository.searchSeriesByTitle(
+                                currentState.userInput
+                            )
+                        )
+
                         "Both" -> {
-                            // Lanza ambas búsquedas (pueden ser en paralelo con async/await)
                             moviesResult.addAll(movieRepository.searchMoviesByTitle(currentState.userInput))
                             seriesResult.addAll(seriesRepository.searchSeriesByTitle(currentState.userInput))
-                            // O una llamada combinada:
-                            // val combinedResults = searchRepository.searchByTitle(currentState.userInput)
-                            // // ... luego separar ...
                         }
                     }
                 } else {
-                    // No hay género seleccionado ni texto introducido -> No hacer nada o mostrar mensaje
-                    _uiState.update { it.copy(isLoading = false, searchError = "Introduce un título o selecciona un género") }
-                    return@launch // Salir de la coroutine
+                    // No hay géneros seleccionados (solo "Todos") ni texto introducido
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            searchError = "Introduce un título o selecciona uno o más géneros"
+                        )
+                    }
+                    return@launch
                 }
 
                 // --- Actualizar Estado con Resultados ---
@@ -145,11 +205,10 @@ class SearchVM @Inject constructor(
                 }
 
             } catch (e: Exception) {
-                // --- Manejo de Errores ---
                 _uiState.update {
                     it.copy(isLoading = false, searchError = "Error en la búsqueda: ${e.message}")
                 }
-                e.printStackTrace() // Para depuración
+                e.printStackTrace()
             }
         }
     }
@@ -158,7 +217,9 @@ class SearchVM @Inject constructor(
     fun resetSearch() {
         _uiState.update {
             // Resetea a los valores iniciales, excepto la lista de géneros cargada
-            SearchUiState(availableGenres = it.availableGenres, selectedGenre = it.availableGenres[0])
+            SearchUiState(
+                availableGenres = it.availableGenres,
+                selectedGenre = setOf(it.availableGenres.firstOrNull() ?: "Todos"))
         }
     }
 }

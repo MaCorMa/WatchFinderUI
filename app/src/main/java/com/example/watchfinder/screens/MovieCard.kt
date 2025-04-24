@@ -192,7 +192,7 @@ fun MovieCard(movie: MovieCard) {
     } // Fin Card
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun MovieCardPreview() {
     // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
@@ -219,4 +219,4 @@ fun MovieCardPreview() {
     WatchFinderTheme { // Envuelve en tu tema si es necesario
         MovieCard(dummyMovie)
     }
-}
+}*/

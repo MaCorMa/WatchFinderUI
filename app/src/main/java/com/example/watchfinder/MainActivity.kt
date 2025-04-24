@@ -99,6 +99,7 @@ fun AppNavigation(
     var loginOrRegister by remember { mutableStateOf(ShowScreen.LOGIN) }
     var authState by remember { mutableStateOf(AuthState.LOADING) } // Empieza cargando
     var detailScreenInfo by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var current by remember { mutableStateOf("Discover") }
 
     // Efecto que se ejecuta una vez al inicio para validar el token
     LaunchedEffect(Unit) {
@@ -149,7 +150,13 @@ fun AppNavigation(
                         userManager.clearCurrentUser()
                         authState = AuthState.UNAUTHENTICATED
                         loginOrRegister = ShowScreen.LOGIN
-                    }
+                    },
+                    onNavigateToDetail = { type, id ->
+                        println("Navigating to Detail: Type=$type, ID=$id") // Para depuración
+                        detailScreenInfo = Pair(type, id)
+                    },
+                    currentScreen = current,
+                    onScreenChange = { newScreen -> current = newScreen }
                 )
             }
 
@@ -188,18 +195,24 @@ enum class DiscoverState {
 }
 
 @Composable
-fun MainScreen(onLogout: () -> Unit,
-               onNavigateToDetail: (itemType: String, itemId: String) -> Unit) {
-    var current by remember { mutableStateOf("Discover") }
+fun MainScreen(
+    currentScreen: String,
+    onScreenChange: (String) -> Unit,
+    onLogout: () -> Unit,
+    onNavigateToDetail: (itemType: String, itemId: String) -> Unit
+) {
+    // var current by remember { mutableStateOf("Discover") } // --- ELIMINA ESTA LÍNEA ---
     var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
 
     Scaffold(
         bottomBar = {
             BottomBar(
-                current = current,
+                current = currentScreen, // Usa el parámetro recibido
                 click = { newSection ->
-                    current = newSection
+                    onScreenChange(newSection) // Llama a la lambda recibida
                     if (newSection == "Discover") {
+                        // ¿Realmente quieres resetear esto siempre? Quizás no.
+                        // Considera si discoverScreenState también necesita subirse.
                         discoverScreenState = DiscoverState.SELECTION
                     }
                 }
@@ -208,22 +221,22 @@ fun MainScreen(onLogout: () -> Unit,
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues))
         {
-            when (current) {
+            // --- Usa el parámetro recibido ---
+            when (currentScreen) {
                 "Search" -> Search(onNavigateToDetail = onNavigateToDetail)
-                "My Content" -> MyContent(onNavigateToDetail = onNavigateToDetail)
+                // Asegúrate que MyContent recibe onNavigateToDetail si lo necesita
+                "My Content" -> MyContent()
                 "Discover" -> {
-                    // Decide qué mostrar DENTRO de Discover
+                    // ... (lógica interna de Discover sin cambios, usa discoverScreenState) ...
                     when (discoverScreenState) {
                         DiscoverState.SELECTION -> MovieOrSeries(
                             onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
                             onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
                         )
-
                         DiscoverState.MOVIES -> DiscoverMovies()
                         DiscoverState.SERIES -> DiscoverSeries()
                     }
                 }
-
                 "Achievements" -> Achievements()
                 "Profile" -> Profile(onLogoutClick = onLogout)
             }

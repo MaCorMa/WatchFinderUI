@@ -70,7 +70,7 @@ fun Search(
             label = { Text("Introduce título...") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            enabled = uiState.selectedGenre == "Todos" // Habilita/deshabilita según el VM
+            enabled = (uiState.selectedGenre == setOf("Todos"))
         )
         Spacer(Modifier.height(16.dp))
 
@@ -93,13 +93,15 @@ fun Search(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            // Usa la lista de géneros del VM
+
             uiState.availableGenres.forEach { genre ->
+                val isSelected = genre in uiState.selectedGenre
+
                 FilterChip(
-                    selected = (uiState.selectedGenre == genre), // Compara con el estado del VM
-                    onClick = { viewModel.onGenreChange(genre) }, // Llama al VM
+                    selected = isSelected,
+                    onClick = { viewModel.onGenreChipClicked(genre) },
                     label = { Text(genre) },
-                    leadingIcon = if (uiState.selectedGenre == genre) {
+                    leadingIcon = if (isSelected) {
                         {
                             Icon(
                                 imageVector = Icons.Filled.Done,
@@ -115,7 +117,7 @@ fun Search(
         }
         Spacer(Modifier.height(24.dp))
 
-        // --- Botones Buscar y Reset ---
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -195,8 +197,6 @@ fun Search(
                 }
             }
         } else if (uiState.isLoading) {
-            // Puedes mostrar un indicador de carga aquí también si la búsqueda es larga
-            // CircularProgressIndicator(modifier = Modifier.padding(top = 20.dp))
         }
     }
 }

@@ -241,7 +241,7 @@ fun SeriesCard(series: SeriesCard) {
     } // Fin Card
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun SeriesCardPreview() {
     // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
@@ -270,5 +270,5 @@ fun SeriesCardPreview() {
     WatchFinderTheme { // Envuelve en tu tema si es necesario
         SeriesCard(dummySeries)
     }
-}
+}*/
 

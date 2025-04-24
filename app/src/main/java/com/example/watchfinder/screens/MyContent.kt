@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MyContent(
-    onNavigateToDetail: () -> Unit
 ) {
     Column(
         modifier = Modifier

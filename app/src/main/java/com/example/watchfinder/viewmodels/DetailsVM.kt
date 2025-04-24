@@ -45,12 +45,12 @@ class DetailsVM @Inject constructor(
                 when (itemType.lowercase()) { // Usa lowercase para comparar sin importar mayúsculas/minúsculas
                     "movie" -> {
                         // Llama al repositorio para obtener detalles de la película
-                        val movie = movieRepository.getMovieDetailsById(itemId) // Asegúrate que esta función exista
+                        val movie = movieRepository.searchById(itemId) // Asegúrate que esta función exista
                         _uiState.update { it.copy(isLoading = false, movieDetail = movie) }
                     }
                     "series" -> {
                         // Llama al repositorio para obtener detalles de la serie
-                        val series = seriesRepository.getSeriesDetailsById(itemId) // Asegúrate que esta función exista
+                        val series = seriesRepository.searchById(itemId) // Asegúrate que esta función exista
                         _uiState.update { it.copy(isLoading = false, seriesDetail = series) }
                     }
                     else -> {

@@ -14,6 +14,18 @@ class GenreRepository @Inject constructor(
 ) {
 
     fun getAllGenres(): List<String> {
-
+        val generosDePeliculas: List<String> = listOf(
+            "Crime",
+            "Comedia",
+            "Drama",
+            "Terror",
+            "Ciencia Ficción",
+            "Fantasía",
+            "Suspense", // Thriller
+            "Romance",
+            "Animación",
+            "Documental"
+        )
+        return generosDePeliculas
     }
 }

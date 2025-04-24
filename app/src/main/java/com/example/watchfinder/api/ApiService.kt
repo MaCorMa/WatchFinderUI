@@ -14,26 +14,27 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
 
     @GET("/movies/getall")
     suspend fun getMovies(): List<Movie>
-    @POST("/movies/getbygenre")
-    suspend fun getMoviesByGenre(selectedGenre: String): Collection<MovieCard>
-    @POST("/movies/getbytitle")
-    suspend fun getMoviesByTitle(userInput: String): Collection<MovieCard>
-    @POST("/movies/getbyid")
-    suspend fun getMoviesById(itemId: String): MovieCard?
+    @GET("/movies/getbygenre")
+    suspend fun getMoviesByGenre(@Query("genres") selectedGenres: List<String>): List<Movie>
+    @GET("/movies/getbytitle")
+    suspend fun getMoviesByTitle(@Query("title") userInput: String): List<Movie>
+    @GET("/movies/getbyid")
+    suspend fun getMoviesById(@Query("id") itemId: String): Movie
 
     @GET("/series/getall")
     suspend fun getSeries(): List<Series>
-    @POST("/series/getbygenre")
-    suspend fun getSeriesByGenre(selectedGenre: String): Collection<SeriesCard>
-    @POST("/series/getbytitle")
-    suspend fun getSeriesByTitle(userInput: String): Collection<SeriesCard>
-    @POST("/series/getbyid")
-    suspend fun getSeriesById(itemId: String): SeriesCard?
+    @GET("/series/getbygenre")
+    suspend fun getSeriesByGenre(@Query("genres") selectedGenres: List<String>): List<Series>
+    @GET("/series/getbytitle")
+    suspend fun getSeriesByTitle(@Query("title") userInput: String): List<Series>
+    @GET("/series/getbyid")
+    suspend fun getSeriesById(@Query("id") itemId: String): Series
 
     @POST("/auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>

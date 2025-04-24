@@ -26,15 +26,21 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    fun searchMoviesByGenre(selectedGenre: String): Collection<MovieCard> {
-
+    suspend fun searchMoviesByGenre(selectedGenres: List<String>): List<MovieCard> {
+        val apiCards = apiService.getMoviesByGenre(selectedGenres)
+        return apiCards.map {
+                movie -> utils.movieToCard(movie)
+        }
     }
 
-    fun searchMoviesByTitle(userInput: String): Collection<MovieCard> {
-
+    suspend fun searchMoviesByTitle(userInput: String): List<MovieCard> {
+        val apiCards = apiService.getMoviesByTitle(userInput)
+        return apiCards.map {
+                movie -> utils.movieToCard(movie)
+        }
     }
 
-    fun getMovieDetailsById(itemId: String): MovieCard? {
-
+    suspend fun searchById(id: String): MovieCard {
+        return utils.movieToCard(apiService.getMoviesById(id))
     }
 }

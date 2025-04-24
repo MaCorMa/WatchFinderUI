@@ -5,7 +5,7 @@ data class SearchUiState(
     val userInput: String = "",
     val selectedSearchType: String = "Both",
     val availableGenres: List<String> = listOf("Todos"), // Lista inicial, se cargará del VM
-    val selectedGenre: String = availableGenres[0], // Género seleccionado (FilterChip), empieza con "Todos"
+    val selectedGenre: Set<String> = setOf("Todos"), // Género seleccionado (FilterChip), empieza con "Todos"
 
     // --- Estado de la Búsqueda y Resultados ---
     val isLoading: Boolean = false, // Para mostrar indicador de carga

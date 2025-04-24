@@ -2,6 +2,7 @@ package com.example.watchfinder.repository
 
 import com.example.watchfinder.api.ApiService
 import com.example.watchfinder.data.Utils
+import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.data.prefs.TokenManager
 import javax.inject.Inject
@@ -21,15 +22,21 @@ class SeriesRepository@Inject constructor(
         }
     }
 
-    fun searchSeriesByGenre(selectedGenre: String): Collection<SeriesCard> {
-
+    suspend fun searchSeriesByGenre(selectedGenres: List<String>): Collection<SeriesCard> {
+        val apiCards = apiService.getSeriesByGenre(selectedGenres)
+        return apiCards.map{
+                series -> utils.seriesToCard(series)
+        }
     }
 
-    fun searchSeriesByTitle(userInput: String): Collection<SeriesCard> {
-
+    suspend fun searchSeriesByTitle(userInput: String): Collection<SeriesCard> {
+        val apiCards = apiService.getSeriesByTitle(userInput)
+        return apiCards.map{
+                series -> utils.seriesToCard(series)
+        }
     }
 
-    fun getSeriesDetailsById(itemId: String): SeriesCard? {
-
+    suspend fun searchById(id: String): SeriesCard {
+        return utils.seriesToCard(apiService.getSeriesById(id))
     }
 }
