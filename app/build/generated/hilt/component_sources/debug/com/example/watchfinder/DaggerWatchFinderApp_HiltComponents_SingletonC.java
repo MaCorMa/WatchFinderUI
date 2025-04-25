@@ -428,28 +428,25 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
+      static String com_example_watchfinder_viewmodels_MyContentVM = "com.example.watchfinder.viewmodels.MyContentVM";
 
-      static String com_example_watchfinder_viewmodels_SearchVM = "com.example.watchfinder.viewmodels.SearchVM";
-
-      static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
+      static String com_example_watchfinder_viewmodels_DetailsVM = "com.example.watchfinder.viewmodels.DetailsVM";
 
       static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
 
       static String com_example_watchfinder_viewmodels_LoginVM = "com.example.watchfinder.viewmodels.LoginVM";
 
-      static String com_example_watchfinder_viewmodels_MyContentVM = "com.example.watchfinder.viewmodels.MyContentVM";
+      static String com_example_watchfinder_viewmodels_SearchVM = "com.example.watchfinder.viewmodels.SearchVM";
 
-      static String com_example_watchfinder_viewmodels_DetailsVM = "com.example.watchfinder.viewmodels.DetailsVM";
+      static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
 
-      @KeepFieldType
-      DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
-
-      @KeepFieldType
-      SearchVM com_example_watchfinder_viewmodels_SearchVM2;
+      static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
 
       @KeepFieldType
-      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
+      MyContentVM com_example_watchfinder_viewmodels_MyContentVM2;
+
+      @KeepFieldType
+      DetailsVM com_example_watchfinder_viewmodels_DetailsVM2;
 
       @KeepFieldType
       RegisterVM com_example_watchfinder_viewmodels_RegisterVM2;
@@ -458,10 +455,13 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
       LoginVM com_example_watchfinder_viewmodels_LoginVM2;
 
       @KeepFieldType
-      MyContentVM com_example_watchfinder_viewmodels_MyContentVM2;
+      SearchVM com_example_watchfinder_viewmodels_SearchVM2;
 
       @KeepFieldType
-      DetailsVM com_example_watchfinder_viewmodels_DetailsVM2;
+      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
+
+      @KeepFieldType
+      DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
     }
   }
 
@@ -522,26 +522,20 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String com_example_watchfinder_viewmodels_MyContentVM = "com.example.watchfinder.viewmodels.MyContentVM";
 
-      static String com_example_watchfinder_viewmodels_LoginVM = "com.example.watchfinder.viewmodels.LoginVM";
-
-      static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
-
       static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
 
       static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
 
       static String com_example_watchfinder_viewmodels_DetailsVM = "com.example.watchfinder.viewmodels.DetailsVM";
 
+      static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
+
       static String com_example_watchfinder_viewmodels_SearchVM = "com.example.watchfinder.viewmodels.SearchVM";
+
+      static String com_example_watchfinder_viewmodels_LoginVM = "com.example.watchfinder.viewmodels.LoginVM";
 
       @KeepFieldType
       MyContentVM com_example_watchfinder_viewmodels_MyContentVM2;
-
-      @KeepFieldType
-      LoginVM com_example_watchfinder_viewmodels_LoginVM2;
-
-      @KeepFieldType
-      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
 
       @KeepFieldType
       DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
@@ -553,7 +547,13 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
       DetailsVM com_example_watchfinder_viewmodels_DetailsVM2;
 
       @KeepFieldType
+      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
+
+      @KeepFieldType
       SearchVM com_example_watchfinder_viewmodels_SearchVM2;
+
+      @KeepFieldType
+      LoginVM com_example_watchfinder_viewmodels_LoginVM2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -722,7 +722,7 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
     }
 
     @Override
-    public void injectWatchFinderApp(WatchFinderApp arg0) {
+    public void injectWatchFinderApp(WatchFinderApp watchFinderApp) {
     }
 
     @Override

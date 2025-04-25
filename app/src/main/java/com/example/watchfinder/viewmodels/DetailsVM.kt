@@ -1,5 +1,6 @@
 package com.example.watchfinder.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.watchfinder.data.UiState.DetailsUiState
@@ -70,29 +71,45 @@ class DetailsVM @Inject constructor(
         }
     }
 
+// En DetailsVM.kt
+
     fun addToFavorites(itemId: String, itemType: String) {
         viewModelScope.launch {
-            try {
-                // Llama a la función del repo que actualiza la lista en el backend
-                userRepository.addToList(itemId, "fav", itemType) // Usa "fav" como tipo de lista
-                println("Añadido a Favoritos: $itemId ($itemType)")
-                // Opcional: Mostrar un Snackbar/Toast de confirmación
-            } catch (e: Exception) {
-                println("Error al añadir a Favoritos: ${e.message}")
-                // Opcional: Mostrar error
+            // Llama al método del repo que ahora devuelve Boolean
+            val success = try {
+                userRepository.addToList(itemId, "fav", itemType)
+            } catch (e: Exception) { // Captura por si el repo lanzara alguna excepción no esperada
+                Log.e("DetailsVM", "Error calling repository addToList for fav: ${e.message}", e)
+                false
+            }
+
+            if (success) {
+                println("Añadido a Favoritos (Confirmado por API): $itemId ($itemType)")
+                // Aquí podrías actualizar la UI si fuera necesario (ej. mostrar un Snackbar)
+            } else {
+                println("FALLO al añadir a Favoritos (API o Red): $itemId ($itemType)")
+                // Actualizar UI para mostrar error
+                _uiState.update { it.copy(error = "No se pudo añadir a favoritos") } // Ejemplo
             }
         }
     }
 
     fun addToSeen(itemId: String, itemType: String) {
         viewModelScope.launch {
-            try {
-                userRepository.addToList(itemId, "seen", itemType) // Usa "seen" como tipo de lista
-                println("Añadido a Vistos: $itemId ($itemType)")
-                // Opcional: Mostrar un Snackbar/Toast de confirmación
+            val success = try {
+                userRepository.addToList(itemId, "seen", itemType)
             } catch (e: Exception) {
-                println("Error al añadir a Vistos: ${e.message}")
-                // Opcional: Mostrar error
+                Log.e("DetailsVM", "Error calling repository addToList for seen: ${e.message}", e)
+                false
+            }
+
+            if (success) {
+                println("Añadido a Vistos (Confirmado por API): $itemId ($itemType)")
+                // Actualizar UI si es necesario
+            } else {
+                println("FALLO al añadir a Vistos (API o Red): $itemId ($itemType)")
+                // Actualizar UI para mostrar error
+                _uiState.update { it.copy(error = "No se pudo añadir a vistos") } // Ejemplo
             }
         }
     }

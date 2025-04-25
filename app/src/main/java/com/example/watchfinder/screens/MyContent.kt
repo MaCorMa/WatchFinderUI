@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.watchfinder.data.dto.MovieCard
+import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.data.model.Movie // Importa modelos completos
 import com.example.watchfinder.data.model.Series // Importa modelos completos
 import com.example.watchfinder.viewmodels.MyContentVM
@@ -142,14 +144,14 @@ fun <T> MyContentListView(
                         val id: String
 
                         when (item) {
-                            is Movie -> {
-                                title = item.title
-                                posterPath = item.poster
+                            is MovieCard -> {
+                                title = item.Title
+                                posterPath = item.Poster
                                 id = item._id ?: "" // Asegúrate que _id no es null o maneja el caso
                             }
-                            is Series -> {
-                                title = item.title
-                                posterPath = item.poster
+                            is SeriesCard -> {
+                                title = item.Title
+                                posterPath = item.Poster
                                 id = item._id ?: "" // Asegúrate que _id no es null o maneja el caso
                             }
                             else -> return@items // No debería pasar si T es Movie o Series

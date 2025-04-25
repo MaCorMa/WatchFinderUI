@@ -132,7 +132,18 @@ fun DetailScreen(
                         }
                 ) {
                     //Todo eso eran los modificadores de la  caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                    MovieCard(movie = uiState.movieDetail!!)
+                    MovieCard(movie = uiState.movieDetail!!,
+                        onFavoriteClick = {
+                            viewModel.addToFavorites(
+                                uiState.movieDetail!!._id ?: "", "movie"
+                            )
+                        },
+                        onSeenClick = {
+                            viewModel.addToSeen(
+                                uiState.movieDetail!!._id ?: "",
+                                "movie"
+                            )
+                        })
                 }
             }
 
@@ -208,7 +219,19 @@ fun DetailScreen(
                         }
                 ) {
                     //Todo eso eran los modificadores de la  caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                    SeriesCard(series = uiState.seriesDetail!!)
+                    SeriesCard(series = uiState.seriesDetail!!,
+                        onFavoriteClick = {
+                            viewModel.addToFavorites(
+                                uiState.seriesDetail!!._id ?: "", "series"
+                            )
+                        },
+                        onSeenClick = {
+                            viewModel.addToSeen(
+                                uiState.seriesDetail!!._id ?: "",
+                                "series"
+                            )
+                        }
+                    )
                 }
             }
 

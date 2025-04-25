@@ -4,8 +4,6 @@ package com.example.watchfinder.viewmodels
 import MyContentUiState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.watchfinder.repository.MovieRepository // O donde tengas getFavMovies
-import com.example.watchfinder.repository.SeriesRepository // O donde tengas getFavSeries
 import com.example.watchfinder.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +29,7 @@ class MyContentVM @Inject constructor(
             try {
                 // Llama al método del repositorio que llama a apiService.getFavMovies()
                 // Asegúrate que tu repositorio devuelve List<Movie>
-                val movies =  // Necesitas crear esta función en tu repo
+                val movies = userRepository.getFavMovies()
                 _uiState.update {
                     it.copy(
                         isLoading = false,
@@ -59,7 +57,7 @@ class MyContentVM @Inject constructor(
             try {
                 // Llama al método del repositorio que llama a apiService.getFavSeries()
                 // Asegúrate que tu repositorio devuelve List<Series>
-                val series = userRepository // Necesitas crear esta función en tu repo
+                val series = userRepository.getFavSeries()
                 _uiState.update {
                     it.copy(
                         isLoading = false,
