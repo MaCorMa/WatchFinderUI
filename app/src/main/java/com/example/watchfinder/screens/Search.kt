@@ -1,5 +1,6 @@
 package com.example.watchfinder.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,7 +43,9 @@ import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.viewmodels.SearchVM
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
+import com.example.watchfinder.R
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -207,6 +210,7 @@ fun SearchResultItem(
     posterPath: String?,
     onClick: () -> Unit
 ) {
+    println("SearchResultItem -> Title: $title, Poster URL: $posterPath")
     Card(
         modifier = Modifier
             .clickable(onClick = onClick),
@@ -214,14 +218,19 @@ fun SearchResultItem(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AsyncImage(
-                model = "https://image.tmdb.org/t/p/w342$posterPath", // Construye la URL completa
+                model = posterPath, // Construye la URL completa
                 contentDescription = title,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(2f / 3f), // Relación de aspecto típica de póster
                 // placeholder = painterResource(id = R.drawable.placeholder_image), // Opcional
-                // error = painterResource(id = R.drawable.error_image), // Opcional
-                contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                //error = painterResource(id = R.drawable.error_image), // Opcional
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                onError = { error ->
+                    // BUSCA ESTE MENSAJE EN LOGCAT (con tag SearchResultItemDebug y nivel Error 'E')
+                    Log.e("SearchResultItemDebug", "Coil Error loading $posterPath: ${error.result.throwable}")
+                }
+
             )
             Text(
                 text = title,

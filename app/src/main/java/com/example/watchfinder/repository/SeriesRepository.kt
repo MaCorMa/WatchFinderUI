@@ -17,9 +17,20 @@ class SeriesRepository@Inject constructor(
 
     suspend fun getAllSeriesCards(): List<SeriesCard> {
         val apiCards = apiService.getSeries()
-        return apiCards.map{
+        println("--- Repository: Deserialized Series Models ---")
+        apiCards.take(5).forEach { seriesModel ->
+            println("Title: ${seriesModel.title}, Poster (from Model): ${seriesModel.poster}")
+        }
+        println("--------------------------------------------")
+        val seriesCard: List<SeriesCard> = apiCards.map{
             series -> utils.seriesToCard(series)
         }
+        println("--- Repository: Mapped Series DTOs ---")
+        apiCards.take(5).forEach { seriesCard -> // Itera sobre la lista de DTOs resultante
+            println("Title: ${seriesCard.title}, Poster (from DTO): ${seriesCard.poster}") // Accede al campo Poster del DTO
+        }
+        println("---------------------------------------")
+        return seriesCard
     }
 
     suspend fun searchSeriesByGenre(selectedGenres: List<String>): Collection<SeriesCard> {

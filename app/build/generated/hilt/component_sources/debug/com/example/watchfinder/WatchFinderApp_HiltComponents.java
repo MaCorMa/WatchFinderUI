@@ -1,6 +1,7 @@
 package com.example.watchfinder;
 
 import com.example.watchfinder.di.AppModule;
+import com.example.watchfinder.di.CoilModule;
 import com.example.watchfinder.di.NetworkModule;
 import com.example.watchfinder.viewmodels.DetailsVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverMoviesVM_HiltModules;
@@ -136,6 +137,7 @@ public final class WatchFinderApp_HiltComponents {
           AppModule.class,
           AppModule.UserModule.class,
           ApplicationContextModule.class,
+          CoilModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
           NetworkModule.class,
           ActivityRetainedCBuilderModule.class,

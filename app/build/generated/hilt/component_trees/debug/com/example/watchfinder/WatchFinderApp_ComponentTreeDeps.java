@@ -21,6 +21,7 @@ import hilt_aggregated_deps._com_example_watchfinder_MainActivity_GeneratedInjec
 import hilt_aggregated_deps._com_example_watchfinder_WatchFinderApp_GeneratedInjector;
 import hilt_aggregated_deps._com_example_watchfinder_di_AppModule;
 import hilt_aggregated_deps._com_example_watchfinder_di_AppModule_UserModule;
+import hilt_aggregated_deps._com_example_watchfinder_di_CoilModule;
 import hilt_aggregated_deps._com_example_watchfinder_di_NetworkModule;
 import hilt_aggregated_deps._com_example_watchfinder_viewmodels_DetailsVM_HiltModules_BindsModule;
 import hilt_aggregated_deps._com_example_watchfinder_viewmodels_DetailsVM_HiltModules_KeyModule;
@@ -80,6 +81,7 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _com_example_watchfinder_WatchFinderApp_GeneratedInjector.class,
         _com_example_watchfinder_di_AppModule.class,
         _com_example_watchfinder_di_AppModule_UserModule.class,
+        _com_example_watchfinder_di_CoilModule.class,
         _com_example_watchfinder_di_NetworkModule.class,
         _com_example_watchfinder_viewmodels_DetailsVM_HiltModules_BindsModule.class,
         _com_example_watchfinder_viewmodels_DetailsVM_HiltModules_KeyModule.class,
