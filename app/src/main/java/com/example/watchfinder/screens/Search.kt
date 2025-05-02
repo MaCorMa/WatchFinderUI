@@ -43,6 +43,7 @@ import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.viewmodels.SearchVM
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
 import com.example.watchfinder.R
@@ -73,7 +74,7 @@ fun Search(
             label = { Text("Introduce título...") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            enabled = (uiState.selectedGenre == setOf("Todos"))
+            enabled = (uiState.selectedGenre == setOf("Todos")),
         )
         Spacer(Modifier.height(16.dp))
 
@@ -115,7 +116,8 @@ fun Search(
                     } else {
                         null
                     }
-                )
+                    )
+
             }
         }
         Spacer(Modifier.height(24.dp))

@@ -4,10 +4,17 @@ package com.example.watchfinder
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
@@ -15,11 +22,16 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,11 +40,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
-import com.example.watchfinder.screens.Achievements
 import com.example.watchfinder.screens.DetailScreen
 import com.example.watchfinder.screens.DiscoverMovies
 import com.example.watchfinder.screens.DiscoverSeries
@@ -43,6 +58,7 @@ import com.example.watchfinder.screens.Profile
 import com.example.watchfinder.screens.Register
 import com.example.watchfinder.screens.Search
 import dagger.hilt.android.AndroidEntryPoint
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 import javax.inject.Inject
 
@@ -205,6 +221,8 @@ fun MainScreen(
     var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
 
     Scaffold(
+        topBar = { TopHeader() },
+
         bottomBar = {
             BottomBar(
                 current = currentScreen, // Usa el parámetro recibido
@@ -233,11 +251,12 @@ fun MainScreen(
                             onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
                             onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
                         )
+
                         DiscoverState.MOVIES -> DiscoverMovies()
                         DiscoverState.SERIES -> DiscoverSeries()
                     }
                 }
-                "Achievements" -> Achievements()
+
                 "Profile" -> Profile(onLogoutClick = onLogout)
             }
         }
@@ -246,7 +265,7 @@ fun MainScreen(
 
 @Composable
 fun BottomBar(current: String, click: (String) -> Unit) {
-    val items = listOf("Search", "My Content", "Discover", "Achievements", "Profile")
+    val items = listOf("Search", "My Content", "Discover", "Profile")
     NavigationBar {
 
         items.forEach { sectionName ->
@@ -262,10 +281,6 @@ fun BottomBar(current: String, click: (String) -> Unit) {
                         )
 
                         "Discover" -> Icon(Icons.Filled.Star, contentDescription = sectionName)
-                        "Achievements" -> Icon(
-                            Icons.Filled.Warning,
-                            contentDescription = sectionName
-                        )
 
                         "Profile" -> Icon(Icons.Filled.Person, contentDescription = sectionName)
                     }
@@ -274,3 +289,53 @@ fun BottomBar(current: String, click: (String) -> Unit) {
         }
     }
 }
+
+@Composable
+fun TopHeader() {
+    Row(modifier = Modifier.fillMaxWidth().height(150.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically)
+    {
+        Image(
+            painter = painterResource(id = R.drawable.logocarta), // <-- TU LOGO AQUÍ
+            contentDescription = "App Logo"
+        )
+    }
+
+}
+
+/*@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    WatchFinderTheme {
+        MainScreen(
+            currentScreen = "Discover", // Pantalla inicial para la preview
+            onScreenChange = {},
+            onLogout = {},
+            onNavigateToDetail = { _, _ -> }
+        )
+    }
+}*/
+
+// Preview para BottomBar
+@Preview(showBackground = true)
+@Composable
+fun BottomBarPreview() {
+    WatchFinderTheme {
+        /*BottomBar(
+            current = "Discover", // Sección seleccionada para la preview
+            click = {}
+        )*/
+        TopHeader()
+    }
+}
+
+
+/*@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun TopHeaderPreview() {
+    WatchFinderTheme {
+        TopHeader()
+    }
+}*/

@@ -24,6 +24,10 @@
         "source": "com.example.watchfinder.app-main-67:/mipmap-hdpi/ic_launcher.webp"
     },
     {
+        "merged": "com.example.watchfinder.app-debug-65:/drawable_logocarta.png.flat",
+        "source": "com.example.watchfinder.app-main-67:/drawable/logocarta.png"
+    },
+    {
         "merged": "com.example.watchfinder.app-debug-65:/mipmap-mdpi_ic_launcher_round.webp.flat",
         "source": "com.example.watchfinder.app-main-67:/mipmap-mdpi/ic_launcher_round.webp"
     },

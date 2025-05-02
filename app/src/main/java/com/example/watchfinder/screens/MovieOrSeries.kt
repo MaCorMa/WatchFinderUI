@@ -45,3 +45,14 @@ fun MovieOrSeries(    onMoviesClicked: () -> Unit,
 
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun MovieOrSeriesPreview() { // Cambiado el nombre para seguir convención
+    WatchFinderTheme {
+        MovieOrSeries(
+            onMoviesClicked = {}, // <-- Lambda vacía para la acción de pelis
+            onSeriesClicked = {}  // <-- Lambda vacía para la acción de series
+        )
+    }
+}
