@@ -33,7 +33,8 @@ import com.example.watchfinder.ui.theme.WatchFinderTheme
 fun SeriesCard(series: SeriesCard,
                showActions: Boolean = true,
                onFavoriteClick: () -> Unit = {}, // Lambda para clic en corazón
-               onSeenClick: () -> Unit = {}) {
+               onSeenClick: () -> Unit = {},
+               playWhenReady: Boolean) {
 
     Card(
         modifier = Modifier
@@ -50,7 +51,20 @@ fun SeriesCard(series: SeriesCard,
                     .fillMaxSize()
                     .background(Color.Red)
             ) {
-                // Aquí podríamos poner el icono de Plataformas (11) más tarde
+                val videoUrl = series.Url // o series.Url
+                if (!videoUrl.isNullOrBlank()) {
+                    VideoPlayer(videoUrl = videoUrl, playWhenReady = playWhenReady) // Llama a tu composable de vídeo
+                } else {
+                    // Opcional: Muestra un placeholder si no hay URL
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray), // Un placeholder diferente
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Trailer no disponible")
+                    }
+                }
             }
             // Esta es la caja donde va los datos.
             Column(
@@ -278,7 +292,7 @@ fun SeriesCard(series: SeriesCard,
     } // Fin Card
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun SeriesCardPreview() {
     // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
@@ -308,5 +322,5 @@ fun SeriesCardPreview() {
     WatchFinderTheme { // Envuelve en tu tema si es necesario
         SeriesCard(dummySeries)
     }
-}
+}*/
 

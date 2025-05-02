@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +34,8 @@ fun MovieCard(
     movie: MovieCard,
     showActions: Boolean = true,
     onFavoriteClick: () -> Unit = {},
-    onSeenClick: () -> Unit = {}
+    onSeenClick: () -> Unit = {},
+    playWhenReady: Boolean
 ) {
 
     Card(
@@ -50,8 +52,22 @@ fun MovieCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.Red)
+                    .clip(CardDefaults.shape)
             ) {
-                // Aquí podríamos poner el icono de Plataformas (11) más tarde
+                val videoUrl = movie.Url // o series.Url
+                if (!videoUrl.isNullOrBlank()) {
+                    VideoPlayer(videoUrl = videoUrl, playWhenReady = playWhenReady) // Llama a tu composable de vídeo
+                } else {
+                    // Opcional: Muestra un placeholder si no hay URL
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray), // Un placeholder diferente
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Trailer no disponible")
+                    }
+                }
             }
             // Esta es la caja donde va los datos.
             Column(
@@ -231,7 +247,7 @@ fun MovieCard(
     } // Fin Card
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun MovieCardPreview() {
     // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
@@ -259,4 +275,4 @@ fun MovieCardPreview() {
     WatchFinderTheme { // Envuelve en tu tema si es necesario
         MovieCard(dummyMovie)
     }
-}
+}*/

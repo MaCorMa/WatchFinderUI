@@ -65,7 +65,7 @@ fun DetailScreen(
                     //Aquí se modifica el movimiento, se redondea nuestra variable del eje X (offsetX), y también podemos definir el eje Y.
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.85f)
+                        .fillMaxHeight()
                         .fillMaxSize()
                         .offset { IntOffset(offSetX.value.roundToInt(), 0) }
                         //Con esto modificamos los ejes de la animación, por ejemplo rotación sobre eje Z, o escalado.
@@ -143,7 +143,7 @@ fun DetailScreen(
                                 uiState.movieDetail!!._id ?: "",
                                 "movie"
                             )
-                        })
+                        }, playWhenReady = true)
                 }
             }
 
@@ -152,7 +152,7 @@ fun DetailScreen(
                     //Aquí se modifica el movimiento, se redondea nuestra variable del eje X (offsetX), y también podemos definir el eje Y.
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.85f)
+                        .fillMaxHeight()
                         .fillMaxSize()
                         .offset { IntOffset(offSetX.value.roundToInt(), 0) }
                         //Con esto modificamos los ejes de la animación, por ejemplo rotación sobre eje Z, o escalado.
@@ -230,7 +230,8 @@ fun DetailScreen(
                                 uiState.seriesDetail!!._id ?: "",
                                 "series"
                             )
-                        }
+                        },
+                        playWhenReady = true
                     )
                 }
             }

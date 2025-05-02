@@ -98,7 +98,7 @@ fun DiscoverSeries(discoverViewModel: DiscoverSeriesVM = hiltViewModel()) {
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            SeriesCard(series = nextSeries)
+                            SeriesCard(series = nextSeries, playWhenReady = false)
                         }
                     }
 
@@ -174,7 +174,7 @@ fun DiscoverSeries(discoverViewModel: DiscoverSeriesVM = hiltViewModel()) {
                             .fillMaxWidth()
                     ) {
                         //Todo eso eran los modificadores de la caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                        SeriesCard(series = currentSeries)
+                        SeriesCard(series = currentSeries, playWhenReady = true)
                     }
                 }
 

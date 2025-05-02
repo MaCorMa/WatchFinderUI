@@ -38,6 +38,8 @@ import com.example.watchfinder.viewmodels.RegisterVM;
 import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
 import com.example.watchfinder.viewmodels.SearchVM;
 import com.example.watchfinder.viewmodels.SearchVM_HiltModules;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
@@ -59,10 +61,8 @@ import dagger.internal.DoubleCheck;
 import dagger.internal.IdentifierNameString;
 import dagger.internal.KeepFieldType;
 import dagger.internal.LazyClassKeyMap;
-import dagger.internal.MapBuilder;
 import dagger.internal.Preconditions;
 import dagger.internal.Provider;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.processing.Generated;
@@ -402,7 +402,7 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, Boolean> getViewModelKeys() {
-      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(7).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DetailsVM, DetailsVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, DiscoverMoviesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, DiscoverSeriesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginVM, LoginVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_MyContentVM, MyContentVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_RegisterVM, RegisterVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_SearchVM, SearchVM_HiltModules.KeyModule.provide()).build());
+      return LazyClassKeyMap.<Boolean>of(ImmutableMap.<String, Boolean>builderWithExpectedSize(7).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DetailsVM, DetailsVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, DiscoverMoviesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, DiscoverSeriesVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginVM, LoginVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_MyContentVM, MyContentVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_RegisterVM, RegisterVM_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_SearchVM, SearchVM_HiltModules.KeyModule.provide()).build());
     }
 
     @Override
@@ -430,6 +430,8 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String com_example_watchfinder_viewmodels_SearchVM = "com.example.watchfinder.viewmodels.SearchVM";
+
       static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
 
       static String com_example_watchfinder_viewmodels_MyContentVM = "com.example.watchfinder.viewmodels.MyContentVM";
@@ -438,11 +440,12 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
       static String com_example_watchfinder_viewmodels_LoginVM = "com.example.watchfinder.viewmodels.LoginVM";
 
-      static String com_example_watchfinder_viewmodels_SearchVM = "com.example.watchfinder.viewmodels.SearchVM";
+      static String com_example_watchfinder_viewmodels_DetailsVM = "com.example.watchfinder.viewmodels.DetailsVM";
 
       static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
 
-      static String com_example_watchfinder_viewmodels_DetailsVM = "com.example.watchfinder.viewmodels.DetailsVM";
+      @KeepFieldType
+      SearchVM com_example_watchfinder_viewmodels_SearchVM2;
 
       @KeepFieldType
       DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
@@ -457,13 +460,10 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
       LoginVM com_example_watchfinder_viewmodels_LoginVM2;
 
       @KeepFieldType
-      SearchVM com_example_watchfinder_viewmodels_SearchVM2;
+      DetailsVM com_example_watchfinder_viewmodels_DetailsVM2;
 
       @KeepFieldType
       RegisterVM com_example_watchfinder_viewmodels_RegisterVM2;
-
-      @KeepFieldType
-      DetailsVM com_example_watchfinder_viewmodels_DetailsVM2;
     }
   }
 
@@ -512,29 +512,32 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, javax.inject.Provider<ViewModel>> getHiltViewModelMap() {
-      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(7).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DetailsVM, ((Provider) detailsVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, ((Provider) discoverMoviesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, ((Provider) discoverSeriesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginVM, ((Provider) loginVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_MyContentVM, ((Provider) myContentVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_RegisterVM, ((Provider) registerVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_SearchVM, ((Provider) searchVMProvider)).build());
+      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(ImmutableMap.<String, javax.inject.Provider<ViewModel>>builderWithExpectedSize(7).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DetailsVM, ((Provider) detailsVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverMoviesVM, ((Provider) discoverMoviesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_DiscoverSeriesVM, ((Provider) discoverSeriesVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_LoginVM, ((Provider) loginVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_MyContentVM, ((Provider) myContentVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_RegisterVM, ((Provider) registerVMProvider)).put(LazyClassKeyProvider.com_example_watchfinder_viewmodels_SearchVM, ((Provider) searchVMProvider)).build());
     }
 
     @Override
     public Map<Class<?>, Object> getHiltViewModelAssistedMap() {
-      return Collections.<Class<?>, Object>emptyMap();
+      return ImmutableMap.<Class<?>, Object>of();
     }
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String com_example_watchfinder_viewmodels_LoginVM = "com.example.watchfinder.viewmodels.LoginVM";
+
       static String com_example_watchfinder_viewmodels_DiscoverSeriesVM = "com.example.watchfinder.viewmodels.DiscoverSeriesVM";
 
       static String com_example_watchfinder_viewmodels_DetailsVM = "com.example.watchfinder.viewmodels.DetailsVM";
 
-      static String com_example_watchfinder_viewmodels_MyContentVM = "com.example.watchfinder.viewmodels.MyContentVM";
-
-      static String com_example_watchfinder_viewmodels_LoginVM = "com.example.watchfinder.viewmodels.LoginVM";
-
-      static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
-
       static String com_example_watchfinder_viewmodels_SearchVM = "com.example.watchfinder.viewmodels.SearchVM";
 
       static String com_example_watchfinder_viewmodels_DiscoverMoviesVM = "com.example.watchfinder.viewmodels.DiscoverMoviesVM";
+
+      static String com_example_watchfinder_viewmodels_RegisterVM = "com.example.watchfinder.viewmodels.RegisterVM";
+
+      static String com_example_watchfinder_viewmodels_MyContentVM = "com.example.watchfinder.viewmodels.MyContentVM";
+
+      @KeepFieldType
+      LoginVM com_example_watchfinder_viewmodels_LoginVM2;
 
       @KeepFieldType
       DiscoverSeriesVM com_example_watchfinder_viewmodels_DiscoverSeriesVM2;
@@ -543,19 +546,16 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
       DetailsVM com_example_watchfinder_viewmodels_DetailsVM2;
 
       @KeepFieldType
-      MyContentVM com_example_watchfinder_viewmodels_MyContentVM2;
+      SearchVM com_example_watchfinder_viewmodels_SearchVM2;
 
       @KeepFieldType
-      LoginVM com_example_watchfinder_viewmodels_LoginVM2;
+      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
 
       @KeepFieldType
       RegisterVM com_example_watchfinder_viewmodels_RegisterVM2;
 
       @KeepFieldType
-      SearchVM com_example_watchfinder_viewmodels_SearchVM2;
-
-      @KeepFieldType
-      DiscoverMoviesVM com_example_watchfinder_viewmodels_DiscoverMoviesVM2;
+      MyContentVM com_example_watchfinder_viewmodels_MyContentVM2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -733,7 +733,7 @@ public final class DaggerWatchFinderApp_HiltComponents_SingletonC {
 
     @Override
     public Set<Boolean> getDisableFragmentGetContextFix() {
-      return Collections.<Boolean>emptySet();
+      return ImmutableSet.<Boolean>of();
     }
 
     @Override

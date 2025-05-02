@@ -98,7 +98,7 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            MovieCard(movie = nextMovie)
+                            MovieCard(movie = nextMovie, playWhenReady = false)
                         }
                     }
 
@@ -174,7 +174,7 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
                             .fillMaxWidth()
                     ) {
                         //Todo eso eran los modificadores de la caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                        MovieCard(movie = currentMovie)
+                        MovieCard(movie = currentMovie, playWhenReady = true)
                     }
                 }
 
