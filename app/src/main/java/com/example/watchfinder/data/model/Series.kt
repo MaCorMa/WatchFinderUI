@@ -19,5 +19,6 @@ data class Series(
     val rated: String?,
     val awards: String?,
     val url: String?,
-    val poster: String?
+    val poster: String?,
+    val providers: List<String>?,
 )

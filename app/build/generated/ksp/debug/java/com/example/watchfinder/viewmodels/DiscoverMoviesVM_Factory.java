@@ -1,6 +1,5 @@
 package com.example.watchfinder.viewmodels;
 
-import com.example.watchfinder.data.UserManager;
 import com.example.watchfinder.repository.MovieRepository;
 import com.example.watchfinder.repository.UserRepository;
 import dagger.internal.DaggerGenerated;
@@ -29,29 +28,24 @@ public final class DiscoverMoviesVM_Factory implements Factory<DiscoverMoviesVM>
 
   private final Provider<MovieRepository> movieRepositoryProvider;
 
-  private final Provider<UserManager> userManagerProvider;
-
   public DiscoverMoviesVM_Factory(Provider<UserRepository> userRepositoryProvider,
-      Provider<MovieRepository> movieRepositoryProvider,
-      Provider<UserManager> userManagerProvider) {
+      Provider<MovieRepository> movieRepositoryProvider) {
     this.userRepositoryProvider = userRepositoryProvider;
     this.movieRepositoryProvider = movieRepositoryProvider;
-    this.userManagerProvider = userManagerProvider;
   }
 
   @Override
   public DiscoverMoviesVM get() {
-    return newInstance(userRepositoryProvider.get(), movieRepositoryProvider.get(), userManagerProvider.get());
+    return newInstance(userRepositoryProvider.get(), movieRepositoryProvider.get());
   }
 
   public static DiscoverMoviesVM_Factory create(Provider<UserRepository> userRepositoryProvider,
-      Provider<MovieRepository> movieRepositoryProvider,
-      Provider<UserManager> userManagerProvider) {
-    return new DiscoverMoviesVM_Factory(userRepositoryProvider, movieRepositoryProvider, userManagerProvider);
+      Provider<MovieRepository> movieRepositoryProvider) {
+    return new DiscoverMoviesVM_Factory(userRepositoryProvider, movieRepositoryProvider);
   }
 
   public static DiscoverMoviesVM newInstance(UserRepository userRepository,
-      MovieRepository movieRepository, UserManager userManager) {
-    return new DiscoverMoviesVM(userRepository, movieRepository, userManager);
+      MovieRepository movieRepository) {
+    return new DiscoverMoviesVM(userRepository, movieRepository);
   }
 }

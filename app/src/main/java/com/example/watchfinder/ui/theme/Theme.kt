@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = MediumGray,           // Botones/acciones principales serán beige claro
-    onPrimary = AccentRed,           // Texto sobre esos botones (oscuro)
+    primary = AccentRed,           // Botones/acciones principales serán beige claro
+    onPrimary = LightBeige,           // Texto sobre esos botones (oscuro)
     secondary = AccentRedDark,
     tertiary = Pink80,
     onSecondary = DarkRedTextOnContainer, // Texto oscuro sobre rojo brillante

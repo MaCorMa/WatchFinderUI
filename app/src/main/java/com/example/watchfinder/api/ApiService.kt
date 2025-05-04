@@ -47,9 +47,17 @@ interface ApiService {
     suspend fun getProfile(): Response<User>
     @POST("/users/addtolist")
     suspend fun addToList(@Body item: Item): Response<Void>
+    @POST("/users/removefromlist")
+    suspend fun removeFromList(@Body item: Item): Response<Void>
+
     @GET("/users/getfavseries")
     suspend fun getFavSeries(): List<Series>
     @GET("/users/getfavmovies")
     suspend fun getFavMovies(): List<Movie>
+
+    @GET("/users/getseenseries")
+    suspend fun getSeenSeries(): List<Series>
+    @GET("/users/getseenmovies")
+    suspend fun getSeenMovies(): List<Movie>
 
 }

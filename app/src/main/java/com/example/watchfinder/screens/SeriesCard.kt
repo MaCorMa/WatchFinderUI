@@ -23,8 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.watchfinder.R
 import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
@@ -32,8 +34,10 @@ import com.example.watchfinder.ui.theme.WatchFinderTheme
 @Composable
 fun SeriesCard(series: SeriesCard,
                showActions: Boolean = true,
-               onFavoriteClick: () -> Unit = {}, // Lambda para clic en corazón
+               onFavoriteClick: () -> Unit = {},
+               isFavorite : Boolean,
                onSeenClick: () -> Unit = {},
+               isSeen : Boolean,
                playWhenReady: Boolean) {
 
     Card(
@@ -254,14 +258,13 @@ fun SeriesCard(series: SeriesCard,
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     if (showActions) {
-                        // Icono Favorito (Corazón) - Arriba Izquierda
                         IconButton(
                             onClick = onFavoriteClick,
                             modifier = Modifier
                                 .padding(1.dp) // Espaciado
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Favorite, // Cambia a FavoriteBorder si gestionas estado
+                                painter = if (isFavorite) painterResource(id = R.drawable.heart) else painterResource(id = R.drawable.heartfill), // Cambia a FavoriteBorder si gestionas estado
                                 contentDescription = "Añadir a Favoritos",
                                 tint = Color.White // O un color que contraste
                             )
@@ -273,7 +276,7 @@ fun SeriesCard(series: SeriesCard,
                             modifier = Modifier
                                 .padding(1.dp)) {
                             Icon(
-                                imageVector = Icons.Filled.FavoriteBorder, // Cambia si gestionas estado
+                                painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(id = R.drawable.eye),
                                 contentDescription = "Marcar como Visto",
                                 tint = Color.White // O un color que contraste
                             )

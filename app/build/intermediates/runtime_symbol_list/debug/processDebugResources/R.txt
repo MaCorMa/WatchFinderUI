@@ -280,6 +280,10 @@ int drawable exo_styled_controls_speed 0x7f07004f
 int drawable exo_styled_controls_subtitle_off 0x7f070050
 int drawable exo_styled_controls_subtitle_on 0x7f070051
 int drawable exo_styled_controls_vr 0x7f070052
+int drawable eye 0x7f070069
+int drawable eyeno 0x7f07006a
+int drawable heart 0x7f07006b
+int drawable heartfill 0x7f07006c
 int drawable ic_call_answer 0x7f070053
 int drawable ic_call_answer_low 0x7f070054
 int drawable ic_call_answer_video 0x7f070055

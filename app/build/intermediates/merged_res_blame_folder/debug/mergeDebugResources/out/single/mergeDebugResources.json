@@ -1,70 +1,86 @@
 [
     {
-        "merged": "com.example.watchfinder.app-debug-65:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.watchfinder.app-main-67:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.watchfinder.app-main-67:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-anydpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/drawable_logocarta.png.flat",
-        "source": "com.example.watchfinder.app-main-67:/drawable/logocarta.png"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\drawable_eyeno.png.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\drawable\\eyeno.png"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\drawable_eye.png.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\drawable\\eye.png"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-anydpi/ic_launcher.xml"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-xhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-anydpi/ic_launcher_round.xml"
+        "merged": "com.example.watchfinder.app-debug-65:/drawable_heartfill.png.flat",
+        "source": "com.example.watchfinder.app-main-67:/drawable/heartfill.png"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/xml_backup_rules.xml.flat",
-        "source": "com.example.watchfinder.app-main-67:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-anydpi\\ic_launcher.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.watchfinder.app-main-67:/drawable/ic_launcher_background.xml"
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\drawable_logocarta.png.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\drawable\\logocarta.png"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-65:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-67:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.watchfinder.app-debug-65:/drawable_heart.png.flat",
+        "source": "com.example.watchfinder.app-main-67:/drawable/heart.png"
+    },
+    {
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-debug-65:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Wired\\.gradle\\daemon\\8.10.2\\com.example.watchfinder.app-main-67:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     }
 ]

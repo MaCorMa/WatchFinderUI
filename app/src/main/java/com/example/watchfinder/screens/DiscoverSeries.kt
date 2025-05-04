@@ -58,6 +58,9 @@ fun DiscoverSeries(discoverViewModel: DiscoverSeriesVM = hiltViewModel()) {
     //Otra para la siguiente, porque cuando el user deslice se tiene que ver la de abajo
     val nextSeries = currentCards.getOrNull(1)
 
+    val favoriteIds = uiState.favoriteSeriesIds
+    val seenIds = uiState.seenSeriesIds
+
 
     Column(
         modifier = Modifier
@@ -98,7 +101,17 @@ fun DiscoverSeries(discoverViewModel: DiscoverSeriesVM = hiltViewModel()) {
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            SeriesCard(series = nextSeries, playWhenReady = false)
+                            val isNextFavorite = nextSeries._id in favoriteIds
+                            val isNextSeen = nextSeries._id in seenIds
+                            // Llama a SeriesCard
+                            SeriesCard( // <- Llama a SeriesCard
+                                series = nextSeries, // <- Usa la variable de series
+                                isFavorite = isNextFavorite,
+                                isSeen = isNextSeen,
+                                onFavoriteClick = {},
+                                onSeenClick = {},
+                                playWhenReady = false
+                            )
                         }
                     }
 
@@ -173,8 +186,18 @@ fun DiscoverSeries(discoverViewModel: DiscoverSeriesVM = hiltViewModel()) {
                             .fillMaxHeight(0.85f)
                             .fillMaxWidth()
                     ) {
-                        //Todo eso eran los modificadores de la caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                        SeriesCard(series = currentSeries, playWhenReady = true)
+                        val isCurrentFavorite = currentSeries._id in favoriteIds
+                        val isCurrentSeen = currentSeries._id in seenIds
+
+                        SeriesCard( // <- Llama a SeriesCard
+                            series = currentSeries, // <- Usa la variable de series
+                            isFavorite = isCurrentFavorite,
+                            isSeen = isCurrentSeen,
+                            // Llama a los métodos del VM con la serie actual
+                            onFavoriteClick = { discoverViewModel.cardFav(currentSeries) },
+                            onSeenClick = { discoverViewModel.cardSeen(currentSeries) },
+                            playWhenReady = true
+                        )
                     }
                 }
 

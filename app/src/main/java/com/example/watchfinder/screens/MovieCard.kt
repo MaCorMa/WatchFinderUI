@@ -24,8 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.watchfinder.R
 import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 
@@ -34,7 +36,9 @@ fun MovieCard(
     movie: MovieCard,
     showActions: Boolean = true,
     onFavoriteClick: () -> Unit = {},
+    isFavorite: Boolean,
     onSeenClick: () -> Unit = {},
+    isSeen: Boolean,
     playWhenReady: Boolean
 ) {
 
@@ -201,11 +205,6 @@ fun MovieCard(
                 modifier = Modifier
                     .align(Alignment.TopEnd) // Alineado arriba a la derecha
                     .padding(8.dp)
-                    .background(
-                        Color.Black.copy(alpha = 0.3f),
-                        shape = MaterialTheme.shapes.small
-                    ) // Fondo semitransparente
-                    .padding(4.dp)
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     if (showActions) {
@@ -216,7 +215,7 @@ fun MovieCard(
                                 .padding(1.dp) // Espaciado
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Favorite, // Cambia a FavoriteBorder si gestionas estado
+                                painter = if (isFavorite) painterResource(id = R.drawable.heart) else painterResource(id = R.drawable.heartfill), // Cambia a FavoriteBorder si gestionas estado
                                 contentDescription = "Añadir a Favoritos",
                                 tint = Color.White // O un color que contraste
                             )
@@ -228,23 +227,25 @@ fun MovieCard(
                             modifier = Modifier
                                 .padding(1.dp)) {
                             Icon(
-                                imageVector = Icons.Filled.FavoriteBorder, // Cambia si gestionas estado
+                                painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(id = R.drawable.eye),
                                 contentDescription = "Marcar como Visto",
                                 tint = Color.White // O un color que contraste
                             )
                         }
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        "Plataf (11)",
-                        color = Color.White,
-                        style = MaterialTheme.typography.labelSmall
-                    )
+                    val plat = movie.Providers
+                    Column { // Para poner los iconos uno al lado del otro
+                        if (plat != null) {
+                            plat.forEach { provider -> Text(provider)
+                            }
+                        }
+                    }
                 }
             }
 
-        } // Fin Box principal (apilador)
-    } // Fin Card
+        }
+    }
 }
 
 /*@Preview(showBackground = true)

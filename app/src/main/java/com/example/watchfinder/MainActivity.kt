@@ -1,11 +1,11 @@
+// WF/watchfinderAndroid/MainActivity.kt
 package com.example.watchfinder
 
-
+// ... (otros imports sin cambios)
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,52 +14,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
-import com.example.watchfinder.screens.DetailScreen
-import com.example.watchfinder.screens.DiscoverMovies
-import com.example.watchfinder.screens.DiscoverSeries
-import com.example.watchfinder.screens.Login
-import com.example.watchfinder.screens.MovieOrSeries
-import com.example.watchfinder.screens.MyContent
-import com.example.watchfinder.screens.Profile
-import com.example.watchfinder.screens.Register
-import com.example.watchfinder.screens.Search
-import dagger.hilt.android.AndroidEntryPoint
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
+import com.example.watchfinder.data.dto.MovieCard
+import com.example.watchfinder.data.dto.SeriesCard
+import com.example.watchfinder.screens.*
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
@@ -68,20 +47,13 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var tokenManager: TokenManager
-
     @Inject
     lateinit var userManager: UserManager
-
     @Inject
     lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("Iniciando...")
-
-        //testApiRegister(authRepository)
-        //testApiLogin(authRepository)
-
         setContent {
             WatchFinderTheme {
                 AppNavigation(
@@ -94,248 +66,272 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-enum class AuthState {
-    LOADING, // Comprobando el token
-    AUTHENTICATED,
-    UNAUTHENTICATED
-}
+// Estados de autenticación (sin cambios)
+enum class AuthState { LOADING, AUTHENTICATED, UNAUTHENTICATED }
+enum class ShowScreen { LOGIN, REGISTER }
 
-enum class ShowScreen {
-    LOGIN,
-    REGISTER
+// Estado para la pantalla principal
+enum class MainAppScreen {
+    DISCOVER, SEARCH, MY_CONTENT, PROFILE, SEARCH_RESULTS, DETAIL // Añadido SEARCH_RESULTS
 }
 
 @Composable
 fun AppNavigation(
     tokenManager: TokenManager,
     userManager: UserManager,
-    authRepository: AuthRepository // Necesitas pasar el repositorio
+    authRepository: AuthRepository
 ) {
 
     var loginOrRegister by remember { mutableStateOf(ShowScreen.LOGIN) }
-    var authState by remember { mutableStateOf(AuthState.LOADING) } // Empieza cargando
-    var detailScreenInfo by remember { mutableStateOf<Pair<String, String>?>(null) }
-    var current by remember { mutableStateOf("Discover") }
+    var authState by remember { mutableStateOf(AuthState.LOADING) }
 
-    // Efecto que se ejecuta una vez al inicio para validar el token
+    // --- Estado para manejar la pantalla actual DENTRO de la app principal ---
+    var currentMainScreen by remember { mutableStateOf(MainAppScreen.DISCOVER) }
+
+    // --- Estado para guardar los resultados de búsqueda temporalmente ---
+    var searchResultsMoviesState by remember { mutableStateOf<List<MovieCard>>(emptyList()) }
+    var searchResultsSeriesState by remember { mutableStateOf<List<SeriesCard>>(emptyList()) }
+
+    // --- Estado para manejar la pantalla de detalles (sin cambios) ---
+    var detailScreenInfo by remember { mutableStateOf<Pair<String, String>?>(null) }
+
+
+    // Efecto de validación de token (sin cambios)
     LaunchedEffect(Unit) {
         val token = tokenManager.getToken()
         if (token == null) {
-            println("--> No token found. Unauthenticated.")
             authState = AuthState.UNAUTHENTICATED
             loginOrRegister = ShowScreen.LOGIN
         } else {
-            println("--> Token found. Validating...")
-            // Intenta validar el token con el backend
-            val validationResult = authRepository.validate() // Llama al repo
+            val validationResult = authRepository.validate()
             if (validationResult.isSuccess) {
-                println("--> Token validation SUCCESS. Authenticated.")
-                // Opcional: Podrías querer recargar datos del usuario aquí si es necesario
                 authState = AuthState.AUTHENTICATED
+                // Asegurarse de empezar en Discover al autenticarse
+                currentMainScreen = MainAppScreen.DISCOVER
             } else {
-                println("--> Token validation FAILED. Unauthenticated. Error: ${validationResult.exceptionOrNull()?.message}")
-                // El repo ya debería haber limpiado el token inválido si falló por 401/403
                 authState = AuthState.UNAUTHENTICATED
                 loginOrRegister = ShowScreen.LOGIN
             }
         }
     }
 
-    if (detailScreenInfo != null) {
-        val (itemType, itemId) = detailScreenInfo!! // Desempaqueta la info
-        DetailScreen( // Muestra la pantalla de detalles
-            itemType = itemType,
-            itemId = itemId,
-            onNavigateBack = { detailScreenInfo = null } // Lambda para volver (limpia el estado)
-        )
-    } else {
-        // Muestra la UI según el estado de autenticación
-        when (authState) {
-            AuthState.LOADING -> {
-                // Muestra un indicador de carga mientras se valida
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
+    // --- Lógica de renderizado basada en el estado ---
+
+    when (authState) {
+        AuthState.LOADING -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+
+        AuthState.AUTHENTICATED -> {
+            // Si estamos autenticados, decidimos qué pantalla principal mostrar
+            // (Discover, Search, Results, Detail, etc.)
+            when (currentMainScreen) {
+                // Muestra Detail si detailScreenInfo tiene datos
+                MainAppScreen.DETAIL -> {
+                    val (itemType, itemId) = detailScreenInfo!!
+                    DetailScreen(
+                        itemType = itemType,
+                        itemId = itemId,
+                        onNavigateBack = {
+                            detailScreenInfo = null // Limpia la info de detalle
+                            currentMainScreen =
+                                MainAppScreen.SEARCH_RESULTS // Vuelve a resultados (o a Search?)
+                        }
+                    )
+                }
+                // Muestra SearchResults si currentMainScreen es SEARCH_RESULTS
+                MainAppScreen.SEARCH_RESULTS -> {
+                    SearchResultsScreen(
+                        resultsMovies = searchResultsMoviesState,
+                        resultsSeries = searchResultsSeriesState,
+                        onNavigateBack = {
+                            currentMainScreen = MainAppScreen.SEARCH
+                        }, // Vuelve a Search
+                        onNavigateToDetail = { type, id ->
+                            detailScreenInfo = Pair(type, id) // Guarda info para detalle
+                            currentMainScreen = MainAppScreen.DETAIL // Cambia a pantalla de detalle
+                        }
+                    )
+                }
+                // Si no es Detail ni SearchResults, muestra MainScreen (con BottomBar)
+                else -> {
+                    MainScreen(
+                        currentScreen = currentMainScreen, // Pasa el estado actual
+                        onScreenChange = { newScreen ->
+                            currentMainScreen =
+                                newScreen // Actualiza el estado al cambiar de sección
+                        },
+                        onLogout = {
+                            tokenManager.clearToken()
+                            userManager.clearCurrentUser()
+                            authState = AuthState.UNAUTHENTICATED
+                            loginOrRegister = ShowScreen.LOGIN
+                        },
+                        // Lambda para navegar a Detail desde CUALQUIER pantalla dentro de MainScreen
+                        onNavigateToDetail = { type, id ->
+                            detailScreenInfo = Pair(type, id)
+                            currentMainScreen = MainAppScreen.DETAIL
+                        },
+                        // NUEVO: Lambda para navegar a Resultados DESDE Search
+                        onNavigateToResults = { movies, series ->
+                            searchResultsMoviesState = movies // Guarda los resultados
+                            searchResultsSeriesState = series
+                            currentMainScreen =
+                                MainAppScreen.SEARCH_RESULTS // Cambia a la pantalla de resultados
+                        }
+                    )
                 }
             }
+        }
 
-            AuthState.AUTHENTICATED -> {
-                MainScreen(
-                    onLogout = {
-                        println("--> Logging out...")
-                        tokenManager.clearToken()
-                        userManager.clearCurrentUser()
-                        authState = AuthState.UNAUTHENTICATED
-                        loginOrRegister = ShowScreen.LOGIN
+        AuthState.UNAUTHENTICATED -> {
+            // Lógica de Login/Register (sin cambios)
+            when (loginOrRegister) {
+                ShowScreen.LOGIN -> Login(
+                    onLoginSuccess = {
+                        authState = AuthState.AUTHENTICATED
+                        currentMainScreen = MainAppScreen.DISCOVER // Empieza en Discover
                     },
-                    onNavigateToDetail = { type, id ->
-                        println("Navigating to Detail: Type=$type, ID=$id") // Para depuración
-                        detailScreenInfo = Pair(type, id)
-                    },
-                    currentScreen = current,
-                    onScreenChange = { newScreen -> current = newScreen }
+                    onNavigateToRegister = { loginOrRegister = ShowScreen.REGISTER }
                 )
-            }
 
-            AuthState.UNAUTHENTICATED -> {
-                when (loginOrRegister) {
-                    ShowScreen.LOGIN -> {
-                        Login(
-                            onLoginSuccess = {
-                                println("--> Login Success! Setting state to Authenticated.")
-                                // Tras login exitoso, asumimos que el token es válido
-                                authState = AuthState.AUTHENTICATED
-                            },
-                            onNavigateToRegister = {
-                                loginOrRegister = ShowScreen.REGISTER
-                            }
-                        )
-                    }
-
-                    ShowScreen.REGISTER -> {
-                        Register(
-                            onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
-                            onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
-                        )
-                    }
-                }
+                ShowScreen.REGISTER -> Register(
+                    onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
+                    onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
+                )
             }
         }
     }
 }
 
 
-enum class DiscoverState {
-    SELECTION,
-    MOVIES,
-    SERIES
-}
+// Estado para Discover (sin cambios)
+enum class DiscoverState { SELECTION, MOVIES, SERIES }
 
 @Composable
 fun MainScreen(
-    currentScreen: String,
-    onScreenChange: (String) -> Unit,
+    // Ahora recibe MainAppScreen en lugar de String
+    currentScreen: MainAppScreen,
+    onScreenChange: (MainAppScreen) -> Unit,
     onLogout: () -> Unit,
-    onNavigateToDetail: (itemType: String, itemId: String) -> Unit
+    onNavigateToDetail: (itemType: String, itemId: String) -> Unit,
+    // Añadido: Lambda para navegar a resultados
+    onNavigateToResults: (movies: List<MovieCard>, series: List<SeriesCard>) -> Unit
 ) {
-    // var current by remember { mutableStateOf("Discover") } // --- ELIMINA ESTA LÍNEA ---
     var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
 
     Scaffold(
         topBar = { TopHeader() },
-
         bottomBar = {
             BottomBar(
-                current = currentScreen, // Usa el parámetro recibido
-                click = { newSection ->
-                    onScreenChange(newSection) // Llama a la lambda recibida
-                    if (newSection == "Discover") {
-                        // ¿Realmente quieres resetear esto siempre? Quizás no.
-                        // Considera si discoverScreenState también necesita subirse.
+                current = currentScreen, // Pasa el estado MainAppScreen
+                click = { newScreen ->
+                    onScreenChange(newScreen) // Llama a la lambda con MainAppScreen
+                    if (newScreen == MainAppScreen.DISCOVER) {
+                        // Resetear Discover si se vuelve a él
                         discoverScreenState = DiscoverState.SELECTION
                     }
                 }
             )
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues))
-        {
-            // --- Usa el parámetro recibido ---
+        Column(modifier = Modifier.padding(paddingValues)) {
             when (currentScreen) {
-                "Search" -> Search(onNavigateToDetail = onNavigateToDetail)
-                // Asegúrate que MyContent recibe onNavigateToDetail si lo necesita
-                "My Content" -> MyContent(onNavigateToDetail = onNavigateToDetail)
-                "Discover" -> {
-                    // ... (lógica interna de Discover sin cambios, usa discoverScreenState) ...
+                // Pasa la lambda onNavigateToResults a Search
+                MainAppScreen.SEARCH -> Search(
+                    onNavigateToDetail = onNavigateToDetail,
+                    onNavigateToResults = onNavigateToResults // <--- PASAR LAMBDA
+                )
+
+                MainAppScreen.MY_CONTENT -> MyContent(onNavigateToDetail = onNavigateToDetail)
+                MainAppScreen.DISCOVER -> {
                     when (discoverScreenState) {
                         DiscoverState.SELECTION -> MovieOrSeries(
                             onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
                             onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
                         )
 
-                        DiscoverState.MOVIES -> DiscoverMovies()
-                        DiscoverState.SERIES -> DiscoverSeries()
+                        DiscoverState.MOVIES -> DiscoverMovies(/* onNavigateToDetail si es necesario */) // Pasar onNavigateToDetail si DiscoverMovies lo necesita
+                        DiscoverState.SERIES -> DiscoverSeries(/* onNavigateToDetail si es necesario */)   // Pasar onNavigateToDetail si DiscoverSeries lo necesita
+                        // Nota: Actualmente DiscoverMovies/Series no llaman a onNavigateToDetail
+                        // Si quisieras ir a detalles desde ahí, tendrías que pasarles la lambda
                     }
                 }
 
-                "Profile" -> Profile(onLogoutClick = onLogout)
+                MainAppScreen.PROFILE -> Profile(onLogoutClick = onLogout)
+                // Estos casos no deberían ocurrir aquí porque se manejan fuera de MainScreen
+                MainAppScreen.SEARCH_RESULTS -> {}
+                MainAppScreen.DETAIL -> {}
             }
         }
     }
 }
 
 @Composable
-fun BottomBar(current: String, click: (String) -> Unit) {
-    val items = listOf("Search", "My Content", "Discover", "Profile")
+fun BottomBar(
+    current: MainAppScreen, // Recibe MainAppScreen
+    click: (MainAppScreen) -> Unit // Espera MainAppScreen
+) {
+    // Mapea los estados a la info necesaria para la barra
+    val items = listOf(
+        MainAppScreen.SEARCH to Icons.Filled.Search,
+        MainAppScreen.MY_CONTENT to Icons.Filled.Favorite,
+        MainAppScreen.DISCOVER to Icons.Filled.Star,
+        MainAppScreen.PROFILE to Icons.Filled.Person
+    )
+
     NavigationBar {
-
-        items.forEach { sectionName ->
+        items.forEach { (screen, icon) ->
+            // Convierte el enum a String legible para la etiqueta si es necesario
+            val label = when (screen) {
+                MainAppScreen.SEARCH -> "Buscar"
+                MainAppScreen.MY_CONTENT -> "Mi Cont." // Abreviado o completo
+                MainAppScreen.DISCOVER -> "Descubrir"
+                MainAppScreen.PROFILE -> "Perfil"
+                else -> "" // No debería pasar para estos items
+            }
             NavigationBarItem(
-                selected = (sectionName == current),
-                onClick = { click(sectionName) },
-                icon = {
-                    when (sectionName) {
-                        "Search" -> Icon(Icons.Filled.Search, contentDescription = sectionName)
-                        "My Content" -> Icon(
-                            Icons.Filled.Favorite,
-                            contentDescription = sectionName
-                        )
-
-                        "Discover" -> Icon(Icons.Filled.Star, contentDescription = sectionName)
-
-                        "Profile" -> Icon(Icons.Filled.Person, contentDescription = sectionName)
-                    }
-                }, label = { Text(sectionName) }
+                selected = (screen == current),
+                onClick = { click(screen) }, // Llama con el MainAppScreen
+                icon = { Icon(icon, contentDescription = label) },
+                label = { Text(label) }
             )
         }
     }
 }
 
+// TopHeader (sin cambios)
 @Composable
 fun TopHeader() {
-    Row(modifier = Modifier.fillMaxWidth().height(150.dp),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp), // Ajusta altura si es necesario
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically)
+        verticalAlignment = Alignment.CenterVertically
+    )
     {
         Image(
-            painter = painterResource(id = R.drawable.logocarta), // <-- TU LOGO AQUÍ
-            contentDescription = "App Logo"
+            painter = painterResource(id = R.drawable.logocarta),
+            contentDescription = "App Logo",
+            modifier = Modifier.height(100.dp) // Ajusta tamaño logo si es necesario
         )
     }
-
 }
 
+// Previews (opcionalmente actualizarlas para usar MainAppScreen)
 /*@Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
     WatchFinderTheme {
         MainScreen(
-            currentScreen = "Discover", // Pantalla inicial para la preview
+            currentScreen = MainAppScreen.DISCOVER, // Usa el enum
             onScreenChange = {},
             onLogout = {},
-            onNavigateToDetail = { _, _ -> }
+            onNavigateToDetail = { _, _ -> },
+            onNavigateToResults = { _, _ -> } // Añade la nueva lambda
         )
-    }
-}*/
-
-// Preview para BottomBar
-@Preview(showBackground = true)
-@Composable
-fun BottomBarPreview() {
-    WatchFinderTheme {
-        /*BottomBar(
-            current = "Discover", // Sección seleccionada para la preview
-            click = {}
-        )*/
-        TopHeader()
-    }
-}
-
-
-/*@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun TopHeaderPreview() {
-    WatchFinderTheme {
-        TopHeader()
     }
 }*/

@@ -7,5 +7,7 @@ data class DetailsUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val movieDetail: MovieCard? = null,
-    val seriesDetail: SeriesCard? = null
- )
+    val seriesDetail: SeriesCard? = null,
+    val isFavorite: Boolean = false,
+    val isSeen: Boolean = false
+)

@@ -57,6 +57,9 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
     //Otra para la siguiente, porque cuando el user deslice se tiene que ver la de abajo
     val nextMovie = currentCards.getOrNull(1)
 
+    val favoriteIds = uiState.favoriteMovieIds
+    val seenIds = uiState.seenMovieIds
+
 
 
     Column(
@@ -98,7 +101,16 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            MovieCard(movie = nextMovie, playWhenReady = false)
+                            val isNextFavorite = nextMovie._id in favoriteIds
+                            val isNextSeen = nextMovie._id in seenIds
+                            MovieCard(
+                                movie = nextMovie,
+                                isFavorite = isNextFavorite, // <-- Usa el estado real
+                                isSeen = isNextSeen,         // <-- Usa el estado real
+                                onFavoriteClick = {},
+                                onSeenClick = {},
+                                playWhenReady = false
+                            )
                         }
                     }
 
@@ -173,8 +185,17 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
                             .fillMaxHeight(0.85f)
                             .fillMaxWidth()
                     ) {
-                        //Todo eso eran los modificadores de la caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                        MovieCard(movie = currentMovie, playWhenReady = true)
+                        val isCurrentFavorite = currentMovie._id in favoriteIds
+                        val isCurrentSeen = currentMovie._id in seenIds
+
+                        MovieCard(
+                            movie = currentMovie,
+                            isFavorite = isCurrentFavorite, // <-- Usa el estado real
+                            isSeen = isCurrentSeen,         // <-- Usa el estado real
+                            onFavoriteClick = { discoverViewModel.cardFav(currentMovie) },
+                            onSeenClick = { discoverViewModel.cardSeen(currentMovie) },
+                            playWhenReady = true
+                        )
                     }
                 }
 

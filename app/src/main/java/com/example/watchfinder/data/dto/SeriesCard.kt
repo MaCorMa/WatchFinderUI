@@ -19,5 +19,6 @@ data class SeriesCard(
     val Rated: String?,
     val Awards: String? = null,
     val Url: String? = null,
-    val Poster: String?
+    val Poster: String?,
+    val Providers: List<String>?,
 )

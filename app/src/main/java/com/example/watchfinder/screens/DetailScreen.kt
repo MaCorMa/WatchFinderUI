@@ -132,18 +132,18 @@ fun DetailScreen(
                         }
                 ) {
                     //Todo eso eran los modificadores de la  caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                    MovieCard(movie = uiState.movieDetail!!,
+                    MovieCard(
+                        movie = uiState.movieDetail!!,
+                        isFavorite = uiState.isFavorite,      // <-- Pasa el estado isFavorite
+                        isSeen = uiState.isSeen,            // <-- Pasa el estado isSeen
                         onFavoriteClick = {
-                            viewModel.addToFavorites(
-                                uiState.movieDetail!!._id ?: "", "movie"
-                            )
+                            viewModel.toggleFavorite()      // <-- Llama a la función toggle del VM
                         },
                         onSeenClick = {
-                            viewModel.addToSeen(
-                                uiState.movieDetail!!._id ?: "",
-                                "movie"
-                            )
-                        }, playWhenReady = true)
+                            viewModel.toggleSeen()          // <-- Llama a la función toggle del VM
+                        },
+                        playWhenReady = true                // Asume que el vídeo se reproduce
+                    )
                 }
             }
 
@@ -219,19 +219,17 @@ fun DetailScreen(
                         }
                 ) {
                     //Todo eso eran los modificadores de la  caja que contiene la tarjeta, eso es lo que se mueve, ahora cargamos la tarjeta y le pasamos la peli actual
-                    SeriesCard(series = uiState.seriesDetail!!,
+                    SeriesCard( // IMPORTANTE: Asegúrate que SeriesCard.kt también fue modificado como MovieCard.kt
+                        series = uiState.seriesDetail!!,
+                        isFavorite = uiState.isFavorite,      // <-- Pasa el estado isFavorite
+                        isSeen = uiState.isSeen,            // <-- Pasa el estado isSeen
                         onFavoriteClick = {
-                            viewModel.addToFavorites(
-                                uiState.seriesDetail!!._id ?: "", "series"
-                            )
+                            viewModel.toggleFavorite()      // <-- Llama a la función toggle del VM
                         },
                         onSeenClick = {
-                            viewModel.addToSeen(
-                                uiState.seriesDetail!!._id ?: "",
-                                "series"
-                            )
+                            viewModel.toggleSeen()          // <-- Llama a la función toggle del VM
                         },
-                        playWhenReady = true
+                        playWhenReady = true                // Asume que el vídeo se reproduce
                     )
                 }
             }

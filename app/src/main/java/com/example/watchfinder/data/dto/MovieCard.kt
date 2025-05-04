@@ -17,6 +17,7 @@ data class MovieCard(
     val Url: String,
     val Rated: String?,
     val ReleaseDate: String?,
-    val Poster: String?
+    val Poster: String?,
+    val Providers: List<String>?,
 
 )
