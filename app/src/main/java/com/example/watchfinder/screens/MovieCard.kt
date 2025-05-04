@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -211,13 +212,16 @@ fun MovieCard(
                         // Icono Favorito (Corazón) - Arriba Izquierda
                         IconButton(
                             onClick = onFavoriteClick,
-                            modifier = Modifier
-                                .padding(1.dp) // Espaciado
                         ) {
                             Icon(
-                                painter = if (isFavorite) painterResource(id = R.drawable.heart) else painterResource(id = R.drawable.heartfill), // Cambia a FavoriteBorder si gestionas estado
+                                modifier = Modifier.padding(4.dp),
+                                painter = if (isFavorite) painterResource(id = R.drawable.heartfill) else painterResource(id = R.drawable.heart), // Cambia a FavoriteBorder si gestionas estado
                                 contentDescription = "Añadir a Favoritos",
-                                tint = Color.White // O un color que contraste
+                                tint = if (isFavorite) {
+                                    Color.Red // Favorito (contorno) -> Blanco
+                                } else {
+                                    Color.White   // No favorito (relleno) -> Rojo
+                                }
                             )
                         }
 
@@ -227,6 +231,7 @@ fun MovieCard(
                             modifier = Modifier
                                 .padding(1.dp)) {
                             Icon(
+                                modifier = Modifier.padding(4.dp),
                                 painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(id = R.drawable.eye),
                                 contentDescription = "Marcar como Visto",
                                 tint = Color.White // O un color que contraste
@@ -248,32 +253,3 @@ fun MovieCard(
     }
 }
 
-/*@Preview(showBackground = true)
-@Composable
-fun MovieCardPreview() {
-    // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
-    val dummyMovie = MovieCard(
-        _id = "preview123",
-        Title = "Película de Prueba Muy Larga Para Ver Cómo Queda",
-        Plot = "Esta es una descripción de ejemplo bastante larga para ver cómo se ajusta el texto en varias líneas dentro de la tarjeta de la película.",
-        Url = "https://via.placeholder.com/600x900.png?text=Movie+Poster", // Usa una URL de placeholder
-        Genres = listOf("Acción", "Aventura", "Ciencia Ficción"),
-        Runtime = "125 min",
-        Director = "Director Famoso",
-        Cast = listOf("Actor Principal", "Actriz Secundaria", "Otro Actor"),
-        Ratings = listOf("IMDb: 7.5/10"),
-        Languages = listOf("Español", "Inglés"),
-        Country = "País Ejemplo",
-        Awards = "Algún premio",
-        Year = 2024,
-        ReleaseDate = "2024-01-15",
-        Rated = "PG-13",
-        Poster = "A"
-        // Asegúrate de llenar todos los campos NO NULOS de tu DTO
-    )
-
-    // 2. Llama a tu MovieCard real pasándole los datos falsos
-    WatchFinderTheme { // Envuelve en tu tema si es necesario
-        MovieCard(dummyMovie)
-    }
-}*/

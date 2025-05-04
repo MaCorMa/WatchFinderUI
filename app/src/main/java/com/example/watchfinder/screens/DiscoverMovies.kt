@@ -1,6 +1,8 @@
 package com.example.watchfinder.screens
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -11,21 +13,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.watchfinder.R
 import com.example.watchfinder.viewmodels.DiscoverMoviesVM
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -60,7 +73,44 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
     val favoriteIds = uiState.favoriteMovieIds
     val seenIds = uiState.seenMovieIds
 
+    var showAnimationIcon by remember { mutableStateOf(false) }
+    var animationIconType by remember { mutableStateOf<Int?>(null) } // Guardará Icons.Filled.Check o Icons.Filled.Close
+    val iconOffsetY = remember { Animatable(0f) } // Controla el desplazamiento vertical
+    val iconAlpha = remember { Animatable(0f) }
 
+    // --- NUEVO: Función para iniciar la animación del icono ---
+    fun triggerIconAnimation(isLike: Boolean) {
+        scope.launch {
+            // 1. Preparar icono y resetear valores
+            showAnimationIcon = true
+            // Define qué icono usar según el swipe
+            animationIconType = if (isLike) {
+                R.drawable.heartfilllike // <-- USA EL ID DE TU PNG PARA "LIKE"
+            } else {
+                R.drawable.cross // <-- USA EL ID DE TU PNG PARA "DISLIKE"
+            }
+            iconOffsetY.snapTo(0f) // Empieza en el centro verticalmente
+            iconAlpha.snapTo(1f)   // Empieza totalmente visible
+
+            // 2. Animar Desplazamiento y Opacidad en paralelo
+            launch {
+                iconOffsetY.animateTo(
+                    targetValue = -150f, // Mover hacia arriba (ajusta este valor)
+                    animationSpec = tween(durationMillis = 800, easing = LinearOutSlowInEasing) // Duración y efecto
+                )
+            }
+            launch {
+                iconAlpha.animateTo(
+                    targetValue = 0f, // Desvanecer hasta ser invisible
+                    animationSpec = tween(durationMillis = 800, easing = EaseIn) // Duración y efecto
+                )
+            }
+
+            // 3. (Opcional) Podrías resetear showAnimationIcon = false después de delay(500),
+            //    pero como alpha es 0, ya no se verá.
+        }
+    }
+    // -------------------------------------------------
 
     Column(
         modifier = Modifier
@@ -114,6 +164,21 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
                         }
                     }
 
+                    if (showAnimationIcon && animationIconType != null) {
+                        Icon(
+                            painter = painterResource(id= animationIconType!!),
+                            contentDescription = if (animationIconType == R.drawable.heartfilllike) "Like Animation" else "Dislike Animation",
+                            modifier = Modifier
+                                .align(Alignment.Center) // Centrado en el Box principal
+                                // Aplica el desplazamiento vertical animado
+                                .offset(y = iconOffsetY.value.dp)
+                                // Aplica la opacidad animada
+                                .alpha(iconAlpha.value),
+                            // Color del icono (puedes cambiarlo)
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
                     Box(
                         //Aquí se modifica el movimiento, se redondea nuestra variable del eje X (offsetX), y también podemos definir el eje Y.
                         modifier = Modifier
@@ -148,7 +213,10 @@ fun DiscoverMovies(discoverViewModel: DiscoverMoviesVM = hiltViewModel()) {
                                             //Si es que sí, aquí ajustamos la dirección, si es positivo a un lado, y si es negativo, al otro lado. Pero en esta variable sólo
                                             //se almacena el valor.
                                             val target = if (final > 0) exit else -exit
+                                            val isLike = final > 0 // Determina si es like (derecha) o dislike (izquierda)
 
+                                            // --- AÑADE ESTA LÍNEA ---
+                                            triggerIconAnimation(isLike = isLike)
 
                                             scope.launch {
                                                 //Lo animamos HACIA el parámetro objetivo

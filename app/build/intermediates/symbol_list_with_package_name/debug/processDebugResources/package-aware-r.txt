@@ -200,6 +200,7 @@ dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
 drawable abc_vector_test
+drawable cross
 drawable exo_edit_mode_logo
 drawable exo_ic_audiotrack
 drawable exo_ic_check
@@ -285,6 +286,7 @@ drawable eye
 drawable eyeno
 drawable heart
 drawable heartfill
+drawable heartfilllike
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video

@@ -264,9 +264,14 @@ fun SeriesCard(series: SeriesCard,
                                 .padding(1.dp) // Espaciado
                         ) {
                             Icon(
-                                painter = if (isFavorite) painterResource(id = R.drawable.heart) else painterResource(id = R.drawable.heartfill), // Cambia a FavoriteBorder si gestionas estado
+                                modifier = Modifier.padding(4.dp),
+                                painter = if (isFavorite) painterResource(id = R.drawable.heart) else painterResource(id = R.drawable.heartfill),
                                 contentDescription = "Añadir a Favoritos",
-                                tint = Color.White // O un color que contraste
+                                tint = if (isFavorite) {
+                                    Color.Red // Favorito (contorno) -> Blanco
+                                } else {
+                                    Color.White   // No favorito (relleno) -> Rojo
+                                }
                             )
                         }
 
@@ -276,6 +281,7 @@ fun SeriesCard(series: SeriesCard,
                             modifier = Modifier
                                 .padding(1.dp)) {
                             Icon(
+                                modifier = Modifier.padding(4.dp),
                                 painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(id = R.drawable.eye),
                                 contentDescription = "Marcar como Visto",
                                 tint = Color.White // O un color que contraste
