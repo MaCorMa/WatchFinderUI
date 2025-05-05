@@ -1,8 +1,11 @@
 package com.example.watchfinder.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -61,7 +66,10 @@ fun MovieCard(
             ) {
                 val videoUrl = movie.Url // o series.Url
                 if (!videoUrl.isNullOrBlank()) {
-                    VideoPlayer(videoUrl = videoUrl, playWhenReady = playWhenReady) // Llama a tu composable de vídeo
+                    VideoPlayer(
+                        videoUrl = videoUrl,
+                        playWhenReady = playWhenReady
+                    ) // Llama a tu composable de vídeo
                 } else {
                     // Opcional: Muestra un placeholder si no hay URL
                     Box(
@@ -179,77 +187,111 @@ fun MovieCard(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 val genres = movie.Genres
-                val genresToShow = genres?.takeIf { it.isNotEmpty() }?.let { gnrs ->
-                    val maxToShow = 3
-                    gnrs.take(maxToShow).joinToString(", ") +
-                            if (genres.size > maxToShow) ", ..." else ""
-                } ?: "Géneros no disp."
-                Text(
-                    genresToShow,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.DarkGray
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Text(
-                    movie.Awards ?: "No disponible",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.DarkGray
-                )
-
-
-            }
-
-            // --- Elemento 11: Plataformas (podría ir aquí o en el Box del vídeo) ---
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd) // Alineado arriba a la derecha
-                    .padding(8.dp)
-            ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    if (showActions) {
-                        // Icono Favorito (Corazón) - Arriba Izquierda
-                        IconButton(
-                            onClick = onFavoriteClick,
-                        ) {
-                            Icon(
-                                modifier = Modifier.padding(4.dp),
-                                painter = if (isFavorite) painterResource(id = R.drawable.heartfill) else painterResource(id = R.drawable.heart), // Cambia a FavoriteBorder si gestionas estado
-                                contentDescription = "Añadir a Favoritos",
-                                tint = if (isFavorite) {
-                                    Color.Red // Favorito (contorno) -> Blanco
-                                } else {
-                                    Color.White   // No favorito (relleno) -> Rojo
-                                }
-                            )
-                        }
-
-                        // Icono Visto (Ojo) - Arriba Derecha (junto a Plataformas?)
-                        IconButton(
-                            onClick = onSeenClick,
-                            modifier = Modifier
-                                .padding(1.dp)) {
-                            Icon(
-                                modifier = Modifier.padding(4.dp),
-                                painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(id = R.drawable.eye),
-                                contentDescription = "Marcar como Visto",
-                                tint = Color.White // O un color que contraste
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    val plat = movie.Providers
-                    Column { // Para poner los iconos uno al lado del otro
-                        if (plat != null) {
-                            plat.forEach { provider -> Text(provider)
+                Row(modifier = Modifier.fillMaxWidth()){
+                    if (genres != null) {
+                        genres.forEach { genre ->
+                            val genreResId = GenretoIcon(genre)
+                            // -------------------------
+                            if (genreResId != null) {
+                                Image(
+                                    painter = painterResource(id = genreResId),
+                                    contentDescription = genre,
+                                    modifier = Modifier.height(25.dp)
+                                )
                             }
                         }
                     }
                 }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        movie.Awards ?: "No disponible",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.DarkGray
+                    )
+
+
+
+            }
+
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd) // Alineado arriba a la derecha
+                .padding(8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp)
+            ) {
+                if (showActions) {
+                    // Icono Favorito (Corazón) - Arriba Izquierda
+                    IconButton(
+                        onClick = onFavoriteClick,
+                    ) {
+                        Icon(
+                            modifier = Modifier.padding(4.dp),
+                            painter = if (isFavorite) painterResource(id = R.drawable.heartfill) else painterResource(
+                                id = R.drawable.heart
+                            ), // Cambia a FavoriteBorder si gestionas estado
+                            contentDescription = "Añadir a Favoritos",
+                            tint = if (isFavorite) {
+                                Color.Red // Favorito (contorno) -> Blanco
+                            } else {
+                                Color.White   // No favorito (relleno) -> Rojo
+                            }
+                        )
+                    }
+
+                    // Icono Visto (Ojo) - Arriba Derecha (junto a Plataformas?)
+                    IconButton(
+                        onClick = onSeenClick,
+                        modifier = Modifier
+                            .padding(1.dp)
+                    ) {
+                        Icon(
+                            modifier = Modifier.padding(4.dp),
+                            painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(
+                                id = R.drawable.eye
+                            ),
+                            contentDescription = "Marcar como Visto",
+                            tint = Color.White // O un color que contraste
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f)) // Este empuja a la derecha
+                val plat = movie.Providers
+                // --- MODIFICA ESTA COLUMN ---
+                Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
+                    // ---- Verifica que entras aquí ----
+                    println("Componiendo Column de Logos. Providers: $plat")
+                    // ---------------------------------
+                    if (plat != null) {
+                        plat.forEach { providerName ->
+                            val logoResId = providerToLogo(providerName)
+                            // ---- Verifica el mapeo ----
+                            println("Provider: '$providerName' -> Logo ID: $logoResId")
+                            // -------------------------
+                            if (logoResId != null) {
+                                // --- Verifica si se compone la imagen ---
+                                println("Intentando componer Image para $providerName")
+                                // ---------------------------------------
+                                Image(
+                                    painter = painterResource(id = logoResId),
+                                    contentDescription = providerName,
+                                    modifier = Modifier.height(25.dp)
+                                )
+                            }
+                        }
+                    }
+                } // --- FIN COLUMN MODIFICADA ---
+
             }
 
         }
     }
+}
 }
 

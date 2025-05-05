@@ -308,7 +308,7 @@ fun TopHeader() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp), // Ajusta altura si es necesario
+, // Ajusta altura si es necesario
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     )
