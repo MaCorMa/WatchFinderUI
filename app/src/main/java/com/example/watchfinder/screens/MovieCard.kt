@@ -87,7 +87,6 @@ fun MovieCard(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .height(400.dp)// Ocupa todo el espacio disponible sobre el vídeo
                     .background(
 
                         Brush.verticalGradient(
@@ -139,7 +138,7 @@ fun MovieCard(
                 }
 
                 //Espaciador antes de la sinopsis
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     movie.Plot ?: "No disponible",
                     style = MaterialTheme.typography.bodyMedium,
@@ -147,7 +146,7 @@ fun MovieCard(
                 )
 
                 //Otro más antes del resto de datos
-                Spacer(modifier = Modifier.height(25.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
                     movie.Director ?: "No disponible",
@@ -155,7 +154,7 @@ fun MovieCard(
                     color = Color.DarkGray
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 val ratings = movie.Ratings
                 val ratingsToShow = ratings?.takeIf { it.isNotEmpty() }?.let { rtngs ->
@@ -169,7 +168,7 @@ fun MovieCard(
                     color = Color.DarkGray
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 val cast = movie.Cast
                 val castToShow = cast?.takeIf { it.isNotEmpty() }?.let { cst ->
@@ -184,10 +183,10 @@ fun MovieCard(
                 )
 
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 val genres = movie.Genres
-                Row(modifier = Modifier.fillMaxWidth()){
+                Row(modifier = Modifier.fillMaxWidth().height(35.dp)){
                     if (genres != null) {
                         genres.forEach { genre ->
                             val genreResId = GenretoIcon(genre)
@@ -196,25 +195,18 @@ fun MovieCard(
                                 Image(
                                     painter = painterResource(id = genreResId),
                                     contentDescription = genre,
-                                    modifier = Modifier.height(25.dp)
                                 )
                             }
                         }
                     }
                 }
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
+                    Spacer(modifier = Modifier.height(3.dp))
                     Text(
                         movie.Awards ?: "No disponible",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.DarkGray
                     )
-
-
-
             }
-
 
         Box(
             modifier = Modifier

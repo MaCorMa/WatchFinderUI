@@ -85,7 +85,7 @@ fun AppNavigation(
     var loginOrRegister by remember { mutableStateOf(ShowScreen.LOGIN) }
     var authState by remember { mutableStateOf(AuthState.LOADING) }
 
-    // --- Estado para manejar la pantalla actual DENTRO de la app principal ---
+    var previousMainScreen by remember { mutableStateOf(MainAppScreen.DISCOVER) }
     var currentMainScreen by remember { mutableStateOf(MainAppScreen.DISCOVER) }
 
     // --- Estado para guardar los resultados de búsqueda temporalmente ---
@@ -137,7 +137,7 @@ fun AppNavigation(
                         onNavigateBack = {
                             detailScreenInfo = null // Limpia la info de detalle
                             currentMainScreen =
-                                MainAppScreen.SEARCH_RESULTS // Vuelve a resultados (o a Search?)
+                                previousMainScreen // Vuelve a resultados (o a Search?)
                         }
                     )
                 }
@@ -150,6 +150,7 @@ fun AppNavigation(
                             currentMainScreen = MainAppScreen.SEARCH
                         }, // Vuelve a Search
                         onNavigateToDetail = { type, id ->
+                            previousMainScreen = currentMainScreen
                             detailScreenInfo = Pair(type, id) // Guarda info para detalle
                             currentMainScreen = MainAppScreen.DETAIL // Cambia a pantalla de detalle
                         }
@@ -171,6 +172,7 @@ fun AppNavigation(
                         },
                         // Lambda para navegar a Detail desde CUALQUIER pantalla dentro de MainScreen
                         onNavigateToDetail = { type, id ->
+                            previousMainScreen = currentMainScreen
                             detailScreenInfo = Pair(type, id)
                             currentMainScreen = MainAppScreen.DETAIL
                         },

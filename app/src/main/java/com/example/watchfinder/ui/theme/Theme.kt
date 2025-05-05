@@ -28,7 +28,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 private val LightColorScheme = lightColorScheme(
     primary = DarkText,             // Color principal (ej: botones) será texto/borde oscuro
-    onPrimary = LightBeige,         // Texto sobre botones primarios (Beige)
+    onPrimary = LightRedContainer,         // Texto sobre botones primarios (Beige)
     secondary = AccentRed,          // Color secundario = Rojo (ej: icono nav seleccionado)
     onSecondary = WhiteText,        // Texto sobre Rojo (Blanco)
     secondaryContainer = LightRedContainer, // Contenedor secundario (ej: óvalo nav seleccionado)

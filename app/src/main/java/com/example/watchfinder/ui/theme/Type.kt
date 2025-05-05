@@ -18,7 +18,7 @@ val Typography = Typography(
     labelLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.W500,
-        fontSize = 20.sp // <-- Este es el valor a cambiar
+        fontSize = 25.sp // <-- Este es el valor a cambiar
     )
     /* Other default text styles to override
     titleLarge = TextStyle(

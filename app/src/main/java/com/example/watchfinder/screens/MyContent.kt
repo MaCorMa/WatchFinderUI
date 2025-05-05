@@ -73,7 +73,6 @@ fun MyContentButtonView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Mi Contenido", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(20.dp))
 
         // Muestra error si existe
@@ -85,10 +84,10 @@ fun MyContentButtonView(
             )
         }
 
-        Button(modifier = Modifier.fillMaxWidth().padding(10.dp), onClick = onMoviesClick) {
+        Button(modifier = Modifier.fillMaxWidth().padding(10.dp).height(50.dp), onClick = onMoviesClick) {
             Text("Películas Favoritas")
         }
-        Button(modifier = Modifier.fillMaxWidth().padding(10.dp), onClick = onSeriesClick) {
+        Button(modifier = Modifier.fillMaxWidth().padding(10.dp).height(50.dp), onClick = onSeriesClick) {
             Text("Series Favoritas")
         }
         // Puedes añadir más botones para otras listas (Vistas, Pendientes, etc.)
