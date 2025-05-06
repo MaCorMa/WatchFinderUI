@@ -59,5 +59,9 @@ interface ApiService {
     suspend fun getSeenSeries(): List<Series>
     @GET("/users/getseenmovies")
     suspend fun getSeenMovies(): List<Movie>
+    @GET("/users/recommendmovies") // Asegúrate que el path coincida con tu backend
+    suspend fun getMovieRecommendations(): List<Movie>
+    @GET("/users/recommendseries") // Asegúrate que el path coincida con tu backend
+    suspend fun getSeriesRecommendations(): List<Series>
 
 }

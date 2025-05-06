@@ -32,7 +32,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -40,7 +39,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.watchfinder.R
-import com.example.watchfinder.viewmodels.DiscoverMoviesVM
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM
 import kotlinx.coroutines.launch
 import kotlin.math.abs

@@ -50,4 +50,11 @@ class SeriesRepository@Inject constructor(
     suspend fun searchById(id: String): SeriesCard {
         return utils.seriesToCard(apiService.getSeriesById(id))
     }
+
+    suspend fun getSeriesRecommendations(): List<SeriesCard> {
+        // Llama al nuevo endpoint del ApiService que devuelve modelos Series
+        val recommendedSeries = apiService.getSeriesRecommendations()
+        // Convierte los modelos Series a SeriesCard usando tu Utils
+        return recommendedSeries.map { series -> utils.seriesToCard(series) }
+    }
 }
