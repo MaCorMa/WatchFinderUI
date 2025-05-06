@@ -1,7 +1,9 @@
 package com.example.watchfinder
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -28,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
@@ -45,7 +48,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.example.watchfinder.screens.Register
 import javax.inject.Inject
 import androidx.compose.ui.tooling.preview.Preview
-
+import androidx.lifecycle.lifecycleScope
+import com.example.watchfinder.screens.ResetPassword
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -67,6 +72,9 @@ class MainActivity : ComponentActivity() {
         //testApiRegister(authRepository)
         //testApiLogin(authRepository)
 
+        //deep linking para reset contraseña
+        handleIntent(intent)
+
         setContent {
             WatchFinderTheme {
                 AppNavigation(
@@ -77,13 +85,33 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    //Intents nuevos con la app ya en marcha
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+    // saca token al clickar el deep link
+    private fun handleIntent(intent: Intent?) {
+        val uri = intent?.data
+        if (uri != null) {
+            // saca el token de la URI
+            val token = uri.getQueryParameter("token")
+            if (token != null) {
+                Log.d("DeepLink", "Token para reset recibido: $token")
+                // guarda token
+                userManager.setResetToken(token)
+            }
+        }
+    }
 }
 
 enum class AuthState {
     LOADING, // Comprobando el token
     AUTHENTICATED,
     UNAUTHENTICATED,
-    PASSWORD_RESET
+    PASSWORD_RESET,
+    FORGOT_PASSWORD
 }
 
 enum class ShowScreen {
@@ -103,12 +131,18 @@ fun AppNavigation(
     userManager: UserManager,
     authRepository: AuthRepository // Necesitas pasar el repositorio
 ) {
+    val context = LocalContext.current
 
     var loginOrRegister by remember { mutableStateOf(ShowScreen.LOGIN) }
     var authState by remember { mutableStateOf(AuthState.LOADING) } // Empieza cargando
 
     // Efecto que se ejecuta una vez al inicio para validar el token
     LaunchedEffect(Unit) {
+        //si hay token de reseteo, ir directamente a reset password
+        if (userManager.resetToken != null) {
+            authState = AuthState.PASSWORD_RESET
+            return@LaunchedEffect
+        }
         val token = tokenManager.getToken()
         if (token == null) {
             println("--> No token found. Unauthenticated.")
@@ -144,10 +178,16 @@ fun AppNavigation(
             MainScreen(
                 onLogout = {
                     println("--> Logging out...")
-                    tokenManager.clearToken()
-                    userManager.clearCurrentUser()
-                    authState = AuthState.UNAUTHENTICATED
-                    loginOrRegister = ShowScreen.LOGIN
+                    // Lanzar una corrutina usando el scope de la Activity para llamar a la función suspend
+                    (context as ComponentActivity).lifecycleScope.launch {
+                        // Llama a logout del repositorio, que a su vez llama a userManager.clearCurrentUser()
+                        authRepository.logout() // Esta función (logout) ahora DEBE ser suspend
+
+                        // Después de que el logout (suspend) termine, actualiza el estado de la UI
+                        authState = AuthState.UNAUTHENTICATED
+                        loginOrRegister = ShowScreen.LOGIN
+                        println("--> Logout finished. State set to Unauthenticated.")
+                    }
                 }
             )
         }
@@ -164,7 +204,7 @@ fun AppNavigation(
                         onForgotPasswordClick = {
                             println("--> Redirecting to pass reset screen.")
                             // Pasa a la pantalla para indicar correo y resetear pass
-                            authState = AuthState.PASSWORD_RESET
+                            authState = AuthState.FORGOT_PASSWORD
                         },
                         onNavigateToRegister = {
                             loginOrRegister = ShowScreen.REGISTER
@@ -186,6 +226,21 @@ fun AppNavigation(
         }
 
         AuthState.PASSWORD_RESET -> {
+            ResetPassword(
+                token = userManager.resetToken ?:"",
+                onSuccess = {
+                    userManager.setResetToken(null)
+                    authState = AuthState.UNAUTHENTICATED
+                    loginOrRegister = ShowScreen.LOGIN
+                },
+                onCancel = {
+                    userManager.setResetToken(null)
+                    authState = AuthState.UNAUTHENTICATED
+                    loginOrRegister = ShowScreen.LOGIN
+                }
+            )
+        }
+        AuthState.FORGOT_PASSWORD -> {
             ForgotPassword(
                 onNavigateBack = {
                     authState = AuthState.UNAUTHENTICATED
@@ -230,9 +285,10 @@ fun MainScreen(onLogout: () -> Unit) {
                         DiscoverState.SERIES -> DiscoverSeries()
                     }
                 }
-
                 "Achievements" -> Achievements()
-                "Profile" -> Profile(onLogoutClick = onLogout)
+                "Profile" -> Profile(
+                    onLogoutClick = onLogout,
+                )
             }
         }
     }
@@ -269,6 +325,9 @@ fun BottomBar(current: String, click: (String) -> Unit) {
     }
 }
 
+
+
+
 //Para el preview
 @Preview(showBackground = true)
 @Composable
@@ -278,34 +337,3 @@ fun MainScreenPreview() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BottomBarPreview() {
-    WatchFinderTheme {
-        BottomBar(
-            current = "Discover",
-            click = {}
-        )
-    }
-}
-
-@Preview(showBackground = true, name = "Loading State")
-@Composable
-fun AppNavigationLoadingPreview() {
-    WatchFinderTheme {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    }
-}
-
-@Preview(showBackground = true, name = "Discover Selection")
-@Composable
-fun DiscoverSelectionPreview() {
-    WatchFinderTheme {
-        MovieOrSeries(
-            onMoviesClicked = {},
-            onSeriesClicked = {}
-        )
-    }
-}

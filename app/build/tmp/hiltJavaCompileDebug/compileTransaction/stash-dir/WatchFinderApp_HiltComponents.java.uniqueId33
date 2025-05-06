@@ -6,6 +6,7 @@ import com.example.watchfinder.viewmodels.DiscoverMoviesVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM_HiltModules;
 import com.example.watchfinder.viewmodels.ForgotPasswordVM_HiltModules;
 import com.example.watchfinder.viewmodels.LoginViewModel_HiltModules;
+import com.example.watchfinder.viewmodels.ProfileVM_HiltModules;
 import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
 import com.example.watchfinder.viewmodels.ResetPasswordVM_HiltModules;
 import dagger.Binds;
@@ -133,7 +134,6 @@ public final class WatchFinderApp_HiltComponents {
   @Component(
       modules = {
           AppModule.class,
-          AppModule.UserModule.class,
           ApplicationContextModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
           NetworkModule.class,
@@ -167,6 +167,7 @@ public final class WatchFinderApp_HiltComponents {
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
           LoginViewModel_HiltModules.KeyModule.class,
+          ProfileVM_HiltModules.KeyModule.class,
           RegisterVM_HiltModules.KeyModule.class,
           ResetPasswordVM_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
@@ -211,6 +212,7 @@ public final class WatchFinderApp_HiltComponents {
           ForgotPasswordVM_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           LoginViewModel_HiltModules.BindsModule.class,
+          ProfileVM_HiltModules.BindsModule.class,
           RegisterVM_HiltModules.BindsModule.class,
           ResetPasswordVM_HiltModules.BindsModule.class
       }

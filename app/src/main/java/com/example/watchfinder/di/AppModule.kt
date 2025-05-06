@@ -21,18 +21,11 @@ object AppModule {
     fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
         return TokenManager(context)
     }
-
-
-    @Module
-    @InstallIn(SingletonComponent::class)
-    object UserModule {
-
-        @Provides
-        @Singleton
-        fun provideUserManager(): UserManager {
-            return UserManager()
-        }
+    @Provides
+    @Singleton // Debe coincidir con el scope de UserManager
+    fun provideUserManager(@ApplicationContext appContext: Context): UserManager {
+        // Hilt proporcionará el ApplicationContext
+        // Devuelve una instancia de UserManager
+        return UserManager(appContext)
     }
-
-
 }

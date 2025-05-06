@@ -1,7 +1,5 @@
 package com.example.watchfinder.viewmodels;
 
-import com.example.watchfinder.data.UserManager;
-import com.example.watchfinder.data.prefs.TokenManager;
 import com.example.watchfinder.repository.AuthRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
@@ -27,29 +25,20 @@ import javax.inject.Provider;
 public final class LoginViewModel_Factory implements Factory<LoginViewModel> {
   private final Provider<AuthRepository> authRepositoryProvider;
 
-  private final Provider<TokenManager> tokenManagerProvider;
-
-  private final Provider<UserManager> userManagerProvider;
-
-  public LoginViewModel_Factory(Provider<AuthRepository> authRepositoryProvider,
-      Provider<TokenManager> tokenManagerProvider, Provider<UserManager> userManagerProvider) {
+  public LoginViewModel_Factory(Provider<AuthRepository> authRepositoryProvider) {
     this.authRepositoryProvider = authRepositoryProvider;
-    this.tokenManagerProvider = tokenManagerProvider;
-    this.userManagerProvider = userManagerProvider;
   }
 
   @Override
   public LoginViewModel get() {
-    return newInstance(authRepositoryProvider.get(), tokenManagerProvider.get(), userManagerProvider.get());
+    return newInstance(authRepositoryProvider.get());
   }
 
-  public static LoginViewModel_Factory create(Provider<AuthRepository> authRepositoryProvider,
-      Provider<TokenManager> tokenManagerProvider, Provider<UserManager> userManagerProvider) {
-    return new LoginViewModel_Factory(authRepositoryProvider, tokenManagerProvider, userManagerProvider);
+  public static LoginViewModel_Factory create(Provider<AuthRepository> authRepositoryProvider) {
+    return new LoginViewModel_Factory(authRepositoryProvider);
   }
 
-  public static LoginViewModel newInstance(AuthRepository authRepository, TokenManager tokenManager,
-      UserManager userManager) {
-    return new LoginViewModel(authRepository, tokenManager, userManager);
+  public static LoginViewModel newInstance(AuthRepository authRepository) {
+    return new LoginViewModel(authRepository);
   }
 }

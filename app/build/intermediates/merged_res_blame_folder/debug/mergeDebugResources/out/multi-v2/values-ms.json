@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.watchfinder.app-mergeDebugResources-55:/values-ms/values-ms.xml",
+            "outputFile": "com.example.watchfinder.app-mergeDebugResources-59:/values-ms/values-ms.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\5deae9403572b2493e531b3686876e73\\transformed\\material3-release\\res\\values-ms\\values-ms.xml",
@@ -18,23 +18,6 @@
                         "startOffsets": "1483,1603,1722,1836,1955,2055,2160,2282,2432,2560,2708,2794,2894,2986,3084,3200,3326,3431,3569,3704,3836,4015,4140,4265,4393,4522,4615,4716,4837,4965,5066,5173,5279,5420,5566,5673,5772,5848,5946,6044,6131,6220,6322,6402,6485,6584,6683,6780,6883,6970,7073,7172,7279,7401,7482,7588",
                         "endColumns": "119,118,113,118,99,104,121,149,127,147,85,99,91,97,115,125,104,137,134,131,178,124,124,127,128,92,100,120,127,100,106,105,140,145,106,98,75,97,97,86,88,101,79,82,98,98,96,102,86,102,98,106,121,80,105,95",
                         "endOffsets": "1598,1717,1831,1950,2050,2155,2277,2427,2555,2703,2789,2889,2981,3079,3195,3321,3426,3564,3699,3831,4010,4135,4260,4388,4517,4610,4711,4832,4960,5061,5168,5274,5415,5561,5668,5767,5843,5941,6039,6126,6215,6317,6397,6480,6579,6678,6775,6878,6965,7068,7167,7274,7396,7477,7583,7679"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\1247901d2630f860c9da325eb54eab68\\transformed\\foundation-release\\res\\values-ms\\values-ms.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,142",
-                        "endColumns": "86,90",
-                        "endOffsets": "137,228"
-                    },
-                    "to": {
-                        "startLines": "83,84",
-                        "startColumns": "4,4",
-                        "startOffsets": "8595,8682",
-                        "endColumns": "86,90",
-                        "endOffsets": "8677,8768"
                     }
                 },
                 {
@@ -55,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\4f98668b39cb0f47c47c31ec66e891f6\\transformed\\ui-release\\res\\values-ms\\values-ms.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\b568a6a504f255b994fc7cfe06d12597\\transformed\\ui-release\\res\\values-ms\\values-ms.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -69,6 +52,23 @@
                         "startOffsets": "848,938,1022,1118,1220,1305,1388,7684,7771,7856,7922,7989,8074,8160,8333,8409,8475",
                         "endColumns": "89,83,95,101,84,82,94,86,84,65,66,84,85,71,75,65,119",
                         "endOffsets": "933,1017,1113,1215,1300,1383,1478,7766,7851,7917,7984,8069,8155,8227,8404,8470,8590"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\39b701dce496db79cf6fe2dce9a124c6\\transformed\\foundation-release\\res\\values-ms\\values-ms.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,142",
+                        "endColumns": "86,90",
+                        "endOffsets": "137,228"
+                    },
+                    "to": {
+                        "startLines": "83,84",
+                        "startColumns": "4,4",
+                        "startOffsets": "8595,8682",
+                        "endColumns": "86,90",
+                        "endOffsets": "8677,8768"
                     }
                 }
             ]

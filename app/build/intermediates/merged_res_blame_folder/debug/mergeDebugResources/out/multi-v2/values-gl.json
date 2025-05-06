@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.watchfinder.app-mergeDebugResources-55:/values-gl/values-gl.xml",
+            "outputFile": "com.example.watchfinder.app-mergeDebugResources-59:/values-gl/values-gl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\5deae9403572b2493e531b3686876e73\\transformed\\material3-release\\res\\values-gl\\values-gl.xml",
@@ -18,23 +18,6 @@
                         "startOffsets": "1483,1604,1722,1845,1965,2066,2162,2275,2413,2531,2684,2768,2871,2968,3069,3187,3305,3413,3552,3690,3842,4027,4162,4281,4403,4528,4626,4723,4844,4992,5093,5206,5320,5460,5605,5715,5821,5907,6003,6099,6186,6272,6378,6460,6544,6645,6752,6843,6942,7030,7143,7244,7347,7471,7553,7671",
                         "endColumns": "120,117,122,119,100,95,112,137,117,152,83,102,96,100,117,117,107,138,137,151,184,134,118,121,124,97,96,120,147,100,112,113,139,144,109,105,85,95,95,86,85,105,81,83,100,106,90,98,87,112,100,102,123,81,117,107",
                         "endOffsets": "1599,1717,1840,1960,2061,2157,2270,2408,2526,2679,2763,2866,2963,3064,3182,3300,3408,3547,3685,3837,4022,4157,4276,4398,4523,4621,4718,4839,4987,5088,5201,5315,5455,5600,5710,5816,5902,5998,6094,6181,6267,6373,6455,6539,6640,6747,6838,6937,7025,7138,7239,7342,7466,7548,7666,7774"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\1247901d2630f860c9da325eb54eab68\\transformed\\foundation-release\\res\\values-gl\\values-gl.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,154",
-                        "endColumns": "98,100",
-                        "endOffsets": "149,250"
-                    },
-                    "to": {
-                        "startLines": "83,84",
-                        "startColumns": "4,4",
-                        "startOffsets": "8731,8830",
-                        "endColumns": "98,100",
-                        "endOffsets": "8825,8926"
                     }
                 },
                 {
@@ -55,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\4f98668b39cb0f47c47c31ec66e891f6\\transformed\\ui-release\\res\\values-gl\\values-gl.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\39b701dce496db79cf6fe2dce9a124c6\\transformed\\foundation-release\\res\\values-gl\\values-gl.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,154",
+                        "endColumns": "98,100",
+                        "endOffsets": "149,250"
+                    },
+                    "to": {
+                        "startLines": "83,84",
+                        "startColumns": "4,4",
+                        "startOffsets": "8731,8830",
+                        "endColumns": "98,100",
+                        "endOffsets": "8825,8926"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\b568a6a504f255b994fc7cfe06d12597\\transformed\\ui-release\\res\\values-gl\\values-gl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

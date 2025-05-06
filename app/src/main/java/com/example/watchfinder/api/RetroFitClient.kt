@@ -5,9 +5,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.watchfinder.data.prefs.TokenManager
 import okhttp3.OkHttpClient
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetroFitClient {
     private const val BASE_URL = "http://10.0.2.2:8080"
+    var baseUrl: String = BASE_URL
+        private set
     private var apiService: ApiService? = null
     val instance: ApiService
         get() {
@@ -36,6 +39,7 @@ object RetroFitClient {
                 .baseUrl(BASE_URL)
                 //Le pasamos nuestro OkHttpClient
                 .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())//para la imagen de usuario
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

@@ -11,12 +11,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.watchfinder.viewmodels.ResetPasswordVM
 
 @Composable
-fun ResetPasswordScreen(
+fun ResetPassword(
     token: String,
     viewModel: ResetPasswordVM = hiltViewModel(),
-    onSuccess: () -> Unit
+    onSuccess: () -> Unit,
+    onCancel: () ->Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(uiState.isSuccess) {
+        if (uiState.isSuccess) onSuccess()
+    }
 
     Column(
         modifier = Modifier

@@ -1,11 +1,14 @@
 package com.example.watchfinder.di
 
+import android.content.Context
+import coil.ImageLoader
 import com.example.watchfinder.api.AInterceptor
 import com.example.watchfinder.api.ApiService
 import com.example.watchfinder.data.prefs.TokenManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,5 +58,17 @@ object NetworkModule {
     fun provideApiService(retrofit: Retrofit): ApiService {
         // Hilt buscará cómo crear Retrofit (la receta de arriba) y lo pasará aquí
         return retrofit.create(ApiService::class.java)
+    }
+
+    //Para que Coil pueda cargar la imagen desde el backend, necesita token
+    @Provides
+    @Singleton
+    fun provideAuthenticatedImageLoader(
+        @ApplicationContext context: Context,
+        okHttpClient: OkHttpClient
+    ): ImageLoader {
+        return ImageLoader.Builder(context)
+            .okHttpClient(okHttpClient)
+            .build()
     }
 }

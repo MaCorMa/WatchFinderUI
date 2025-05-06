@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.watchfinder.app-mergeDebugResources-55:/values-ta/values-ta.xml",
+            "outputFile": "com.example.watchfinder.app-mergeDebugResources-59:/values-ta/values-ta.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\4f98668b39cb0f47c47c31ec66e891f6\\transformed\\ui-release\\res\\values-ta\\values-ta.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\b568a6a504f255b994fc7cfe06d12597\\transformed\\ui-release\\res\\values-ta\\values-ta.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\1247901d2630f860c9da325eb54eab68\\transformed\\foundation-release\\res\\values-ta\\values-ta.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\39b701dce496db79cf6fe2dce9a124c6\\transformed\\foundation-release\\res\\values-ta\\values-ta.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

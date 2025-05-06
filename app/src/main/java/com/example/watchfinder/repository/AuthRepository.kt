@@ -2,6 +2,7 @@ package com.example.watchfinder.repository
 
 import com.example.watchfinder.api.ApiService
 import com.example.watchfinder.data.UserManager
+import com.example.watchfinder.data.dto.ChangePasswordRequest
 import com.example.watchfinder.data.dto.LoginRequest
 import com.example.watchfinder.data.dto.LoginResponse
 import com.example.watchfinder.data.dto.ForgotPasswordRequest
@@ -42,6 +43,7 @@ class AuthRepository @Inject constructor(
         return try {
             val response = apiService.validate()
             if (response.isSuccessful) {
+                fetchAndStoreUserProfile()
                 Result.success(true) // Token es válido
             } else {
                 // El token no es válido (401, 403, etc.) -> Limpiarlo localmente
@@ -78,18 +80,16 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    private suspend fun fetchAndStoreUserProfile() {
+    suspend fun fetchAndStoreUserProfile() {
         try {
-            // Asegúrate de tener este endpoint en ApiService
-            val userProfileResponse = apiService.getProfile() // Llama a /api/users/me o similar
+            val userProfileResponse = apiService.getProfile()
             if (userProfileResponse.isSuccessful) {
                 val user = userProfileResponse.body()
-                userManager.setCurrentUser(user) // ¡Guarda el usuario en UserManager!
+                userManager.setCurrentUser(user)
                 println("Perfil de usuario obtenido y guardado.")
             } else {
                 println("Error al obtener perfil de usuario: ${userProfileResponse.code()}")
-                // ¿Qué hacer aquí? ¿Desloguear? ¿Dejar el token pero sin User?
-                userManager.clearCurrentUser() // Quizás limpiar si no se obtiene perfil
+                userManager.clearCurrentUser() // limpiar si no se obtiene perfil
             }
         } catch (e: Exception) {
             println("Excepción al obtener perfil de usuario: $e")
@@ -97,7 +97,7 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    fun logout() {
+    suspend fun logout() {
         tokenManager.clearToken()
         userManager.clearCurrentUser()
         println("Usuario deslogueado.")
@@ -116,7 +116,6 @@ class AuthRepository @Inject constructor(
             Result.failure(e)
         }
     }
-
     suspend fun resetPassword(token: String, newPassword: String): Result<Unit> {
         return try {
             val response = apiService.resetPassword(ResetPasswordRequest(token, newPassword))
@@ -124,6 +123,22 @@ class AuthRepository @Inject constructor(
                 Result.success(Unit)
             } else {
                 Result.failure(Exception("Error reseteando contraseña: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    suspend fun updateToken(newToken: String) {
+        tokenManager.saveToken(newToken)
+    }
+    // para reset password desde perfil
+    suspend fun changePassword(currentPassword: String, newPassword: String): Result<Unit> {
+        return try {
+            val response = apiService.changePassword(ChangePasswordRequest(currentPassword, newPassword))
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Error al cambiar la contraseña: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

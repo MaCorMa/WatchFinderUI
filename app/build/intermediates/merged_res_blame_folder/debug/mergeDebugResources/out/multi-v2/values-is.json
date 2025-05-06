@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.watchfinder.app-mergeDebugResources-55:/values-is/values-is.xml",
+            "outputFile": "com.example.watchfinder.app-mergeDebugResources-59:/values-is/values-is.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\4f98668b39cb0f47c47c31ec66e891f6\\transformed\\ui-release\\res\\values-is\\values-is.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\b568a6a504f255b994fc7cfe06d12597\\transformed\\ui-release\\res\\values-is\\values-is.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -18,6 +18,23 @@
                         "startOffsets": "822,913,994,1093,1192,1277,1357,7527,7616,7698,7766,7834,7912,7995,8166,8243,8311",
                         "endColumns": "90,80,98,98,84,79,94,88,81,67,67,77,82,69,76,67,119",
                         "endOffsets": "908,989,1088,1187,1272,1352,1447,7611,7693,7761,7829,7907,7990,8060,8238,8306,8426"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\39b701dce496db79cf6fe2dce9a124c6\\transformed\\foundation-release\\res\\values-is\\values-is.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,142",
+                        "endColumns": "86,86",
+                        "endOffsets": "137,224"
+                    },
+                    "to": {
+                        "startLines": "83,84",
+                        "startColumns": "4,4",
+                        "startOffsets": "8431,8518",
+                        "endColumns": "86,86",
+                        "endOffsets": "8513,8600"
                     }
                 },
                 {
@@ -35,23 +52,6 @@
                         "startOffsets": "1452,1566,1678,1785,1897,1994,2093,2209,2350,2477,2612,2702,2803,2900,3000,3115,3241,3347,3472,3596,3738,3909,4032,4148,4267,4389,4487,4585,4694,4816,4922,5030,5133,5263,5398,5506,5611,5687,5781,5874,5959,6044,6153,6233,6324,6425,6526,6621,6729,6817,6922,7023,7129,7249,7329,7431",
                         "endColumns": "113,111,106,111,96,98,115,140,126,134,89,100,96,99,114,125,105,124,123,141,170,122,115,118,121,97,97,108,121,105,107,102,129,134,107,104,75,93,92,84,84,108,79,90,100,100,94,107,87,104,100,105,119,79,101,95",
                         "endOffsets": "1561,1673,1780,1892,1989,2088,2204,2345,2472,2607,2697,2798,2895,2995,3110,3236,3342,3467,3591,3733,3904,4027,4143,4262,4384,4482,4580,4689,4811,4917,5025,5128,5258,5393,5501,5606,5682,5776,5869,5954,6039,6148,6228,6319,6420,6521,6616,6724,6812,6917,7018,7124,7244,7324,7426,7522"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\1247901d2630f860c9da325eb54eab68\\transformed\\foundation-release\\res\\values-is\\values-is.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,142",
-                        "endColumns": "86,86",
-                        "endOffsets": "137,224"
-                    },
-                    "to": {
-                        "startLines": "83,84",
-                        "startColumns": "4,4",
-                        "startOffsets": "8431,8518",
-                        "endColumns": "86,86",
-                        "endOffsets": "8513,8600"
                     }
                 },
                 {

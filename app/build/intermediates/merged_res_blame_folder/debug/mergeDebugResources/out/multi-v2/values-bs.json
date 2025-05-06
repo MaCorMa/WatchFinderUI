@@ -1,25 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.watchfinder.app-mergeDebugResources-55:/values-bs/values-bs.xml",
+            "outputFile": "com.example.watchfinder.app-mergeDebugResources-59:/values-bs/values-bs.xml",
             "map": [
-                {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\4f98668b39cb0f47c47c31ec66e891f6\\transformed\\ui-release\\res\\values-bs\\values-bs.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,206,294,388,487,573,650,742,834,919,991,1062,1143,1229,1302,1382,1452",
-                        "endColumns": "100,87,93,98,85,76,91,91,84,71,70,80,85,72,79,69,117",
-                        "endOffsets": "201,289,383,482,568,645,737,829,914,986,1057,1138,1224,1297,1377,1447,1565"
-                    },
-                    "to": {
-                        "startLines": "9,10,11,12,13,14,15,72,73,74,75,76,77,78,80,81,82",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "830,931,1019,1113,1212,1298,1375,7682,7774,7859,7931,8002,8083,8169,8343,8423,8493",
-                        "endColumns": "100,87,93,98,85,76,91,91,84,71,70,80,85,72,79,69,117",
-                        "endOffsets": "926,1014,1108,1207,1293,1370,1462,7769,7854,7926,7997,8078,8164,8237,8418,8488,8606"
-                    }
-                },
                 {
                     "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\5deae9403572b2493e531b3686876e73\\transformed\\material3-release\\res\\values-bs\\values-bs.xml",
                     "from": {
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\1247901d2630f860c9da325eb54eab68\\transformed\\foundation-release\\res\\values-bs\\values-bs.xml",
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\b568a6a504f255b994fc7cfe06d12597\\transformed\\ui-release\\res\\values-bs\\values-bs.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,206,294,388,487,573,650,742,834,919,991,1062,1143,1229,1302,1382,1452",
+                        "endColumns": "100,87,93,98,85,76,91,91,84,71,70,80,85,72,79,69,117",
+                        "endOffsets": "201,289,383,482,568,645,737,829,914,986,1057,1138,1224,1297,1377,1447,1565"
+                    },
+                    "to": {
+                        "startLines": "9,10,11,12,13,14,15,72,73,74,75,76,77,78,80,81,82",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "830,931,1019,1113,1212,1298,1375,7682,7774,7859,7931,8002,8083,8169,8343,8423,8493",
+                        "endColumns": "100,87,93,98,85,76,91,91,84,71,70,80,85,72,79,69,117",
+                        "endOffsets": "926,1014,1108,1207,1293,1370,1462,7769,7854,7926,7997,8078,8164,8237,8418,8488,8606"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Usuario\\.gradle\\caches\\8.10.2\\transforms\\39b701dce496db79cf6fe2dce9a124c6\\transformed\\foundation-release\\res\\values-bs\\values-bs.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

@@ -1,66 +1,74 @@
 [
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-anydpi/ic_launcher.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.watchfinder.app-main-59:/xml/data_extraction_rules.xml"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/xml_backup_rules.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/xml/backup_rules.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.watchfinder.app-main-59:/drawable/ic_launcher_background.xml"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.watchfinder.app-main-59:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-anydpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/drawable_ic_error_placeholder.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/drawable/ic_error_placeholder.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-anydpi/ic_launcher.xml"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-anydpi/ic_launcher_round.xml"
+        "merged": "com.example.watchfinder.app-debug-61:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.watchfinder.app-main-59:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.watchfinder.app-debug-61:/drawable_ic_default_avatar.xml.flat",
+        "source": "com.example.watchfinder.app-main-63:/drawable/ic_default_avatar.xml"
     },
     {
-        "merged": "com.example.watchfinder.app-debug-57:/xml_backup_rules.xml.flat",
-        "source": "com.example.watchfinder.app-main-59:/xml/backup_rules.xml"
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.watchfinder.app-debug-61:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.watchfinder.app-main-63:/mipmap-xhdpi/ic_launcher.webp"
     }
 ]
