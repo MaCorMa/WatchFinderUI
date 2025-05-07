@@ -1,16 +1,26 @@
 package com.example.watchfinder.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,14 +28,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.watchfinder.R
 import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SeriesCard(series: SeriesCard) {
+fun SeriesCard(series: SeriesCard,
+               showActions: Boolean = true,
+               onFavoriteClick: () -> Unit = {},
+               isFavorite : Boolean,
+               onSeenClick: () -> Unit = {},
+               isSeen : Boolean,
+               playWhenReady: Boolean) {
 
     Card(
         modifier = Modifier
@@ -42,14 +61,27 @@ fun SeriesCard(series: SeriesCard) {
                     .fillMaxSize()
                     .background(Color.Red)
             ) {
-                // Aquí podríamos poner el icono de Plataformas (11) más tarde
+                val videoUrl = series.Url // o series.Url
+                if (!videoUrl.isNullOrBlank()) {
+                    VideoPlayer(videoUrl = videoUrl, playWhenReady = playWhenReady) // Llama a tu composable de vídeo
+                } else {
+                    // Opcional: Muestra un placeholder si no hay URL
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray), // Un placeholder diferente
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Trailer no disponible")
+                    }
+                }
             }
             // Esta es la caja donde va los datos.
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .height(400.dp)// Ocupa todo el espacio disponible sobre el vídeo
+
                     .background(
 
                         Brush.verticalGradient(
@@ -150,14 +182,14 @@ fun SeriesCard(series: SeriesCard) {
                 )
 
                 //Otro más antes del resto de datos
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    series.Seasons ?: "No disponible",
+                    "${series.Seasons} temporadas" ?: "No disponible",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.DarkGray
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 Text(
                     series.Director ?: "No disponible",
@@ -165,7 +197,7 @@ fun SeriesCard(series: SeriesCard) {
                     color = Color.DarkGray
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 val ratings = series.Ratings
                 val ratingsToShow = ratings?.takeIf { it.isNotEmpty() }?.let { rtngs ->
@@ -179,7 +211,7 @@ fun SeriesCard(series: SeriesCard) {
                     color = Color.DarkGray
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 val cast = series.Cast
                 val castToShow = cast?.takeIf { it.isNotEmpty() }?.let { cst ->
@@ -192,23 +224,25 @@ fun SeriesCard(series: SeriesCard) {
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.DarkGray
                 )
-
-
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 val genres = series.Genres
-                val genresToShow = genres?.takeIf { it.isNotEmpty() }?.let { gnrs ->
-                    val maxToShow = 3
-                    gnrs.take(maxToShow).joinToString(", ") +
-                            if (genres.size > maxToShow) ", ..." else ""
-                } ?: "Géneros no disp."
-                Text(
-                    genresToShow,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.DarkGray
-                )
+                FlowRow(modifier = Modifier.fillMaxWidth().height(35.dp)){
+                    if (genres != null) {
+                        genres.forEach { genre ->
+                            val genreResId = GenretoIcon(genre)
+                            // -------------------------
+                            if (genreResId != null) {
+                                Image(
+                                    painter = painterResource(id = genreResId),
+                                    contentDescription = genre,
+                                )
+                            }
+                        }
+                    }
+                }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(3.dp))
 
                 Text(
                     series.Awards ?: "No disponible",
@@ -224,51 +258,69 @@ fun SeriesCard(series: SeriesCard) {
                 modifier = Modifier
                     .align(Alignment.TopEnd) // Alineado arriba a la derecha
                     .padding(8.dp)
-                    .background(
-                        Color.Black.copy(alpha = 0.5f),
-                        shape = MaterialTheme.shapes.small
-                    ) // Fondo semitransparente
-                    .padding(4.dp)
             ) {
-                Text(
-                    "Plataf (11)",
-                    color = Color.White,
-                    style = MaterialTheme.typography.labelSmall
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    if (showActions) {
+                        IconButton(
+                            onClick = onFavoriteClick,
+                            modifier = Modifier
+                                .padding(1.dp) // Espaciado
+                        ) {
+                            Icon(
+                                modifier = Modifier.padding(4.dp),
+                                painter = if (isFavorite) painterResource(id = R.drawable.heartfill) else painterResource(id = R.drawable.heart),
+                                contentDescription = "Añadir a Favoritos",
+                                tint = if (isFavorite) {
+                                    Color.Red // Favorito (contorno) -> Blanco
+                                } else {
+                                    Color.White   // No favorito (relleno) -> Rojo
+                                }
+                            )
+                        }
+
+                        // Icono Visto (Ojo) - Arriba Derecha (junto a Plataformas?)
+                        IconButton(
+                            onClick = onSeenClick,
+                            modifier = Modifier
+                                .padding(1.dp)) {
+                            Icon(
+                                modifier = Modifier.padding(4.dp),
+                                painter = if (isSeen) painterResource(id = R.drawable.eyeno) else painterResource(id = R.drawable.eye),
+                                contentDescription = "Marcar como Visto",
+                                tint = Color.White // O un color que contraste
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    val plat = series.Providers
+                    // --- MODIFICA ESTA COLUMN ---
+                    Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
+                        // ---- Verifica que entras aquí ----
+                        println("Componiendo Column de Logos. Providers: $plat")
+                        // ---------------------------------
+                        if (plat != null) {
+                            plat.forEach { providerName ->
+                                val logoResId = providerToLogo(providerName)
+                                // ---- Verifica el mapeo ----
+                                println("Provider: '$providerName' -> Logo ID: $logoResId")
+                                // -------------------------
+                                if (logoResId != null) {
+                                    // --- Verifica si se compone la imagen ---
+                                    println("Intentando componer Image para $providerName")
+                                    // ---------------------------------------
+                                    Image(
+                                        painter = painterResource(id = logoResId),
+                                        contentDescription = providerName,
+                                        modifier = Modifier.height(25.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-        } // Fin Box principal (apilador)
-    } // Fin Card
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SeriesCardPreview() {
-    // 1. Crea datos falsos (dummy) del tipo MovieCard (DTO)
-    val dummySeries = SeriesCard(
-        _id = "preview123",
-        Title = "Película de Prueba Muy Larga Para Ver Cómo Queda",
-        Plot = "Esta es una descripción de ejemplo bastante larga para ver cómo se ajusta el texto en varias líneas dentro de la tarjeta de la película.",
-        Url = "https://via.placeholder.com/600x900.png?text=Movie+Poster", // Usa una URL de placeholder
-        Genres = listOf("Acción", "Aventura", "Ciencia Ficción"),
-        Runtime = "125 min",
-        Director = "Director Famoso",
-        Cast = listOf("Actor Principal", "Actriz Secundaria", "Otro Actor"),
-        Ratings = listOf("IMDb: 7.5/10"),
-        Languages = listOf("Español", "Inglés"),
-        Country = "País Ejemplo",
-        Awards = "Algún premio",
-        Year = "2024",
-        ReleaseDate = "2024-01-15",
-        Rated = "PG-13",
-        EndDate = "9999",
-        Status = "Done",
-        Seasons = "Aurhg"
-    )
-
-    // 2. Llama a tu MovieCard real pasándole los datos falsos
-    WatchFinderTheme { // Envuelve en tu tema si es necesario
-        SeriesCard(dummySeries)
+        }
     }
 }
 

@@ -1,6 +1,8 @@
 package com.example.watchfinder.repository;
 
 import com.example.watchfinder.api.ApiService;
+import com.example.watchfinder.data.Utils;
+import com.example.watchfinder.data.prefs.TokenManager;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
@@ -25,8 +27,15 @@ import javax.inject.Provider;
 public final class UserRepository_Factory implements Factory<UserRepository> {
   private final Provider<ApiService> apiServiceProvider;
 
-  public UserRepository_Factory(Provider<ApiService> apiServiceProvider) {
+  private final Provider<TokenManager> tokenManagerProvider;
+
+  private final Provider<Utils> utilsProvider;
+
+  public UserRepository_Factory(Provider<ApiService> apiServiceProvider,
+      Provider<TokenManager> tokenManagerProvider, Provider<Utils> utilsProvider) {
     this.apiServiceProvider = apiServiceProvider;
+    this.tokenManagerProvider = tokenManagerProvider;
+    this.utilsProvider = utilsProvider;
   }
 
   @Override
@@ -40,5 +49,16 @@ public final class UserRepository_Factory implements Factory<UserRepository> {
 
   public static UserRepository newInstance(ApiService apiService) {
     return new UserRepository(apiService);
+    return newInstance(apiServiceProvider.get(), tokenManagerProvider.get(), utilsProvider.get());
+  }
+
+  public static UserRepository_Factory create(Provider<ApiService> apiServiceProvider,
+      Provider<TokenManager> tokenManagerProvider, Provider<Utils> utilsProvider) {
+    return new UserRepository_Factory(apiServiceProvider, tokenManagerProvider, utilsProvider);
+  }
+
+  public static UserRepository newInstance(ApiService apiService, TokenManager tokenManager,
+      Utils utils) {
+    return new UserRepository(apiService, tokenManager, utils);
   }
 }

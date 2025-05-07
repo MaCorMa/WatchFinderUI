@@ -8,13 +8,18 @@ import okhttp3.Response
 class AInterceptor(private val tokenM: TokenManager): Interceptor {
     /*
     //Hay que implementar este método porque estamos implementando Interceptor
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        //Obtiene (intercepta) la solicitud que se iba a enviar
         val original = chain.request()
-        //Intenta conseguir el token de los sharedpreferences (que previamente ya hemos creado).
-        //Si da null, (operador elvis) te quedas sin token y entrarás donde puedas ir sin él.
+        val requestUrl = original.url.toString() // Obtener la URL
+
+        // NO añadir token si es una ruta de autenticación
+        if (requestUrl.contains("/auth/login") || requestUrl.contains("/auth/register")) {
+            return chain.proceed(original) // Envía la petición original SIN token
+        }
+
+        // Para todas las demás rutas, intenta añadir el token
         val token = tokenM.getToken() ?: return chain.proceed(original)
-        //Si lo obtiene, construye una nueva solicitud con el header Authorization + el token.
         val request = original.newBuilder()
             .header("Authorization", "Bearer $token")
             .build()

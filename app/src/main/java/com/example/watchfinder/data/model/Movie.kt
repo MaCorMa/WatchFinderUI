@@ -19,5 +19,7 @@ data class Movie(
     val cast: List<String>?,
     val rated: String?,
     val awards: String?,
-    val url: String? = null
+    val url: String? = null,
+    val poster: String?,
+    val providers: List<String>?,
 )

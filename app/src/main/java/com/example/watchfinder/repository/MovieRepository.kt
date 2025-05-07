@@ -25,4 +25,29 @@ class MovieRepository @Inject constructor(
             movie -> utils.movieToCard(movie)
         }
     }
+
+    suspend fun searchMoviesByGenre(selectedGenres: List<String>): List<MovieCard> {
+        val apiCards = apiService.getMoviesByGenre(selectedGenres)
+        return apiCards.map {
+                movie -> utils.movieToCard(movie)
+        }
+    }
+
+    suspend fun searchMoviesByTitle(userInput: String): List<MovieCard> {
+        val apiCards = apiService.getMoviesByTitle(userInput)
+        return apiCards.map {
+                movie -> utils.movieToCard(movie)
+        }
+    }
+
+    suspend fun searchById(id: String): MovieCard {
+        return utils.movieToCard(apiService.getMoviesById(id))
+    }
+
+    suspend fun getMovieRecommendations(): List<MovieCard> {
+        // Llama al nuevo endpoint del ApiService que devuelve modelos Movie
+        val recommendedMovies = apiService.getMovieRecommendations()
+        // Convierte los modelos Movie a MovieCard usando tu Utils
+        return recommendedMovies.map { movie -> utils.movieToCard(movie) }
+    }
 }

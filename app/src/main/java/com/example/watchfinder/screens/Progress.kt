@@ -24,7 +24,7 @@ fun Progress(){
             strokeWidth = 4.dp)
         Spacer(modifier = Modifier.height(16.dp)) // Espacio
         Text(
-            text = "Buscando recomendaciones...",
+            text = "Cargando...",
             style = MaterialTheme.typography.bodyMedium
         )
     }

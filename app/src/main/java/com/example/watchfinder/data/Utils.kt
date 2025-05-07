@@ -24,7 +24,9 @@ public class Utils @Inject constructor() {
             Awards = movie.awards,
             Year = movie.year,
             ReleaseDate = movie.releaseDate,
-            Rated = movie.rated
+            Rated = movie.rated,
+            Poster = movie.poster,
+            Providers = movie.providers
         )
     }
     fun cardToMovie(movieCard: MovieCard): Movie {
@@ -43,7 +45,9 @@ public class Utils @Inject constructor() {
             awards = movieCard.Awards,
             year = movieCard.Year,
             rated = movieCard.Rated,
-            releaseDate = movieCard.ReleaseDate
+            releaseDate = movieCard.ReleaseDate,
+            poster = movieCard.Poster,
+            providers = movieCard.Providers
         )
     }
 
@@ -66,7 +70,9 @@ public class Utils @Inject constructor() {
             Rated = series.rated ?: "",
             EndDate = series.endDate,
             Status = series.status,
-            Seasons = series.seasons
+            Seasons = series.seasons,
+            Poster = series.poster,
+            Providers = series.providers
         )
     }
 }

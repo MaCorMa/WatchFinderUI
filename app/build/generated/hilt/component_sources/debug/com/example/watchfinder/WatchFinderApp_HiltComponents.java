@@ -1,7 +1,9 @@
 package com.example.watchfinder;
 
 import com.example.watchfinder.di.AppModule;
+import com.example.watchfinder.di.CoilModule;
 import com.example.watchfinder.di.NetworkModule;
+import com.example.watchfinder.viewmodels.DetailsVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverMoviesVM_HiltModules;
 import com.example.watchfinder.viewmodels.DiscoverSeriesVM_HiltModules;
 import com.example.watchfinder.viewmodels.ForgotPasswordVM_HiltModules;
@@ -9,6 +11,10 @@ import com.example.watchfinder.viewmodels.LoginViewModel_HiltModules;
 import com.example.watchfinder.viewmodels.ProfileVM_HiltModules;
 import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
 import com.example.watchfinder.viewmodels.ResetPasswordVM_HiltModules;
+import com.example.watchfinder.viewmodels.LoginVM_HiltModules;
+import com.example.watchfinder.viewmodels.MyContentVM_HiltModules;
+import com.example.watchfinder.viewmodels.RegisterVM_HiltModules;
+import com.example.watchfinder.viewmodels.SearchVM_HiltModules;
 import dagger.Binds;
 import dagger.Component;
 import dagger.Module;
@@ -135,6 +141,7 @@ public final class WatchFinderApp_HiltComponents {
       modules = {
           AppModule.class,
           ApplicationContextModule.class,
+          CoilModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
           NetworkModule.class,
           ActivityRetainedCBuilderModule.class,
@@ -161,6 +168,7 @@ public final class WatchFinderApp_HiltComponents {
 
   @Subcomponent(
       modules = {
+          DetailsVM_HiltModules.KeyModule.class,
           DiscoverMoviesVM_HiltModules.KeyModule.class,
           DiscoverSeriesVM_HiltModules.KeyModule.class,
           ForgotPasswordVM_HiltModules.KeyModule.class,
@@ -170,6 +178,10 @@ public final class WatchFinderApp_HiltComponents {
           ProfileVM_HiltModules.KeyModule.class,
           RegisterVM_HiltModules.KeyModule.class,
           ResetPasswordVM_HiltModules.KeyModule.class,
+          LoginVM_HiltModules.KeyModule.class,
+          MyContentVM_HiltModules.KeyModule.class,
+          RegisterVM_HiltModules.KeyModule.class,
+          SearchVM_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class
       }
@@ -207,6 +219,7 @@ public final class WatchFinderApp_HiltComponents {
 
   @Subcomponent(
       modules = {
+          DetailsVM_HiltModules.BindsModule.class,
           DiscoverMoviesVM_HiltModules.BindsModule.class,
           DiscoverSeriesVM_HiltModules.BindsModule.class,
           ForgotPasswordVM_HiltModules.BindsModule.class,
@@ -215,6 +228,10 @@ public final class WatchFinderApp_HiltComponents {
           ProfileVM_HiltModules.BindsModule.class,
           RegisterVM_HiltModules.BindsModule.class,
           ResetPasswordVM_HiltModules.BindsModule.class
+          LoginVM_HiltModules.BindsModule.class,
+          MyContentVM_HiltModules.BindsModule.class,
+          RegisterVM_HiltModules.BindsModule.class,
+          SearchVM_HiltModules.BindsModule.class
       }
   )
   @ViewModelScoped

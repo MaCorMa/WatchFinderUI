@@ -12,6 +12,11 @@ import com.example.watchfinder.data.dto.ResetPasswordRequest
 import com.example.watchfinder.data.dto.UserData
 import com.example.watchfinder.data.model.Movie
 import com.example.watchfinder.data.model.Series
+import com.example.watchfinder.data.dto.MovieCard
+import com.example.watchfinder.data.model.Movie
+import com.example.watchfinder.data.model.Series
+import com.example.watchfinder.data.dto.RegisterRequest
+import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.data.model.User
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
@@ -24,13 +29,27 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface ApiService {
 
     @GET("/movies/getall")
     suspend fun getMovies(): List<Movie>
+    @GET("/movies/getbygenre")
+    suspend fun getMoviesByGenre(@Query("genres") selectedGenres: List<String>): List<Movie>
+    @GET("/movies/getbytitle")
+    suspend fun getMoviesByTitle(@Query("title") userInput: String): List<Movie>
+    @GET("/movies/getbyid")
+    suspend fun getMoviesById(@Query("id") itemId: String): Movie
+
     @GET("/series/getall")
     suspend fun getSeries(): List<Series>
+    @GET("/series/getbygenre")
+    suspend fun getSeriesByGenre(@Query("genres") selectedGenres: List<String>): List<Series>
+    @GET("/series/getbytitle")
+    suspend fun getSeriesByTitle(@Query("title") userInput: String): List<Series>
+    @GET("/series/getbyid")
+    suspend fun getSeriesById(@Query("id") itemId: String): Series
 
     @POST("/auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
@@ -42,7 +61,23 @@ interface ApiService {
     @GET("/users/getprofile")
     suspend fun getProfile(): Response<User>
     @POST("/users/addtolist")
-    suspend fun addToList(@Body item: Item): Response<String>
+    suspend fun addToList(@Body item: Item): Response<Void>
+    @POST("/users/removefromlist")
+    suspend fun removeFromList(@Body item: Item): Response<Void>
+
+    @GET("/users/getfavseries")
+    suspend fun getFavSeries(): List<Series>
+    @GET("/users/getfavmovies")
+    suspend fun getFavMovies(): List<Movie>
+
+    @GET("/users/getseenseries")
+    suspend fun getSeenSeries(): List<Series>
+    @GET("/users/getseenmovies")
+    suspend fun getSeenMovies(): List<Movie>
+    @GET("/users/recommendmovies") // Asegúrate que el path coincida con tu backend
+    suspend fun getMovieRecommendations(): List<Movie>
+    @GET("/users/recommendseries") // Asegúrate que el path coincida con tu backend
+    suspend fun getSeriesRecommendations(): List<Series>
 
     @POST("auth/forgot-password")
     suspend fun sendPasswordResetEmail(@Body request: ForgotPasswordRequest): Response<Unit>

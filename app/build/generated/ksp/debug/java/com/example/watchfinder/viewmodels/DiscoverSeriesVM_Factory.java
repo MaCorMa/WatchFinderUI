@@ -1,6 +1,5 @@
 package com.example.watchfinder.viewmodels;
 
-import com.example.watchfinder.data.UserManager;
 import com.example.watchfinder.repository.SeriesRepository;
 import com.example.watchfinder.repository.UserRepository;
 import dagger.internal.DaggerGenerated;
@@ -29,29 +28,24 @@ public final class DiscoverSeriesVM_Factory implements Factory<DiscoverSeriesVM>
 
   private final Provider<SeriesRepository> seriesRepositoryProvider;
 
-  private final Provider<UserManager> userManagerProvider;
-
   public DiscoverSeriesVM_Factory(Provider<UserRepository> userRepositoryProvider,
-      Provider<SeriesRepository> seriesRepositoryProvider,
-      Provider<UserManager> userManagerProvider) {
+      Provider<SeriesRepository> seriesRepositoryProvider) {
     this.userRepositoryProvider = userRepositoryProvider;
     this.seriesRepositoryProvider = seriesRepositoryProvider;
-    this.userManagerProvider = userManagerProvider;
   }
 
   @Override
   public DiscoverSeriesVM get() {
-    return newInstance(userRepositoryProvider.get(), seriesRepositoryProvider.get(), userManagerProvider.get());
+    return newInstance(userRepositoryProvider.get(), seriesRepositoryProvider.get());
   }
 
   public static DiscoverSeriesVM_Factory create(Provider<UserRepository> userRepositoryProvider,
-      Provider<SeriesRepository> seriesRepositoryProvider,
-      Provider<UserManager> userManagerProvider) {
-    return new DiscoverSeriesVM_Factory(userRepositoryProvider, seriesRepositoryProvider, userManagerProvider);
+      Provider<SeriesRepository> seriesRepositoryProvider) {
+    return new DiscoverSeriesVM_Factory(userRepositoryProvider, seriesRepositoryProvider);
   }
 
   public static DiscoverSeriesVM newInstance(UserRepository userRepository,
-      SeriesRepository seriesRepository, UserManager userManager) {
-    return new DiscoverSeriesVM(userRepository, seriesRepository, userManager);
+      SeriesRepository seriesRepository) {
+    return new DiscoverSeriesVM(userRepository, seriesRepository);
   }
 }
