@@ -40,15 +40,6 @@ public final class UserRepository_Factory implements Factory<UserRepository> {
 
   @Override
   public UserRepository get() {
-    return newInstance(apiServiceProvider.get());
-  }
-
-  public static UserRepository_Factory create(Provider<ApiService> apiServiceProvider) {
-    return new UserRepository_Factory(apiServiceProvider);
-  }
-
-  public static UserRepository newInstance(ApiService apiService) {
-    return new UserRepository(apiService);
     return newInstance(apiServiceProvider.get(), tokenManagerProvider.get(), utilsProvider.get());
   }
 

@@ -200,8 +200,6 @@ dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
 drawable abc_vector_test
-<<<<<<< HEAD
-=======
 drawable acontra
 drawable action
 drawable adventure
@@ -308,7 +306,6 @@ drawable heartfill
 drawable heartfilllike
 drawable history
 drawable horror
->>>>>>> upstream/main
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
@@ -398,11 +395,8 @@ id blocking
 id bottom
 id center
 id chronometer
-<<<<<<< HEAD
-id coil_request_manager
-=======
 id coil3_request_manager
->>>>>>> upstream/main
+id coil_request_manager
 id compose_view_saveable_id_tag
 id consume_window_insets_tag
 id dialog_button
@@ -732,10 +726,7 @@ styleable ActivityNavigator android_name action data dataPattern targetPackage
 styleable AnimatedStateListDrawableCompat android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
 styleable AnimatedStateListDrawableItem android_id android_drawable
 styleable AnimatedStateListDrawableTransition android_drawable android_toId android_fromId android_reversible
-<<<<<<< HEAD
-=======
 styleable AspectRatioFrameLayout resize_mode
->>>>>>> upstream/main
 styleable Capability queryPatterns shortcutMatchRequired
 styleable ColorStateListItem android_color android_alpha android_lStar alpha lStar
 styleable DefaultTimeBar ad_marker_color ad_marker_width bar_gravity bar_height buffered_color played_ad_marker_color played_color scrubber_color scrubber_disabled_size scrubber_dragged_size scrubber_drawable scrubber_enabled_size touch_target_height unplayed_color
@@ -753,12 +744,9 @@ styleable NavGraphNavigator startDestination
 styleable NavHost navGraph
 styleable NavInclude graph
 styleable Navigator android_label android_id route
-<<<<<<< HEAD
-=======
 styleable PlayerControlView ad_marker_color ad_marker_width animation_enabled bar_gravity bar_height buffered_color controller_layout_id fastforward_icon fullscreen_enter_icon fullscreen_exit_icon next_icon pause_icon play_icon played_ad_marker_color played_color previous_icon repeat_all_icon repeat_off_icon repeat_one_icon repeat_toggle_modes rewind_icon scrubber_color scrubber_disabled_size scrubber_dragged_size scrubber_drawable scrubber_enabled_size show_fastforward_button show_next_button show_previous_button show_rewind_button show_shuffle_button show_subtitle_button show_timeout show_vr_button shuffle_off_icon shuffle_on_icon subtitle_off_icon subtitle_on_icon time_bar_min_update_interval touch_target_height unplayed_color vr_icon
 styleable PlayerView ad_marker_color ad_marker_width animation_enabled artwork_display_mode auto_show bar_gravity bar_height buffered_color controller_layout_id default_artwork fastforward_icon fullscreen_enter_icon fullscreen_exit_icon hide_during_ads hide_on_touch image_display_mode keep_content_on_player_reset next_icon pause_icon play_icon played_ad_marker_color played_color player_layout_id previous_icon repeat_all_icon repeat_off_icon repeat_one_icon repeat_toggle_modes resize_mode rewind_icon scrubber_color scrubber_disabled_size scrubber_dragged_size scrubber_drawable scrubber_enabled_size show_buffering show_shuffle_button show_subtitle_button show_timeout show_vr_button shuffle_off_icon shuffle_on_icon shutter_background_color subtitle_off_icon subtitle_on_icon surface_type time_bar_min_update_interval touch_target_height unplayed_color use_artwork use_controller vr_icon
 styleable RecyclerView android_orientation android_clipToPadding android_descendantFocusability fastScrollEnabled fastScrollHorizontalThumbDrawable fastScrollHorizontalTrackDrawable fastScrollVerticalThumbDrawable fastScrollVerticalTrackDrawable layoutManager reverseLayout spanCount stackFromEnd
->>>>>>> upstream/main
 styleable StateListDrawable android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
 styleable StateListDrawableItem android_drawable
 xml backup_rules

@@ -27,8 +27,6 @@ import javax.inject.Provider;
 public final class UserRepository_Factory implements Factory<UserRepository> {
   private final Provider<ApiService> apiServiceProvider;
 
-  public UserRepository_Factory(Provider<ApiService> apiServiceProvider) {
-    this.apiServiceProvider = apiServiceProvider;
   private final Provider<TokenManager> tokenManagerProvider;
 
   private final Provider<Utils> utilsProvider;
@@ -42,15 +40,6 @@ public final class UserRepository_Factory implements Factory<UserRepository> {
 
   @Override
   public UserRepository get() {
-    return newInstance(apiServiceProvider.get());
-  }
-
-  public static UserRepository_Factory create(Provider<ApiService> apiServiceProvider) {
-    return new UserRepository_Factory(apiServiceProvider);
-  }
-
-  public static UserRepository newInstance(ApiService apiService) {
-    return new UserRepository(apiService);
     return newInstance(apiServiceProvider.get(), tokenManagerProvider.get(), utilsProvider.get());
   }
 

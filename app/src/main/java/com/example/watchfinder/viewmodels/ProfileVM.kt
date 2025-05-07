@@ -38,7 +38,7 @@ class ProfileVM @Inject constructor(
     private val userManager: UserManager,
     val imageLoader: ImageLoader,
     private val apiService: ApiService,
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     companion object {
@@ -70,6 +70,9 @@ class ProfileVM @Inject constructor(
     // Estado para almacenar el texto de confirmación
     private val _deleteConfirmationText = MutableStateFlow("")
     val deleteConfirmationText: StateFlow<String> = _deleteConfirmationText.asStateFlow()
+
+    //para salir a unathenticated tras borrado cuenta
+    var onAccountDeleted: (() -> Unit)? = null
 
     init {
         // mira el userflow de usermanager para persistencia de datos
@@ -335,14 +338,17 @@ class ProfileVM @Inject constructor(
                 _uiState.update { it.copy(isLoading = true, error = null) }
                 try {
                     // Llama a la función del repositorio para eliminar la cuenta
-                    userRepository.deleteAccount()  // Asegúrate de tener esta función en UserRepository y ApiService
+                    userRepository.deleteAccount()
 
                     // Limpiar datos de usuario y token
                     authRepository.logout()
 
                     _uiState.update { it.copy(isLoading = false) }
-                    // Navegar a la pantalla de login o donde sea apropiado después del borrado
-                    // Esto dependerá de tu sistema de navegación
+
+                    onAccountDeleted?.invoke()
+                    Log.d("ProfileVM", "onAccountDeleted callback invoked")
+
+
                 } catch (e: Exception) {
                     _uiState.update { it.copy(isLoading = false, error = e.message ?: "Error al eliminar la cuenta") }
                 } finally {

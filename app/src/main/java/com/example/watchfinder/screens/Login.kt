@@ -56,7 +56,7 @@ fun Login(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(5.dp),
-            isError = uiState.loginError != null, // Marcar si hay error
+            isError = uiState.loginError != null,
             singleLine = true
         )
         TextField(
@@ -67,7 +67,7 @@ fun Login(
                 .fillMaxWidth()
                 .padding(5.dp),
             visualTransformation = PasswordVisualTransformation(),
-            isError = uiState.loginError != null, // Marcar si hay error
+            isError = uiState.loginError != null,
             singleLine = true
         )
         TextButton(

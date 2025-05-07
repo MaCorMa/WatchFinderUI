@@ -128,6 +128,7 @@ fun ProfileImagePicker(
 @Composable
 fun Profile(
     onLogoutClick: () -> Unit,
+    onAccountDeleted: () ->Unit
 ) {
     val profileViewModel: ProfileVM = hiltViewModel()
     val uiState by profileViewModel.uiState.collectAsState()
@@ -293,8 +294,9 @@ fun Profile(
                         .fillMaxWidth()
                         .padding(10.dp), onClick = {
                         profileViewModel.saveProfileChanges()
-                        profileViewModel.fetchProfileImage()
+                        profileViewModel.updateProfileImage(profileImageUri)
                         profileViewModel.saveDarkModePreference(isDarkMode)
+                        profileViewModel.fetchProfileImage()
                         profileViewModel.setEditing(false)
                         // feedback al usuario
                         if (uiState.isImageUpdateSuccess) {
@@ -348,13 +350,13 @@ fun Profile(
                         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                         readOnly = false
                     )
-                    Button(
-                        modifier = Modifier
+                    Button(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp),
-                        onClick = { profileViewModel.deleteAccount()},
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.error)
-                    ) {
+                            .padding(10.dp), onClick = {
+                                profileViewModel.deleteAccount()
+                                profileViewModel.onAccountDeleted = onAccountDeleted
+                            },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.error)) {
                         Text("Confirmar Borrado", color = Color.White)
                     }
                 }

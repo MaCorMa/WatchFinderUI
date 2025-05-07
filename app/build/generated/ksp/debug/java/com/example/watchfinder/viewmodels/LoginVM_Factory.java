@@ -25,38 +25,20 @@ import javax.inject.Provider;
 public final class LoginVM_Factory implements Factory<LoginVM> {
   private final Provider<AuthRepository> authRepositoryProvider;
 
-  public LoginViewModel_Factory(Provider<AuthRepository> authRepositoryProvider) {
-  private final Provider<TokenManager> tokenManagerProvider;
-
-  private final Provider<UserManager> userManagerProvider;
-
-  public LoginVM_Factory(Provider<AuthRepository> authRepositoryProvider,
-      Provider<TokenManager> tokenManagerProvider, Provider<UserManager> userManagerProvider) {
+  public LoginVM_Factory(Provider<AuthRepository> authRepositoryProvider) {
     this.authRepositoryProvider = authRepositoryProvider;
   }
 
   @Override
-  public LoginViewModel get() {
+  public LoginVM get() {
     return newInstance(authRepositoryProvider.get());
   }
 
-  public static LoginViewModel_Factory create(Provider<AuthRepository> authRepositoryProvider) {
-    return new LoginViewModel_Factory(authRepositoryProvider);
+  public static LoginVM_Factory create(Provider<AuthRepository> authRepositoryProvider) {
+    return new LoginVM_Factory(authRepositoryProvider);
   }
 
-  public static LoginViewModel newInstance(AuthRepository authRepository) {
-    return new LoginViewModel(authRepository);
-  public LoginVM get() {
-    return newInstance(authRepositoryProvider.get(), tokenManagerProvider.get(), userManagerProvider.get());
-  }
-
-  public static LoginVM_Factory create(Provider<AuthRepository> authRepositoryProvider,
-      Provider<TokenManager> tokenManagerProvider, Provider<UserManager> userManagerProvider) {
-    return new LoginVM_Factory(authRepositoryProvider, tokenManagerProvider, userManagerProvider);
-  }
-
-  public static LoginVM newInstance(AuthRepository authRepository, TokenManager tokenManager,
-      UserManager userManager) {
-    return new LoginVM(authRepository, tokenManager, userManager);
+  public static LoginVM newInstance(AuthRepository authRepository) {
+    return new LoginVM(authRepository);
   }
 }

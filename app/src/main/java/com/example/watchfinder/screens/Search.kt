@@ -230,4 +230,4 @@ fun SearchTypeSelectorComponent(
             }
         }
     }
-}*/
+}

@@ -33,6 +33,7 @@ class DiscoverMoviesVM @Inject constructor(
     // -----------------------
 
     init {
+        Log.e("DiscoverMoviesVM", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         loadInitialData() // Carga los datos iniciales (incluyendo favs/seen)
     }
 
@@ -40,6 +41,7 @@ class DiscoverMoviesVM @Inject constructor(
         // Cancela cualquier carga anterior para evitar duplicados o condiciones de carrera
         fetchJob?.cancel()
         fetchJob = viewModelScope.launch {
+            Log.e("DiscoverMoviesVM", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
             _uiState.update { it.copy(isLoading = true, error = null, finished = false) } // Resetea finished
             try {
                 // Obtener favoritos y vistos sigue siendo necesario para la UI de las tarjetas

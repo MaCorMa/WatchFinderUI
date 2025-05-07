@@ -32,12 +32,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.watchfinder.data.UserManager
 import com.example.watchfinder.ui.theme.WatchFinderTheme
 import com.example.watchfinder.data.prefs.TokenManager
 import com.example.watchfinder.repository.AuthRepository
-import com.example.watchfinder.screens.Achievements
 import com.example.watchfinder.screens.DiscoverMovies
 import com.example.watchfinder.screens.DiscoverSeries
 import com.example.watchfinder.screens.ForgotPassword
@@ -45,16 +45,12 @@ import com.example.watchfinder.screens.Login
 import com.example.watchfinder.screens.MovieOrSeries
 import com.example.watchfinder.screens.MyContent
 import com.example.watchfinder.screens.Profile
-//import com.example.watchfinder.screens.Search
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.watchfinder.screens.Register
-
 import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.screens.*
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.example.watchfinder.screens.ResetPassword
 import kotlinx.coroutines.launch
@@ -117,8 +113,7 @@ enum class AuthState {
     PASSWORD_RESET,
     FORGOT_PASSWORD
 }
-// Estados de autenticación (sin cambios)
-enum class AuthState { LOADING, AUTHENTICATED, UNAUTHENTICATED }
+
 enum class ShowScreen { LOGIN, REGISTER }
 
 // Estado para la pantalla principal
@@ -130,6 +125,121 @@ enum class DiscoverState {
     SELECTION,
     MOVIES,
     SERIES
+}
+
+@Composable
+fun MainScreen(
+    // Ahora recibe MainAppScreen en lugar de String
+    currentScreen: MainAppScreen,
+    onScreenChange: (MainAppScreen) -> Unit,
+    onLogout: () -> Unit,
+    onAccountDeleted: () -> Unit,
+    onNavigateToDetail: (itemType: String, itemId: String) -> Unit,
+    // Añadido: Lambda para navegar a resultados
+    onNavigateToResults: (movies: List<MovieCard>, series: List<SeriesCard>) -> Unit
+) {
+    var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
+
+    Scaffold(
+        topBar = { TopHeader() },
+        bottomBar = {
+            BottomBar(
+                current = currentScreen, // Pasa el estado MainAppScreen
+                click = { newScreen ->
+                    onScreenChange(newScreen) // Llama a la lambda con MainAppScreen
+                    if (newScreen == MainAppScreen.DISCOVER) {
+                        // Resetear Discover si se vuelve a él
+                        discoverScreenState = DiscoverState.SELECTION
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            when (currentScreen) {
+                // Pasa la lambda onNavigateToResults a Search
+                MainAppScreen.SEARCH -> Search(
+                    onNavigateToDetail = onNavigateToDetail,
+                    onNavigateToResults = onNavigateToResults // <--- PASAR LAMBDA
+                )
+
+                MainAppScreen.MY_CONTENT -> MyContent(onNavigateToDetail = onNavigateToDetail)
+                MainAppScreen.DISCOVER -> {
+                    when (discoverScreenState) {
+                        DiscoverState.SELECTION -> MovieOrSeries(
+                            onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
+                            onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
+                        )
+
+                        DiscoverState.MOVIES -> DiscoverMovies(/* onNavigateToDetail si es necesario */) // Pasar onNavigateToDetail si DiscoverMovies lo necesita
+                        DiscoverState.SERIES -> DiscoverSeries(/* onNavigateToDetail si es necesario */)   // Pasar onNavigateToDetail si DiscoverSeries lo necesita
+                        // Nota: Actualmente DiscoverMovies/Series no llaman a onNavigateToDetail
+                        // Si quisieras ir a detalles desde ahí, tendrías que pasarles la lambda
+                    }
+                }
+
+                MainAppScreen.PROFILE -> Profile(
+                    onLogoutClick = onLogout,
+                    onAccountDeleted = onAccountDeleted
+                )
+                // Estos casos no deberían ocurrir aquí porque se manejan fuera de MainScreen
+                MainAppScreen.SEARCH_RESULTS -> {}
+                MainAppScreen.DETAIL -> {}
+            }
+        }
+    }
+}
+
+@Composable
+fun BottomBar(
+    current: MainAppScreen, // Recibe MainAppScreen
+    click: (MainAppScreen) -> Unit // Espera MainAppScreen
+) {
+    // Mapea los estados a la info necesaria para la barra
+    val items = listOf(
+        MainAppScreen.SEARCH to Icons.Filled.Search,
+        MainAppScreen.MY_CONTENT to Icons.Filled.Favorite,
+        MainAppScreen.DISCOVER to Icons.Filled.Star,
+        MainAppScreen.PROFILE to Icons.Filled.Person
+    )
+
+    NavigationBar {
+        items.forEach { (screen, icon) ->
+            // Convierte el enum a String legible para la etiqueta si es necesario
+            val label = when (screen) {
+                MainAppScreen.SEARCH -> "Buscar"
+                MainAppScreen.MY_CONTENT -> "Mi Cont." // Abreviado o completo
+                MainAppScreen.DISCOVER -> "Descubrir"
+                MainAppScreen.PROFILE -> "Perfil"
+                else -> "" // No debería pasar para estos items
+            }
+            NavigationBarItem(
+                selected = (screen == current),
+                onClick = { click(screen) }, // Llama con el MainAppScreen
+                icon = { Icon(icon, contentDescription = label) },
+                label = { Text(label) }
+            )
+        }
+    }
+}
+
+// TopHeader (sin cambios)
+@Composable
+fun TopHeader() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+        , // Ajusta altura si es necesario
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    )
+    {
+        Image(
+            painter = painterResource(id = R.drawable.logocarta),
+            contentDescription = "App Logo",
+            modifier = Modifier.height(100.dp) // Ajusta tamaño logo si es necesario
+        )
+    }
 }
 
 @Composable
@@ -186,52 +296,7 @@ fun AppNavigation(
                 CircularProgressIndicator()
             }
         }
-
         AuthState.AUTHENTICATED -> {
-            MainScreen(
-                onLogout = {
-                    println("--> Logging out...")
-                    // Lanzar una corrutina usando el scope de la Activity para llamar a la función suspend
-                    (context as ComponentActivity).lifecycleScope.launch {
-                        // Llama a logout del repositorio, que a su vez llama a userManager.clearCurrentUser()
-                        authRepository.logout() // Esta función (logout) ahora DEBE ser suspend
-
-                        // Después de que el logout (suspend) termine, actualiza el estado de la UI
-                        authState = AuthState.UNAUTHENTICATED
-                        loginOrRegister = ShowScreen.LOGIN
-                        println("--> Logout finished. State set to Unauthenticated.")
-                    }
-                }
-            )
-        }
-
-        AuthState.UNAUTHENTICATED -> {
-            when (loginOrRegister) {
-                ShowScreen.LOGIN -> {
-                    Login(
-                        onLoginSuccess = {
-                            println("--> Login Success! Setting state to Authenticated.")
-                            // Tras login exitoso, asumimos que el token es válido
-                            authState = AuthState.AUTHENTICATED
-                        },
-                        onForgotPasswordClick = {
-                            println("--> Redirecting to pass reset screen.")
-                            // Pasa a la pantalla para indicar correo y resetear pass
-                            authState = AuthState.FORGOT_PASSWORD
-                        },
-                        onNavigateToRegister = {
-                            loginOrRegister = ShowScreen.REGISTER
-                        }
-                    )
-                }
-
-                ShowScreen.REGISTER -> {
-                    Register(
-                        onRegisterSuccess = {
-                            loginOrRegister = ShowScreen.LOGIN
-                        },
-                        onNavigateToLogin = {
-                            loginOrRegister = ShowScreen.LOGIN
             // Si estamos autenticados, decidimos qué pantalla principal mostrar
             // (Discover, Search, Results, Detail, etc.)
             when (currentMainScreen) {
@@ -273,7 +338,6 @@ fun AppNavigation(
                         },
                         onLogout = {
                             tokenManager.clearToken()
-                            userManager.clearCurrentUser()
                             authState = AuthState.UNAUTHENTICATED
                             loginOrRegister = ShowScreen.LOGIN
                         },
@@ -289,12 +353,39 @@ fun AppNavigation(
                             searchResultsSeriesState = series
                             currentMainScreen =
                                 MainAppScreen.SEARCH_RESULTS // Cambia a la pantalla de resultados
+                        },
+                        onAccountDeleted = {
+                            Log.d("AppNavigation", "Account deleted callback invoked")
+                            authState = AuthState.UNAUTHENTICATED
+                            Log.d("AppNavigation", "authState set to: $authState")
+                            loginOrRegister = ShowScreen.LOGIN
+                            Log.d("AppNavigation", "loginOrRegister set to: $loginOrRegister")
                         }
                     )
                 }
             }
         }
-
+        AuthState.UNAUTHENTICATED -> {
+            // Lógica de Login/Register (sin cambios)
+            when (loginOrRegister) {
+                ShowScreen.LOGIN -> Login(
+                    onLoginSuccess = {
+                        authState = AuthState.AUTHENTICATED
+                        currentMainScreen = MainAppScreen.DISCOVER // Empieza en Discover
+                    },
+                    onForgotPasswordClick = {
+                        println("--> Redirecting to pass reset screen.")
+                        // Pasa a la pantalla para indicar correo y resetear pass
+                        authState = AuthState.FORGOT_PASSWORD
+                    },
+                    onNavigateToRegister = { loginOrRegister = ShowScreen.REGISTER }
+                )
+                ShowScreen.REGISTER -> Register(
+                    onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
+                    onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
+                )
+            }
+        }
         AuthState.PASSWORD_RESET -> {
             ResetPassword(
                 token = userManager.resetToken ?:"",
@@ -316,164 +407,25 @@ fun AppNavigation(
                     authState = AuthState.UNAUTHENTICATED
                 }
             )
-        AuthState.UNAUTHENTICATED -> {
-            // Lógica de Login/Register (sin cambios)
-            when (loginOrRegister) {
-                ShowScreen.LOGIN -> Login(
-                    onLoginSuccess = {
-                        authState = AuthState.AUTHENTICATED
-                        currentMainScreen = MainAppScreen.DISCOVER // Empieza en Discover
-                    },
-                    onNavigateToRegister = { loginOrRegister = ShowScreen.REGISTER }
-                )
-
-                ShowScreen.REGISTER -> Register(
-                    onRegisterSuccess = { loginOrRegister = ShowScreen.LOGIN },
-                    onNavigateToLogin = { loginOrRegister = ShowScreen.LOGIN }
-                )
-            }
         }
     }
 }
 
 
-// Estado para Discover (sin cambios)
-enum class DiscoverState { SELECTION, MOVIES, SERIES }
 
-@Composable
-fun MainScreen(
-    // Ahora recibe MainAppScreen en lugar de String
-    currentScreen: MainAppScreen,
-    onScreenChange: (MainAppScreen) -> Unit,
-    onLogout: () -> Unit,
-    onNavigateToDetail: (itemType: String, itemId: String) -> Unit,
-    // Añadido: Lambda para navegar a resultados
-    onNavigateToResults: (movies: List<MovieCard>, series: List<SeriesCard>) -> Unit
-) {
-    var discoverScreenState by remember { mutableStateOf(DiscoverState.SELECTION) }
-
-    Scaffold(
-        topBar = { TopHeader() },
-        bottomBar = {
-            BottomBar(
-                current = currentScreen, // Pasa el estado MainAppScreen
-                click = { newScreen ->
-                    onScreenChange(newScreen) // Llama a la lambda con MainAppScreen
-                    if (newScreen == MainAppScreen.DISCOVER) {
-                        // Resetear Discover si se vuelve a él
-                        discoverScreenState = DiscoverState.SELECTION
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
-            when (currentScreen) {
-                // Pasa la lambda onNavigateToResults a Search
-                MainAppScreen.SEARCH -> Search(
-                    onNavigateToDetail = onNavigateToDetail,
-                    onNavigateToResults = onNavigateToResults // <--- PASAR LAMBDA
-                )
-
-                MainAppScreen.MY_CONTENT -> MyContent(onNavigateToDetail = onNavigateToDetail)
-                MainAppScreen.DISCOVER -> {
-                    when (discoverScreenState) {
-                        DiscoverState.SELECTION -> MovieOrSeries(
-                            onMoviesClicked = { discoverScreenState = DiscoverState.MOVIES },
-                            onSeriesClicked = { discoverScreenState = DiscoverState.SERIES }
-                        )
-
-                        DiscoverState.MOVIES -> DiscoverMovies(/* onNavigateToDetail si es necesario */) // Pasar onNavigateToDetail si DiscoverMovies lo necesita
-                        DiscoverState.SERIES -> DiscoverSeries(/* onNavigateToDetail si es necesario */)   // Pasar onNavigateToDetail si DiscoverSeries lo necesita
-                        // Nota: Actualmente DiscoverMovies/Series no llaman a onNavigateToDetail
-                        // Si quisieras ir a detalles desde ahí, tendrías que pasarles la lambda
-                    }
-                }
-
-                MainAppScreen.PROFILE -> Profile(onLogoutClick = onLogout)
-                // Estos casos no deberían ocurrir aquí porque se manejan fuera de MainScreen
-                MainAppScreen.SEARCH_RESULTS -> {}
-                MainAppScreen.DETAIL -> {}
-            }
-        }
-    }
-}
-
-@Composable
-fun BottomBar(
-    current: MainAppScreen, // Recibe MainAppScreen
-    click: (MainAppScreen) -> Unit // Espera MainAppScreen
-) {
-    // Mapea los estados a la info necesaria para la barra
-    val items = listOf(
-        MainAppScreen.SEARCH to Icons.Filled.Search,
-        MainAppScreen.MY_CONTENT to Icons.Filled.Favorite,
-        MainAppScreen.DISCOVER to Icons.Filled.Star,
-        MainAppScreen.PROFILE to Icons.Filled.Person
-    )
-
-    NavigationBar {
-        items.forEach { (screen, icon) ->
-            // Convierte el enum a String legible para la etiqueta si es necesario
-            val label = when (screen) {
-                MainAppScreen.SEARCH -> "Buscar"
-                MainAppScreen.MY_CONTENT -> "Mi Cont." // Abreviado o completo
-                MainAppScreen.DISCOVER -> "Descubrir"
-                MainAppScreen.PROFILE -> "Perfil"
-                else -> "" // No debería pasar para estos items
-            }
-            NavigationBarItem(
-                selected = (screen == current),
-                onClick = { click(screen) }, // Llama con el MainAppScreen
-                icon = { Icon(icon, contentDescription = label) },
-                label = { Text(label) }
+/*
+    // Previews (opcionalmente actualizarlas para usar MainAppScreen)
+    @Preview(showBackground = true)
+    @Composable
+    fun MainScreenPreview() {
+        WatchFinderTheme {
+            MainScreen(
+                currentScreen = MainAppScreen.DISCOVER, // Usa el enum
+                onScreenChange = {},
+                onLogout = {},
+                onNavigateToDetail = { _, _ -> },
+                onNavigateToResults = { _, _ -> } // Añade la nueva lambda
             )
         }
     }
-}
-
-
-
-
-//Para el preview
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    WatchFinderTheme {
-        MainScreen(onLogout = {})
-    }
-}
-
-// TopHeader (sin cambios)
-@Composable
-fun TopHeader() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-, // Ajusta altura si es necesario
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    )
-    {
-        Image(
-            painter = painterResource(id = R.drawable.logocarta),
-            contentDescription = "App Logo",
-            modifier = Modifier.height(100.dp) // Ajusta tamaño logo si es necesario
-        )
-    }
-}
-
-// Previews (opcionalmente actualizarlas para usar MainAppScreen)
-/*@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    WatchFinderTheme {
-        MainScreen(
-            currentScreen = MainAppScreen.DISCOVER, // Usa el enum
-            onScreenChange = {},
-            onLogout = {},
-            onNavigateToDetail = { _, _ -> },
-            onNavigateToResults = { _, _ -> } // Añade la nueva lambda
-        )
-    }
-}*/
+*/

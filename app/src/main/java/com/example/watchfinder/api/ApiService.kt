@@ -13,9 +13,6 @@ import com.example.watchfinder.data.dto.UserData
 import com.example.watchfinder.data.model.Movie
 import com.example.watchfinder.data.model.Series
 import com.example.watchfinder.data.dto.MovieCard
-import com.example.watchfinder.data.model.Movie
-import com.example.watchfinder.data.model.Series
-import com.example.watchfinder.data.dto.RegisterRequest
 import com.example.watchfinder.data.dto.SeriesCard
 import com.example.watchfinder.data.model.User
 import okhttp3.MultipartBody
@@ -74,9 +71,9 @@ interface ApiService {
     suspend fun getSeenSeries(): List<Series>
     @GET("/users/getseenmovies")
     suspend fun getSeenMovies(): List<Movie>
-    @GET("/users/recommendmovies") // Asegúrate que el path coincida con tu backend
+    @GET("/users/recommendmovies")
     suspend fun getMovieRecommendations(): List<Movie>
-    @GET("/users/recommendseries") // Asegúrate que el path coincida con tu backend
+    @GET("/users/recommendseries")
     suspend fun getSeriesRecommendations(): List<Series>
 
     @POST("auth/forgot-password")

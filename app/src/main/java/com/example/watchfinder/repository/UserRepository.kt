@@ -14,9 +14,7 @@ import retrofit2.Response
 import java.io.IOException
 import com.example.watchfinder.data.dto.MovieCard
 import com.example.watchfinder.data.dto.SeriesCard
-import com.example.watchfinder.data.model.Movie
 import com.example.watchfinder.data.prefs.TokenManager
-import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -113,13 +111,12 @@ class UserRepository @Inject constructor(
     }
     // sube imagen del user
     suspend fun uploadProfileImage(imageBytes: ByteArray): Result<String> {
+        Log.d("UserRepository", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ENTRA EN userRepository.uploadProfileImage")
         return try {
-            // Create a MultipartBody.Part from the image bytes
+            //  MultipartBody.Part de los bytes de la imagen
             val requestFile = imageBytes.toRequestBody("image/*".toMediaTypeOrNull())
-            val body = MultipartBody.Part.createFormData("image", "profile.jpg", requestFile) // "image" should match backend field name
+            val body = MultipartBody.Part.createFormData("image", "profile.jpg", requestFile)
 
-            // Assuming apiService has a suspend function like uploadProfileImage(image: MultipartBody.Part): Response<ImageUrlResponse>
-            // where ImageUrlResponse is a data class like data class ImageUrlResponse(val profileImageUrl: String)
             val response: Response<ProfileImageUpdateResponse> = apiService.uploadProfileImage(body)
 
             if (response.isSuccessful) {
